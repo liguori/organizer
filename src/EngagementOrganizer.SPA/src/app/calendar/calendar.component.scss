@@ -1,0 +1,125 @@
+
+.header{
+    height: 36px;
+}
+
+.year-header{
+    width:50px;
+    height: 35px;
+    display: inline-block;
+    border: 0.5px solid black;
+    background-color: #4e77ba;
+    text-align: center;
+    line-height: 35px;
+    color: #ffffff;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14pt;
+  
+}
+.month-day-header{
+    width:40px;
+    height: 35px;
+    display: inline-block;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px 0.5px 0.5px 0px;
+    background-color: #4e77ba;
+    text-align: center;
+    line-height: 35px;
+    color: #ffffff;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14pt;
+}
+
+.util-header{
+    width:50px;
+    height: 35px;
+    display: inline-block;
+    border-style: solid;
+    border-color: black;
+    border-width: 0.5px 0.5px 0.5px 0px;
+    background-color: #4e77ba;
+    text-align: center;
+    line-height: 35px;
+    color: #ffffff;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 14pt;
+}
+
+
+.month-row{
+    height: 55.5px;
+}
+
+.month-day{
+    vertical-align: top;
+    padding: 0;
+    width:40px;
+    height: 55px;
+    display: inline-block;
+    border-style: solid;
+    border-color: black;
+    text-align: center;
+    border-width: 0px 0.5px 0.5px 0px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+.month-day:hover{
+    background-color: #dbe8ff;
+}
+
+.month-header{
+   margin: 0;
+   padding: 0;
+   text-transform: uppercase;
+   font-weight: bold;
+   width: 50px;
+   height: 55px;
+   background-color: #d3e3ff;
+   display: inline-block;
+   border-style: solid;
+   border-color: black;
+   text-align: center;
+   border-width: 0px 0.5px 0.5px 0.5px;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.day-label{
+    font-size: 12pt;
+    height: 15px;
+    line-height: 15px;
+}
+
+.highlight-saturday{
+   background-color:#fff9ce;
+   font-weight: bold;
+}
+
+
+.highlight-sunday{
+   background-color: #ffe3bc;
+   font-weight: bold;
+}
+
+.no-day{
+    background-color: #c7c9cc;
+}
+
+.today{
+    background-color: #004d99;
+    color: #ffffff
+}
+
+.util-value{
+    width:50px;
+    height: 55px;
+    display: inline-block;
+    border-style: solid;
+    border-color: black;
+    border-width: 0px 0.5px 0.5px 0px;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    text-align: center;
+    background-color: #e3ffdd;
+}

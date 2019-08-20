@@ -1,0 +1,20 @@
+<h2 matDialogTitle>{{ config?.dialogTitle }}</h2>
+<mat-dialog-content *ngIf="config?.dialogMsg">
+  <span [innerHTML]="config?.dialogMsg" *ngIf="isDialogMsgHtml"></span>
+  <span *ngIf="!isDialogMsgHtml">{{ config?.dialogMsg }}</span>
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button
+    mat-button
+    matDialogClose="cancel"
+    [color]="getValOrDefaultVal(config?.cancelBtnColor, 'primary')"
+    *ngIf="getValOrDefaultVal(config?.dialogType, 'alert') === 'confirm'">
+    {{ getValOrDefaultVal(config?.cancelBtnLabel, 'Cancel') }}
+  </button>
+  <button
+    mat-button
+    matDialogClose="ok"
+    [color]="getValOrDefaultVal(config?.okBtnColor, 'primary')">
+    {{ getValOrDefaultVal(config?.okBtnLabel, 'Ok') }}
+  </button>
+</mat-dialog-actions>

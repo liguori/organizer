@@ -1,0 +1,8 @@
+{
+    "env": {
+        "name": "DEV"
+    },
+    "api": {
+        "url": "https://localhost:5555"
+    }
+}

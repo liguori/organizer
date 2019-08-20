@@ -1,0 +1,29 @@
+.event{
+    position: relative;
+    padding: 0px;
+    margin: 0px 0px 0px 0px;
+    display: inline-block;
+    width:40px;
+    height: 19px;
+    font-size: 10pt;
+    border-width: 0.4px 0 0 0.4px;
+    border-color: #000000;
+    border-style: block;
+    line-height: 19px;
+    cursor: pointer;
+    font-weight: normal;
+}
+
+.event:hover{
+    opacity: 0.7;
+}
+
+.travel-badge{
+    position: absolute; 
+    top: 1px; 
+    right: 1px; 
+    background-color: red; 
+    width: 3.5px; 
+    height: 3.5px;
+    border: 0.1px solid #ffffff;
+}

@@ -1,0 +1,4 @@
+<span *ngFor="let app of appointments" class="event" (click)="eventClick(app)" [ngStyle]="getEventStyle(app)">
+    <div class="travel-badge" *ngIf="app.requireTravel"></div>
+    {{getEventDescription(app)}}
+</span>

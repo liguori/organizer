@@ -1,0 +1,35 @@
+<div class="header">
+  <mat-form-field>
+    <mat-label>Year</mat-label>
+    <mat-select [(ngModel)]="selectedYear" (selectionChange)="changeYear($event.value)">
+      <mat-option *ngFor="let year of getAvailableYears()" [value]="year">
+        {{year}}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+  <div class="customer-editor">
+    <button *ngIf="!isEditingCustomer" (click)="addCustomer()" mat-raised-button color="primary">ADD</button>
+    <div *ngIf="isEditingCustomer">
+      <span *ngIf="currentCustomer.id!= null">({{currentCustomer.id}})</span>
+      <mat-form-field class="codice">
+        <input type="text" [(ngModel)]="currentCustomer.shortDescription" maxlength="4" matInput placeholder="Code">
+      </mat-form-field>&nbsp;
+      <mat-form-field class="name"><input type="text" [(ngModel)]="currentCustomer.name" maxlength="20" matInput
+          placeholder="Name">
+      </mat-form-field>&nbsp;
+      <mat-form-field class="color"><input type="text" [(ngModel)]="currentCustomer.color" maxlength="7" matInput
+          placeholder="Color"></mat-form-field>&nbsp;
+      <mat-form-field class="color"><input type="text" [(ngModel)]="currentCustomer.textColor" maxlength="7" matInput
+          placeholder="Text"></mat-form-field>&nbsp;
+      <button (click)="saveCustomer()" mat-raised-button color="primary">SAVE</button>&nbsp;
+      <button (click)="cancelEditCustomer()" mat-raised-button color="primary">CANCEL</button>
+    </div>
+  </div>
+</div>
+<div *ngFor="let cus of customers" [ngStyle]="getCustomerStyle(cus)" class="customer-tile">
+  <div>
+    <b>({{cus.shortDescription}}) - {{cus.name}}</b>
+    <div class="action-customer"><button (click)="editCustomer(cus)" mat-raised-button color="basic">EDIT</button></div>
+  </div>
+  <span [innerHTML]="getCustomerSummary(cus)"></span>
+</div>

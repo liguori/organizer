@@ -1,0 +1,55 @@
+<div class="new-appointment-edit" *ngIf="currentAppointment!= null && !currentAppointment.isEditing">NEW APPOINTMENT
+  CREATION</div>
+<div class="existent-appointment-edit" *ngIf="currentAppointment!= null && currentAppointment.isEditing">EXISTENT
+  APPOINTMENT EDIT ({{currentAppointment.id}})</div>
+<div *ngIf="currentAppointment!=null">
+  <div fxLayout="column" fxLayoutAlign="center stretch" class="row">
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <mat-form-field>
+        <mat-label>Type</mat-label>
+        <mat-select [(ngModel)]="currentAppointment.type">
+          <mat-option *ngFor="let appType of appointmentsType" [value]="appType.id">
+            {{appType.description}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)" class="customer">
+        <mat-label>Customer</mat-label>
+        <mat-select [(ngModel)]="currentAppointment.customer">
+          <mat-option *ngFor="let cust of customers" [value]="cust.id">
+            {{cust.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      <span class="warning-message">{{currentAppointment.warningMessage}}</span>
+    </div>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <mat-form-field>
+        <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateFromPicker" placeholder="From">
+        <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
+        <mat-datepicker #dateFromPicker></mat-datepicker>
+      </mat-form-field>
+      <button (click)="oneDay()" mat-mini-fab color="primary">C</button>
+      <mat-form-field>
+        <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateToPicker" placeholder="To">
+        <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+        <mat-datepicker #dateToPicker></mat-datepicker>
+      </mat-form-field>
+      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-checkbox [(ngModel)]="currentAppointment.confirmed">Confirmed</mat-checkbox>
+      <mat-checkbox [(ngModel)]="currentAppointment.requireTravel">Require travel</mat-checkbox>
+      <mat-checkbox [(ngModel)]="currentAppointment.travelBooked">Booked</mat-checkbox>
+    </div>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <mat-form-field class="full-width">
+        <textarea matInput placeholder="Note" [(ngModel)]="currentAppointment.note" rows="6" cols="100"></textarea>
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
+      <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
+      <button (click)="delete()" *ngIf="currentAppointment.isEditing" class="button delete-button" mat-raised-button
+        color="warn">DELETE</button>
+    </div>
+  </div>
+</div>

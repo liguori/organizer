@@ -1,0 +1,25 @@
+<div class="header">
+    <mat-form-field>
+        <mat-label>Year</mat-label>
+        <mat-select [(ngModel)]="selectedYear" (selectionChange)="changeYear($event.value)">
+            <mat-option *ngFor="let year of getAvailableYears()" [value]="year">
+                {{year}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <div class="calendar-option">
+        <button (click)="availability()" mat-raised-button color="primary">
+            AVAILABILITY
+        </button>
+    </div>
+</div>
+<app-calendar [currentYear]="selectedYear" (daySelected)="calendarDaySelected($event)"
+    (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+<span class="editor-view">
+</span>
+<span class="warning-view" *ngIf="getWarnings().length>0">
+    <b>WARNINGS:</b>
+    <div *ngFor="let warn of getWarnings()">
+        {{warn.startDate | date: 'dd/MM/yyyy'}} - {{warn.type.description}} - {{warn.warningDescription}}
+    </div>
+</span>

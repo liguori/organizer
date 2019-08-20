@@ -1,0 +1,14 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "ngserve",
+      "type": "shell",
+      "args": [
+        "serve"
+      ],
+      "command": "ng",
+      "isBackground": true
+    }
+  ]
+}
