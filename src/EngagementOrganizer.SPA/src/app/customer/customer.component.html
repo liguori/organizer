@@ -1,12 +1,12 @@
 <div class="header">
-  <mat-form-field>
+  <button mat-mini-fab color="primary" (click)="changeYear(selectedYear-1)">-</button>&nbsp;
+  <mat-form-field class="year-box">
     <mat-label>Year</mat-label>
-    <mat-select [(ngModel)]="selectedYear" (selectionChange)="changeYear($event.value)">
-      <mat-option *ngFor="let year of getAvailableYears()" [value]="year">
-        {{year}}
-      </mat-option>
-    </mat-select>
+    <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
+      (keyup.enter)="changeYear($event.target.value)">
   </mat-form-field>
+  &nbsp;&nbsp;
+  <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
   <div class="customer-editor">
     <button *ngIf="!isEditingCustomer" (click)="addCustomer()" mat-raised-button color="primary">ADD</button>
     <div *ngIf="isEditingCustomer">

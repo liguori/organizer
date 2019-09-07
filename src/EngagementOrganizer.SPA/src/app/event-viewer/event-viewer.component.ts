@@ -38,17 +38,6 @@ export class EventViewerComponent implements OnInit {
       'background-color': bkCol,
       'color': col
     };
-    if (app.type.billable) {
-      styles["font-weight"] = "bold";
-    }
-    if (app.confirmed) {
-      styles["text-decoration"] = "underline";
-    }
-    if (app.warning) {
-      styles["border"] = "2px solid red";
-      styles["box-sizing'"] = "border-box";
-      styles["width"] = "36px";
-    }
     return styles;
   }
 

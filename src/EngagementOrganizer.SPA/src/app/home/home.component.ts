@@ -44,6 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeYear(value) {
+    this.selectedYear=Number.parseInt(value);
     this.router.navigate(['calendar/', value]);
   }
 
@@ -96,19 +97,6 @@ export class HomeComponent implements OnInit {
 
   getWarnings(): Array<AppointmentExtraInfo> {
     return this.appointments.filter(x => x.warning);
-  }
-
-  getAvailableYears(): Array<Number> {
-    var currentYear = new Date().getFullYear();
-    var res = new Array<Number>();
-    res.push(currentYear - 3);
-    res.push(currentYear - 2);
-    res.push(currentYear - 1);
-    res.push(currentYear);
-    res.push(currentYear + 1);
-    res.push(currentYear + 2);
-    res.push(currentYear + 1);
-    return res;
   }
 
   availability() {

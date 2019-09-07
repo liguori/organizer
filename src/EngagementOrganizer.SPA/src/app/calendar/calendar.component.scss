@@ -1,67 +1,80 @@
+@import "../variable.scss";
 
 .header{
-    height: 36px;
+    height: $row-header-height;
+}
+
+.calendar-container{
+    margin: 0 auto;
+    width: ($day-width * 37) + $util-width + $year-month-col-width;
 }
 
 .year-header{
-    width:50px;
-    height: 35px;
-    display: inline-block;
-    border: 0.5px solid black;
-    background-color: #4e77ba;
-    text-align: center;
-    line-height: 35px;
-    color: #ffffff;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 14pt;
+   width:$year-month-col-width;
+   height: $row-header-height;
+   display: inline-block;
+   border-style: solid;
+   box-sizing: border-box;
+   border-color: black;
+   border-width: $cell-border-size $cell-border-size $cell-border-size $cell-border-size;
+   background-color: #4e77ba;
+   color: #ffffff;
+   text-align: center;
+   line-height: 3.6vh;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-size: $header-font-size;
   
 }
 .month-day-header{
-    width:40px;
-    height: 35px;
+    width:$day-width;
+    height: $row-header-height;
     display: inline-block;
     border-style: solid;
+    box-sizing: border-box;
     border-color: black;
-    border-width: 0.5px 0.5px 0.5px 0px;
+    border-width: $cell-border-size $cell-border-size $cell-border-size 0vw;
     background-color: #4e77ba;
-    text-align: center;
-    line-height: 35px;
     color: #ffffff;
+    text-align: center;
+    line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 14pt;
+    font-size: $header-font-size;
 }
 
 .util-header{
-    width:50px;
-    height: 35px;
+    width:$util-width;
+    height: $row-header-height;
     display: inline-block;
     border-style: solid;
+    box-sizing: border-box;
     border-color: black;
-    border-width: 0.5px 0.5px 0.5px 0px;
+    border-width: $cell-border-size $cell-border-size $cell-border-size 0vw;
     background-color: #4e77ba;
-    text-align: center;
-    line-height: 35px;
     color: #ffffff;
+    text-align: center;
+    line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 14pt;
+    font-size: $header-font-size;
 }
 
-
 .month-row{
-    height: 55.5px;
+    height: $row-height;
 }
 
 .month-day{
+    position: relative;
+    padding: 0vw 0vw 0vw 0vw;
     vertical-align: top;
-    padding: 0;
-    width:40px;
-    height: 55px;
+    width:$day-width;
+    height: $row-height;
     display: inline-block;
+    text-align: center;
     border-style: solid;
     border-color: black;
-    text-align: center;
-    border-width: 0px 0.5px 0.5px 0px;
+    box-sizing: border-box;
+    border-width: 0vw $cell-border-size $cell-border-size 0vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0 auto 0 auto;
     overflow: hidden;
     cursor: pointer;
 }
@@ -71,25 +84,28 @@
 }
 
 .month-header{
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-size: 0.95vw;
+   line-height: 3.6vh;
+   border-width: 0.0vw $cell-border-size $cell-border-size $cell-border-size;
+   border-color: black;
+   border-style: solid;
+   box-sizing: border-box;
    margin: 0;
    padding: 0;
    text-transform: uppercase;
    font-weight: bold;
-   width: 50px;
-   height: 55px;
+   width:$year-month-col-width;
+   height: $row-height;
    background-color: #d3e3ff;
    display: inline-block;
-   border-style: solid;
-   border-color: black;
    text-align: center;
-   border-width: 0px 0.5px 0.5px 0.5px;
-   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
 
 .day-label{
-    font-size: 12pt;
-    height: 15px;
-    line-height: 15px;
+    font-size: $day-label-font-size;
+    height: $day-label-height;
+    line-height: $day-label-height;
 }
 
 .highlight-saturday{
@@ -113,13 +129,18 @@
 }
 
 .util-value{
-    width:50px;
-    height: 55px;
+    vertical-align: top;
+    padding: 0;
+    width:$util-width;
+    height: $row-height;
+    font-size: $util-font-size;
     display: inline-block;
     border-style: solid;
+    box-sizing: border-box;
     border-color: black;
-    border-width: 0px 0.5px 0.5px 0px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     text-align: center;
+    border-width: 0vw $cell-border-size $cell-border-size 0vw;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow: hidden;
     background-color: #e3ffdd;
 }

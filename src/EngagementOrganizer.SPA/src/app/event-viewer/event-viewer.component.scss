@@ -1,17 +1,11 @@
+@import "../variable.scss";
+
 .event{
     position: relative;
-    padding: 0px;
-    margin: 0px 0px 0px 0px;
-    display: inline-block;
-    width:40px;
-    height: 19px;
-    font-size: 10pt;
-    border-width: 0.4px 0 0 0.4px;
-    border-color: #000000;
-    border-style: block;
-    line-height: 19px;
-    cursor: pointer;
-    font-weight: normal;
+    width: 100%;
+    font-size: $event-font-size;
+    height: $event-height;
+    display:inline-block;
 }
 
 .event:hover{
@@ -26,4 +20,17 @@
     width: 3.5px; 
     height: 3.5px;
     border: 0.1px solid #ffffff;
+}
+
+.confirmed{
+    text-decoration:underline;
+}
+
+.billable{
+    font-weight: bold;
+}
+
+.warning{
+    border:0.1vh solid red;
+    box-sizing: border-box;
 }

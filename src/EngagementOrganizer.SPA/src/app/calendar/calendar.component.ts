@@ -96,7 +96,7 @@ export class CalendarComponent implements OnInit {
       }
       if (this.getEventsByDate(currentDate).filter(x => x.type.billable).length > 0) billableAppointmentCount++;
     }
-    return (100 * billableAppointmentCount / workingDayCount).toFixed(2);
+    return (100 * billableAppointmentCount / workingDayCount).toFixed(0);
   }
 
   getMonthDays(month, year): Array<CalendarDay> {

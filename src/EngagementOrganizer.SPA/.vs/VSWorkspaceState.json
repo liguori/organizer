@@ -1,6 +1,17 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\src",
+    "\\src\\app",
+    "\\src\\app\\api",
+    "\\src\\app\\api\\EngagementOrganizerApiClient",
+    "\\src\\app\\custom-dialog",
+    "\\src\\app\\customer",
+    "\\src\\app\\event-viewer",
+    "\\src\\app\\home",
+    "\\src\\app\\models",
+    "\\src\\environments"
   ],
+  "SelectedNode": "\\src\\app\\app.module.ts",
   "PreviewInSolutionExplorer": false
 }

@@ -1,4 +1,4 @@
-<div>
+<div class="calendar-container">
   <div class="header">
     <div class="year-header">
       {{currentYear}}
@@ -6,7 +6,7 @@
     <div *ngFor="let currentDayHeader of getMonthDayHeaders()" class="month-day-header">
       {{currentDayHeader.dayDescription}}
     </div>
-    <div class="util-header">Utl(%)</div>
+    <div class="util-header">Ut %</div>
   </div>
   <div *ngFor="let currentMonth of months" class="month-row">
     <div class="month-header">
@@ -15,7 +15,8 @@
     <div *ngFor="let currentDay of getMonthDays(currentMonth.monthNumber,currentYear)" class="month-day"
       [ngClass]="getDayHighlightingClass(currentDay)" (click)="dayClicked(currentDay)">
       <div class="day-label">{{currentDay.date | date : 'dd'}}&nbsp;</div>
-      <app-event-viewer [appointments]="getEventsByDate(currentDay.date)" (eventSelected)="eventViewerEventSelected($event)"></app-event-viewer>
+      <app-event-viewer [appointments]="getEventsByDate(currentDay.date)"
+        (eventSelected)="eventViewerEventSelected($event)"></app-event-viewer>
     </div>
     <div class="util-value">{{getMonthUtilization(currentMonth.monthNumber,currentYear)}}</div>
   </div>

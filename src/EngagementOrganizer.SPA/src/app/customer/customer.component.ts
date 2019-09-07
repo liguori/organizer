@@ -109,6 +109,7 @@ export class CustomerComponent implements OnInit {
   customers: Array<Customer>
 
   changeYear(value) {
+    this.selectedYear=Number.parseInt(value);
     this.router.navigate(['customer/', value]);
   }
 
@@ -158,19 +159,5 @@ export class CustomerComponent implements OnInit {
   getDaysInMonth = function (month, year) {
     return new Date(year, month, 0).getDate();
   };
-
-
-  getAvailableYears(): Array<Number> {
-    var currentYear = new Date().getFullYear();
-    var res = new Array<Number>();
-    res.push(currentYear - 3);
-    res.push(currentYear - 2);
-    res.push(currentYear - 1);
-    res.push(currentYear);
-    res.push(currentYear + 1);
-    res.push(currentYear + 2);
-    res.push(currentYear + 1);
-    return res;
-  }
 
 }
