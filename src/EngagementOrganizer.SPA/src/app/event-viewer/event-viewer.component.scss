@@ -6,6 +6,7 @@
     font-size: $event-font-size;
     height: $event-height;
     display:inline-block;
+    float: left;
 }
 
 .event:hover{
@@ -31,6 +32,6 @@
 }
 
 .warning{
-    border:0.1vh solid red;
+    border:2px solid red;
     box-sizing: border-box;
 }

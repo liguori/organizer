@@ -5,18 +5,17 @@
 }
 
 .calendar-container{
-    margin: 0 auto;
-    width: ($day-width * 37) + $util-width + $year-month-col-width;
+    border: $cell-border-size solid $cell-border-color;
+    box-sizing: border-box;
+    display: inline-block;
 }
 
 .year-header{
    width:$year-month-col-width;
    height: $row-header-height;
    display: inline-block;
-   border-style: solid;
+   border: $cell-border-size solid $cell-border-color;
    box-sizing: border-box;
-   border-color: black;
-   border-width: $cell-border-size $cell-border-size $cell-border-size $cell-border-size;
    background-color: #4e77ba;
    color: #ffffff;
    text-align: center;
@@ -29,10 +28,8 @@
     width:$day-width;
     height: $row-header-height;
     display: inline-block;
-    border-style: solid;
+    border: $cell-border-size solid $cell-border-color;
     box-sizing: border-box;
-    border-color: black;
-    border-width: $cell-border-size $cell-border-size $cell-border-size 0vw;
     background-color: #4e77ba;
     color: #ffffff;
     text-align: center;
@@ -45,10 +42,8 @@
     width:$util-width;
     height: $row-header-height;
     display: inline-block;
-    border-style: solid;
+    border: $cell-border-size solid $cell-border-color;
     box-sizing: border-box;
-    border-color: black;
-    border-width: $cell-border-size $cell-border-size $cell-border-size 0vw;
     background-color: #4e77ba;
     color: #ffffff;
     text-align: center;
@@ -69,10 +64,8 @@
     height: $row-height;
     display: inline-block;
     text-align: center;
-    border-style: solid;
-    border-color: black;
+    border: $cell-border-size solid $cell-border-color;
     box-sizing: border-box;
-    border-width: 0vw $cell-border-size $cell-border-size 0vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     margin: 0 auto 0 auto;
     overflow: hidden;
@@ -87,9 +80,7 @@
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    font-size: 0.95vw;
    line-height: 3.6vh;
-   border-width: 0.0vw $cell-border-size $cell-border-size $cell-border-size;
-   border-color: black;
-   border-style: solid;
+   border: $cell-border-size solid $cell-border-color;
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -135,11 +126,9 @@
     height: $row-height;
     font-size: $util-font-size;
     display: inline-block;
-    border-style: solid;
+    border: $cell-border-size solid $cell-border-color;
     box-sizing: border-box;
-    border-color: black;
     text-align: center;
-    border-width: 0vw $cell-border-size $cell-border-size 0vw;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     overflow: hidden;
     background-color: #e3ffdd;

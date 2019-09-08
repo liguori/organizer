@@ -2,7 +2,8 @@
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear-1)">-</button>&nbsp;
     <mat-form-field class="year-box">
         <mat-label>Year</mat-label>
-        <input  matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear" (keyup.enter)="changeYear($event.target.value)">
+        <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
+            (keyup.enter)="changeYear($event.target.value)">
     </mat-form-field>
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
@@ -12,10 +13,10 @@
         </button>
     </div>
 </div>
-<app-calendar [currentYear]="selectedYear" (daySelected)="calendarDaySelected($event)"
-    (eventSelected)="calendarEventSelcted($event)"></app-calendar>
-<span class="editor-view">
-</span>
+<div class="calendar-container">
+    <app-calendar [currentYear]="selectedYear" (daySelected)="calendarDaySelected($event)"
+        (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+</div>
 <span class="warning-view" *ngIf="getWarnings().length>0">
     <b>WARNINGS:</b>
     <div *ngFor="let warn of getWarnings()">
