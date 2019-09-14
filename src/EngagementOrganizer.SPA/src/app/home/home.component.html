@@ -14,7 +14,7 @@
     </div>
 </div>
 <div class="calendar-container">
-    <app-calendar [currentYear]="selectedYear" (daySelected)="calendarDaySelected($event)"
+    <app-calendar [currentYear]="selectedYear" [appointments]="appointments" (daySelected)="calendarDaySelected($event)"
         (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>
 <span class="warning-view" *ngIf="getWarnings().length>0">

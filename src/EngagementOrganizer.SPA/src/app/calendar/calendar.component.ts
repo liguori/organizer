@@ -1,30 +1,25 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
-import { Month } from '../models/month';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { Day } from '../models/day';
 import { CalendarDay } from '../models/calendarDay';
-import { AppointmentsService } from '../api/EngagementOrganizerApiClient/api/appointments.service'
 import { Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApiClient';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
-import { map, filter, catchError, mergeMap } from 'rxjs/operators';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 @Component({
   selector: 'app-calendar',
   templateUrl: './calendar.component.html',
-  styleUrls: ['./calendar.component.scss']
+  styleUrls: ['./calendar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent implements OnInit {
+  readonly MaxTile: number = 37;
   @Input()
   currentYear: number = new Date().getFullYear();
-  readonly MaxTile: number = 37;
+ 
+  @Input()
   appointments: Array<AppointmentExtraInfo>;
 
   constructor(private route: ActivatedRoute, private router: Router) {
-    router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe((event: NavigationEnd) => {
-      this.appointments = this.route.snapshot.data.appointments;
-    });
   }
 
   ngOnInit() {
