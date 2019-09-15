@@ -29,6 +29,7 @@ import {
 } from '@angular/material';
 import { MomentDateModule, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { CustomDialogModule } from './custom-dialog/custom-dialog.module';
+import { CustomerViewComponent } from './customer-view/customer-view.component';
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
@@ -65,7 +66,8 @@ export function createApiConfigFactory() {
     HomeComponent,
     CustomerComponent,
     EventViewerComponent,
-    AppointmentEditorComponent
+    AppointmentEditorComponent,
+    CustomerViewComponent
   ],
   imports: [
     BrowserModule,

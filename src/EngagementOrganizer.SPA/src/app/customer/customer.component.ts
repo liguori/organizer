@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CustomersService, Customer, Appointment } from '../api/EngagementOrganizerApiClient';
-import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { filter } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-customer',
@@ -10,15 +10,21 @@ import { filter } from 'rxjs/operators';
   styleUrls: ['./customer.component.scss']
 })
 export class CustomerComponent implements OnInit {
-  appointments: Array<Appointment>;
+  public appointments: Array<Appointment>;
+  public customers: Array<Customer>;
+  public selectedYear: number;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private customerService: CustomersService) {
+    private customerService: CustomersService,
+    private cdr: ChangeDetectorRef) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
+      this.customerService.getCustomers().subscribe(cus => {
+        this.customers = cus;
+      });
       this.appointments = this.route.snapshot.data.appointments;
     });
     this.clearCustomerEditing();
@@ -28,6 +34,9 @@ export class CustomerComponent implements OnInit {
 
   isEditingCustomer: Boolean = false;
 
+  ngOnInit() {
+    this.selectedYear = Number.parseInt(this.route.snapshot.params["year?"]);
+  }
 
   addCustomer() {
     this.isEditingCustomer = true;
@@ -51,10 +60,11 @@ export class CustomerComponent implements OnInit {
       return;
     }
     if (!this.currentCustomer.textColor.startsWith('#')) this.currentCustomer.textColor = '#' + this.currentCustomer.textColor;
-    if (!this.currentCustomer.color.startsWith('#')) this.currentCustomer.color = '#' + this.currentCustomer.textColor;
+    if (!this.currentCustomer.color.startsWith('#')) this.currentCustomer.color = '#' + this.currentCustomer.color;
     if (confirm("Are you sure you want to save the customer?")) {
 
       if (this.currentCustomer.id == null) {
+        this.currentCustomer.id = 0;
         this.customerService.postCustomer(this.currentCustomer).subscribe(
           data => {
             this.router.navigate(['customer/', this.route.snapshot.params["year?"]]);
@@ -91,73 +101,9 @@ export class CustomerComponent implements OnInit {
     this.isEditingCustomer = true;
   }
 
-  selectedYear: number;
-
-  ngOnInit() {
-    this.selectedYear = Number.parseInt(this.route.snapshot.params["year?"]);
-
-    this.customerService.getCustomers().subscribe(
-      data => {
-        this.customers = data
-      },
-      (err) => {
-        console.log(err.message);
-      }
-    );;
-  }
-
-  customers: Array<Customer>
-
   changeYear(value) {
-    this.selectedYear=Number.parseInt(value);
+    this.selectedYear = Number.parseInt(value);
     this.router.navigate(['customer/', value]);
   }
-
-  getCustomerStyle(cus: Customer) {
-    let style = {
-      "background-color": cus.color,
-      "color": cus.textColor
-    }
-    return style;
-  }
-
-  getCustomerSummary(cus: Customer): string {
-    var ris = "";
-    var countCustomerDays = 0;
-    var countCustomerMonths = 0;
-    for (const month of DateTimeUtils.months) {
-      var monthFound = false;
-      var daysInMonth = this.getDaysInMonth(month.monthNumber, this.selectedYear);
-      var currentMonthAppointmentDays: Array<Number> = [];
-      for (let i = 1; i <= daysInMonth; i++) {
-        var currentDate = new Date(this.selectedYear, month.monthNumber - 1, i);
-        if (this.getEventsByDateAndCustomer(currentDate, cus.id).length > 0) {
-          currentMonthAppointmentDays.push(i);
-          countCustomerDays++;
-          if (!monthFound) {
-            countCustomerMonths++;
-            monthFound = true;
-          }
-        }
-      }
-      if (monthFound) {
-        ris += '<br>' + month.monthDescription + ": " + currentMonthAppointmentDays.join(', ') + ' (' + currentMonthAppointmentDays.length + ' days)'
-      }
-    }
-    ris += '<br><br>TOTAL: ' + countCustomerDays + ' days in ' + countCustomerMonths + ' months';
-    return ris;
-  }
-
-  getEventsByDateAndCustomer(date: Date, customerId: number): Array<Appointment> {
-    var ris: Array<Appointment> = [];
-    if (date != null) {
-      ris = this.appointments.filter(x => new Date(x.startDate.toString()) <= date && new Date(x.endDate.toString()) >= date && x.customerID == customerId);
-    }
-    return ris;
-  }
-
-  getDaysInMonth = function (month, year) {
-    return new Date(year, month, 0).getDate();
-  };
 
 }
