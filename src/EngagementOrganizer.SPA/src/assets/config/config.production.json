@@ -3,6 +3,6 @@
         "name": "PRODUCTION"
     },
     "api": {
-        "url": "https://localhost:5555"
+        "url": " http://localhost:5541"
     }
 }
