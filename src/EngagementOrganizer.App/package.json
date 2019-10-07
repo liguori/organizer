@@ -1,0 +1,15 @@
+{
+  "name": "engagement-organizer-app",
+  "version": "0.0.0",
+  "main": "main.js",
+  "scripts": {
+    "electron": "electron .",
+    "electron-build": "ng build --prod --base-href ./ && gulp && electron ."
+  },
+  "private": true,
+  "devDependencies": {
+    "electron": "6.0.1",
+    "gulp": "^4.0.2",
+    "gulp-replace": "^1.0.0"
+  }
+}

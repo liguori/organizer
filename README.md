@@ -8,6 +8,7 @@ Technologies
 - ASP.NET Core
 - Entity Framework Core
 - SQLite
+- Electron
 
 
 Introduction
@@ -19,13 +20,7 @@ Areas for improvement
 --------
 - Unit testing
 - CI / CD
-- Electron support
 - Globalization and i18n
-- Transform hard-coded HTML in Angular Component
-- Reduce DOM impact for better performances
-- Cross Platform Support
-- UI fix
-- Validation
 - Bug fix
 
 
