@@ -65,6 +65,14 @@ export class AppointmentEditorComponent implements OnInit {
     return d;
   }
 
+  validateData(appToSend: Appointment) {
+    if (appToSend.endDate < appToSend.startDate) {
+      alert("'From' date can't be after 'To' date");
+      return false;
+    }
+    return true;
+  }
+
   save() {
     var appToSend: Appointment = {};
     appToSend.confirmed = this.currentAppointment.confirmed;
@@ -75,6 +83,8 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.typeID = this.currentAppointment.type;
     appToSend.startDate = this.setToUtc(this.currentAppointment.startDate);
     appToSend.endDate = this.setToUtc(this.currentAppointment.endDate);
+
+    if (!this.validateData(appToSend)) return;
 
     if (confirm("Are you sure you want to save the appointment?")) {
       if (this.currentAppointment.isEditing) {
