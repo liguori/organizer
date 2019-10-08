@@ -19,7 +19,7 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
-Once the build is completed, you can run the App trough Electron:
+Once the build is completed, you can run the Electron App:
 
 ```bash
 cd ./src/EngagementOrganizer.App
