@@ -14,4 +14,10 @@
     <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="5.0.0-rc4" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="EngagementOrganizer.db">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

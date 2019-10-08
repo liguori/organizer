@@ -3,8 +3,7 @@
   "version": "0.0.0",
   "main": "main.js",
   "scripts": {
-    "electron": "electron .",
-    "electron-build": "ng build --prod --base-href ./ && gulp && electron ."
+    "electron": "electron ."
   },
   "private": true,
   "devDependencies": {

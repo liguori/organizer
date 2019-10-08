@@ -2,6 +2,8 @@
 
 # compiled output
 /dist
+/Services
+/UI
 /tmp
 /out-tsc
 # Only exists if Bazel was run

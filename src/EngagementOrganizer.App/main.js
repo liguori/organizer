@@ -13,23 +13,16 @@ let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow({
-    width: 1290, 
-    height: 960,
-    stat: true
-  });
-  
-
-  // and load the index.html of the app.
-  mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'dist/EngagementOrganizer.SPA/index.html'),
-    protocol: 'file:',
-    slashes: true
-  }));
+  mainWindow = new BrowserWindow();
 
   mainWindow.maximize();
 
-  mainWindow.webContents.openDevTools();
+  // and load the index.html of the app.
+  mainWindow.loadURL(url.format({
+    pathname: path.join(__dirname, 'UI/index.html'),
+    protocol: 'file:',
+    slashes: true
+  }));
 
   mainWindow.setMenuBarVisibility(false);
 
@@ -45,7 +38,7 @@ function createWindow() {
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
-app.on('ready', createWindow)
+app.on('ready', initialize)
 
 // Quit when all windows are closed.
 app.on('window-all-closed', function () {
@@ -60,8 +53,36 @@ app.on('activate', function () {
   // On OS X it's common to re-create a window in the app when the
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
-    createWindow()
+    initialize()
   }
 })
+
+
+var apiProcess = null;
+
+function initialize() {
+  var proc = require('child_process').spawn;
+  //  run server
+  var apipath = path.join(__dirname, 'Services/EngagementOrganizer.API.dll');
+
+  apiProcess = proc('dotnet',[apipath],{cwd: path.dirname(apipath)});
+
+  apiProcess.stdout.on('data', (data) => {
+    writeLog(`stdout: ${data}`);
+    if (mainWindow == null) {
+      createWindow();
+    }
+  });
+}
+
+//Kill process when electron exits
+process.on('exit', function () {
+  writeLog('exit');
+  apiProcess.kill();
+});
+
+function writeLog(msg){
+  console.log(msg);
+}
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and require them here.
