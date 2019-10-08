@@ -11,6 +11,9 @@
     "appId": "engagement-organizer",
     "directories": {
       "output": "../dist"
+    },
+    "win": {
+      "icon": "engament.ico"
     }
   },
   "private": true,

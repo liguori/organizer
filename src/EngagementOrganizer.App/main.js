@@ -12,7 +12,9 @@ let mainWindow
 
 function createWindow() {
   // Create the browser window.
-  mainWindow = new BrowserWindow();
+  mainWindow = new BrowserWindow({
+    icon: path.join(__dirname, 'engament.ico')
+  });
 
   mainWindow.maximize();
 
