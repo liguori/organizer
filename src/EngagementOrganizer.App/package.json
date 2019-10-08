@@ -3,11 +3,20 @@
   "version": "0.0.0",
   "main": "main.js",
   "scripts": {
-    "electron": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "asar": false,
+    "appId": "engagement-organizer",
+    "directories": {
+      "output": "../dist"
+    }
   },
   "private": true,
   "devDependencies": {
     "electron": "6.0.1",
+    "electron-builder": "^21.2.0",
     "gulp": "^4.0.2",
     "gulp-replace": "^1.0.0"
   }
