@@ -17,6 +17,8 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 ## Build
 
+Requirements: You need to install NodeJS 10.16.3 and .NET Core 3.0 SDK.
+
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
 Once the build is completed, you can run the Electron App:
@@ -37,6 +39,7 @@ npm run dist #produce the Electron self-contained app as bundle in the folder ./
 - CI / CD
 - Globalization and i18n
 - Bug fix
+- Transform hard-coded HTML in Angular Component using tamplates
 
 
 ## Screenshots
