@@ -21,17 +21,7 @@ Requirements: You need to install NodeJS 10.16.3 and .NET Core 3.0 SDK.
 
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
-Once the build is completed, you can run the Electron App:
-
-```bash
-cd ./src/EngagementOrganizer.App
-
-npm run #run electron via npm
-
-# OR
-
-npm run dist #produce the Electron self-contained app as bundle in the folder ./src/dist
-```
+Once the build is completed, you can run the self-contained electron application from the './src/dist' folder.
 
 ## Areas for improvement
 
