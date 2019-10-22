@@ -19,6 +19,7 @@ export interface Appointment {
     customerID?: number;
     type?: AppointmentType;
     typeID?: number;
+    project?: string;
     startDate?: Date;
     endDate?: Date;
     note?: string;

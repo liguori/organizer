@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit {
   }
 
   changeYear(value) {
-    this.selectedYear=Number.parseInt(value);
+    this.selectedYear = Number.parseInt(value);
     this.router.navigate(['calendar/', value]);
   }
 
@@ -88,6 +88,7 @@ export class HomeComponent implements OnInit {
       travelBooked: app.travelBooked,
       id: app.id,
       note: app.note,
+      project: app.project,
       type: app.type.id,
       warning: app.warning,
       warningMessage: app.warningDescription

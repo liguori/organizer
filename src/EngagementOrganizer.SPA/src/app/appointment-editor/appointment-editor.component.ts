@@ -79,6 +79,7 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.customerID = this.currentAppointment.customer;
     appToSend.note = this.currentAppointment.note;
     appToSend.requireTravel = this.currentAppointment.requireTravel;
+    appToSend.project = this.currentAppointment.project;
     appToSend.travelBooked = this.currentAppointment.travelBooked;
     appToSend.typeID = this.currentAppointment.type;
     appToSend.startDate = this.setToUtc(this.currentAppointment.startDate);

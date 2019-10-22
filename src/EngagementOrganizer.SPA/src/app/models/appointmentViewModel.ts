@@ -2,6 +2,7 @@ export interface AppointmentViewModel {
     isEditing: boolean,
     id?: number;
     customer?: number;
+    project?: string;
     type?: number;
     startDate?: Date;
     endDate?: Date;

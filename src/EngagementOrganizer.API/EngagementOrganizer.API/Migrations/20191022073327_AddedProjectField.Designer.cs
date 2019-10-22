@@ -3,14 +3,16 @@ using System;
 using EngagementOrganizer.API.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace EngagementOrganizer.API.Migrations
 {
     [DbContext(typeof(EngagementOrganizerContext))]
-    partial class EngagementOrganizerContextModelSnapshot : ModelSnapshot
+    [Migration("20191022073327_AddedProjectField")]
+    partial class AddedProjectField
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

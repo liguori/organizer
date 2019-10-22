@@ -15,6 +15,8 @@ namespace EngagementOrganizer.API.Models
 
         public AppointmentType Type { get; set; }
 
+        public string Project { get; set; }
+
         public int TypeID { get; set; }
 
         public DateTime StartDate { get; set; }

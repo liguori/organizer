@@ -21,6 +21,9 @@
           </mat-option>
         </mat-select>
       </mat-form-field>
+      <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)">
+        <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
+      </mat-form-field>
       <span class="warning-message">{{currentAppointment.warningMessage}}</span>
     </div>
     <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
