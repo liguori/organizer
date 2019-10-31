@@ -60,8 +60,7 @@ export class AppointmentEditorComponent implements OnInit {
     var d = new Date();
     var drefT = moment(dateRef).toDate();
     d.setUTCFullYear(drefT.getFullYear());
-    d.setUTCMonth(drefT.getMonth());
-    d.setUTCDate(drefT.getDate());
+    d.setUTCMonth(drefT.getMonth(), drefT.getDate());
     return d;
   }
 
