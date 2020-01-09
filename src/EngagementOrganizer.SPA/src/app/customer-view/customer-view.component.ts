@@ -73,7 +73,7 @@ export class CustomerViewComponent implements OnInit {
       ris = this.appointments.filter(x => new Date(x.startDate.toString()) <= date && new Date(x.endDate.toString()) >= date && x.customerID == customerId);
     }
     if (this.filterProject != null && this.filterProject.trim() != "") {
-      ris = ris.filter(x => x.project == this.filterProject)
+      ris = ris.filter(x => x.project.toLowerCase() == this.filterProject.toLowerCase())
     }
     return ris;
   }

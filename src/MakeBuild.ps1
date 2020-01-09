@@ -8,6 +8,7 @@ cd .\EngagementOrganizer.SPA
 npm install
 ng build --prod --base-href ./ --outputPath=".$fodlerUI" --configuration='production'
 cd ..\EngagementOrganizer.APP
+npm install
 .\node_modules\.bin\gulp
 npm run dist
 cd ..
