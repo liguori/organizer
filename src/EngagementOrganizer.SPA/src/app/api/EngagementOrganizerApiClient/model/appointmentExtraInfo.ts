@@ -22,6 +22,7 @@ export interface AppointmentExtraInfo {
     type?: AppointmentType;
     typeID?: number;
     project?: string;
+    projectColor?: string;
     startDate?: Date;
     endDate?: Date;
     note?: string;

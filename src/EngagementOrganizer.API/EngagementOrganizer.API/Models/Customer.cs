@@ -16,6 +16,8 @@ namespace EngagementOrganizer.API.Models
         public string Color { get; set; }
 
         public string TextColor { get; set; }
+        
+        public string ProjectColors { get; set; }
 
         public string Referral { get; set; }
 

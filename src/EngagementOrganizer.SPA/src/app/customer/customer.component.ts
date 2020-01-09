@@ -13,6 +13,7 @@ export class CustomerComponent implements OnInit {
   public appointments: Array<Appointment>;
   public customers: Array<Customer>;
   public selectedYear: number;
+  public filterProject: string;
 
   constructor(
     private router: Router,
@@ -105,5 +106,10 @@ export class CustomerComponent implements OnInit {
     this.selectedYear = Number.parseInt(value);
     this.router.navigate(['customer/', value]);
   }
+
+  changeFilterProject(value) {
+    this.filterProject = value;
+  }
+
 
 }

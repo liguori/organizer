@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using EngagementOrganizer.API.Infrastructure;
 using EngagementOrganizer.API.Models;
 using EngagementOrganizer.API.Services.Abstract;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EngagementOrganizer.API.Controllers
 {
@@ -33,10 +34,41 @@ namespace EngagementOrganizer.API.Controllers
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
-            var appList = await appointment.OrderBy(x=>x.StartDate).ToListAsync();
+            var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
             _warningChecker.PerformCheck(appointmentList);
+            SetProjectColor(appointmentList);
             return appointmentList;
+        }
+
+
+        void SetProjectColor(List<AppointmentExtraInfo> appList)
+        {
+            var customerProjects = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue)
+                                      .Select(x => new { CustomerID = x.CustomerID.Value, x.Project })
+                                      .GroupBy(x => new { x.CustomerID, x.Project })
+                                      .GroupBy(x => x.Key.CustomerID);
+
+
+            var customerColors = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue)
+                                      .Select(x => new { x.CustomerID, Colors = x?.Customer?.ProjectColors?.Split(";") })
+                                      .GroupBy(x => x.CustomerID);
+
+            var appListToSetProjectColors = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue);
+            foreach (var currentAppointmentToSetProjectColor in appListToSetProjectColors)
+            {
+                var currentCustomerProjects = customerProjects.Where(x => x.Key == currentAppointmentToSetProjectColor.CustomerID).First().ToList().Select(x => x.Key.Project).ToList();
+                var currentCustomerColors = customerColors.Where(x => x.Key == currentAppointmentToSetProjectColor.CustomerID).First().ToList().Select(x => x.Colors).ToList().First();
+
+                for (int i = 0; i < currentCustomerProjects.Count; i++)
+                {
+                    if (currentAppointmentToSetProjectColor.Project == currentCustomerProjects[i] && currentCustomerColors?.Length > i)
+                    {
+                        currentAppointmentToSetProjectColor.ProjectColor = currentCustomerColors[i];
+                        break;
+                    }
+                }
+            }
         }
 
         // GET: api/Appointments/5

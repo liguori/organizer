@@ -10,5 +10,8 @@ namespace EngagementOrganizer.API.Models
         public bool Warning { get; set; }
 
         public string WarningDescription { get; set; }
+
+        public string ProjectColor { get; set; }
+
     }
 }

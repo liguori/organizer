@@ -48,7 +48,12 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['calendar/', value]);
   }
 
+  changeFilterProject(value) {
+    this.filterProject = value;
+  }
+
   selectedYear: number;
+  filterProject: string;
 
   currentAppointment: AppointmentViewModel;
 

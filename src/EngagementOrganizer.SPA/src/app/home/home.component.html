@@ -7,6 +7,11 @@
     </mat-form-field>
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
+   <mat-form-field class="filter-projext-box">
+        <mat-label>Project</mat-label>
+        <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
+            (keyup.enter)="changeFilterProject($event.target.value)">
+    </mat-form-field>
     <div class="calendar-option">
         <button (click)="availability()" mat-raised-button color="primary">
             AVAILABILITY
@@ -14,7 +19,7 @@
     </div>
 </div>
 <div class="calendar-container">
-    <app-calendar [currentYear]="selectedYear" [appointments]="appointments" (daySelected)="calendarDaySelected($event)"
+    <app-calendar [currentYear]="selectedYear" [filterProject]="filterProject" [appointments]="appointments" (daySelected)="calendarDaySelected($event)"
         (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>
 <span class="warning-view" *ngIf="getWarnings().length>0">

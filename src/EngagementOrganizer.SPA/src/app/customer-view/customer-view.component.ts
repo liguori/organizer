@@ -22,13 +22,16 @@ export class CustomerViewComponent implements OnInit {
   @Input()
   selectedYear: number;
 
-  @Output() 
+  @Input()
+  filterProject: string;
+
+  @Output()
   public customerSelectedForEdit = new EventEmitter<Customer>();
 
   ngOnInit() {
   }
 
-  
+
   getCustomerStyle(cus: Customer) {
     let style = {
       "background-color": cus.color,
@@ -68,6 +71,9 @@ export class CustomerViewComponent implements OnInit {
     var ris: Array<Appointment> = [];
     if (date != null) {
       ris = this.appointments.filter(x => new Date(x.startDate.toString()) <= date && new Date(x.endDate.toString()) >= date && x.customerID == customerId);
+    }
+    if (this.filterProject != null && this.filterProject.trim() != "") {
+      ris = ris.filter(x => x.project == this.filterProject)
     }
     return ris;
   }

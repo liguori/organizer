@@ -24,6 +24,15 @@
     border: 0.1px solid #ffffff;
 }
 
+.project-badge{
+    position: absolute; 
+    height: 7px; 
+    width: 7px; 
+    left: 0px; 
+    bottom: 0px;
+    clip-path: polygon(0 0,0 100%, 100% 100%);
+}
+
 .confirmed{
     text-decoration:underline;
 }

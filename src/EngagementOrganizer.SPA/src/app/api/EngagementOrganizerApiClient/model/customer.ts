@@ -20,4 +20,5 @@ export interface Customer {
     referral?: string;
     address?: string;
     note?: string;
+    projectColors?: string;
 }

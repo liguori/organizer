@@ -41,6 +41,18 @@ export class EventViewerComponent implements OnInit {
     return styles;
   }
 
+
+  getProjectBadgeStyle(pp: AppointmentExtraInfo) {
+    if (pp.projectColor != null) {
+      let styles = {
+        'background-color': pp.projectColor
+      };
+      return styles;
+    }else{
+      return null;
+    }
+  }
+
   getEventDescription(app: AppointmentExtraInfo): string {
     if (app.customerID != null) {
       return app.customer.shortDescription;
@@ -48,5 +60,4 @@ export class EventViewerComponent implements OnInit {
       return app.type.shortDescription;
     }
   }
-
 }

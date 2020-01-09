@@ -15,7 +15,10 @@ export class CalendarComponent implements OnInit {
   readonly MaxTile: number = 37;
   @Input()
   currentYear: number = new Date().getFullYear();
- 
+
+  @Input()
+  filterProject: string;
+
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
@@ -45,9 +48,12 @@ export class CalendarComponent implements OnInit {
     if (date != null) {
       ris = this.appointments.filter(x => new Date(x.startDate.toString()) <= date && new Date(x.endDate.toString()) >= date);
     }
-    return ris;
+    if (this.filterProject != null && this.filterProject.trim() != "") {
+      ris = ris.filter(x => x.project == this.filterProject);
+    }
+    return ris.sort((a, b) => (a.typeID > b.typeID) ? -1 : 1);
   }
-
+  
   getMonthDayHeaders(): Array<Day> {
     var res = new Array<Day>();
     for (let index = 0; index < this.MaxTile; index++) {

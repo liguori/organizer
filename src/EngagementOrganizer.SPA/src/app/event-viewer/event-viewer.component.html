@@ -2,4 +2,5 @@
     [ngClass]="{'confirmed':app.confirmed,'billable':app.type.billable,'warning':app.warning}">
     <div class="travel-badge" *ngIf="app.requireTravel"></div>
     {{getEventDescription(app)}}
+    <div class="project-badge" [ngStyle]="getProjectBadgeStyle(app)"></div>
 </span>
