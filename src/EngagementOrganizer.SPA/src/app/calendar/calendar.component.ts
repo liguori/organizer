@@ -49,11 +49,11 @@ export class CalendarComponent implements OnInit {
       ris = this.appointments.filter(x => new Date(x.startDate.toString()) <= date && new Date(x.endDate.toString()) >= date);
     }
     if (this.filterProject != null && this.filterProject.trim() != "") {
-      ris = ris.filter(x => x.project.toLowerCase() == this.filterProject.toLowerCase());
+      ris = ris.filter(x => x.project != null && x.project.toLowerCase() == this.filterProject.toLowerCase());
     }
     return ris.sort((a, b) => (a.typeID > b.typeID) ? -1 : 1);
   }
-  
+
   getMonthDayHeaders(): Array<Day> {
     var res = new Array<Day>();
     for (let index = 0; index < this.MaxTile; index++) {
