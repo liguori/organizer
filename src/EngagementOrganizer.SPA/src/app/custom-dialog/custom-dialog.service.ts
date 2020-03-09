@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CustomDialogComponent } from './custom-dialog.component';
 import { CustomDialogConfig } from './custom-dialog-config.interface';
-import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material';
+import { MatDialog, MatDialogConfig, MatDialogRef } from '@angular/material/dialog';
 
 @Injectable()
 /**

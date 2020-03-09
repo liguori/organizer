@@ -14,22 +14,17 @@ import { AppointmentEditorComponent } from './appointment-editor/appointment-edi
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import {
-  MatFormFieldModule,
-  MatButtonModule,
-  MatCheckboxModule,
-  MatDialogModule,
-  MatSelectModule,
-  MatDatepickerModule,
-  MatNativeDateModule,
-  MatInputModule,
-  DateAdapter,
-  MAT_DATE_FORMATS,
-  MAT_DATE_LOCALE
-} from '@angular/material';
 import { MomentDateModule, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { CustomDialogModule } from './custom-dialog/custom-dialog.module';
 import { CustomerViewComponent } from './customer-view/customer-view.component';
+import { MatInputModule } from '@angular/material/input';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
