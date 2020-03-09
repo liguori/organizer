@@ -18,8 +18,8 @@
   },
   "private": true,
   "devDependencies": {
-    "electron": "6.0.1",
-    "electron-builder": "^21.2.0",
+    "electron": "8.1.0",
+    "electron-builder": "^22.4.0",
     "gulp": "^4.0.2",
     "gulp-replace": "^1.0.0"
   }
