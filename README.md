@@ -17,7 +17,7 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 ## Build
 
-Requirements: You need to install NodeJS 10.16.3 and .NET Core 3.0 SDK.
+Requirements: You need to install NodeJS 12.16.1 and .NET Core 3.1 SDK.
 
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
@@ -35,13 +35,17 @@ Once the build is completed, you can run the self-contained electron application
 ## Screenshots
 
 **Calendar view**
-![Full fixed lenght file example](https://raw.github.com/liguori/Engagement-Organizer/master/docs/CalendarView.png)
 
-**Appointment editing**
-![Full fixed lenght file example](https://raw.github.com/liguori/Engagement-Organizer/master/docs/AppointmentEditing.png)
+Light Theme             |  Dark Theme
+:-------------------------:|:-------------------------:
+![Full fixed lenght file example](docs/CalendarView.png)|![Full fixed lenght file example](docs/CalendarView_Dark.png)
 
-**Available days**
-![Full fixed lenght file example](https://raw.github.com/liguori/Engagement-Organizer/master/docs/AvailableDays.png)
+**Features**
 
-**Customer summary**
-![Full fixed lenght file example](https://raw.github.com/liguori/Engagement-Organizer/master/docs/CustomerSummary.png)
+Appointment editing            |  Available days
+:-------------------------:|:-------------------------:
+![Full fixed lenght file example](docs/AppointmentEditing.png)|![Full fixed lenght file example](docs/AvailableDays.png)
+
+Customer summary           |
+:-------------------------:|
+![Full fixed lenght file example](docs/CustomerSummary.png)|
