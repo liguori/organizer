@@ -12,38 +12,3 @@ $cell-border-size:0.5px;
 $year-month-col-width:2.7vw;
 $calendar-margin-width:0.5vw;
 $day-width:((100vw - $year-month-col-width - $util-width - ($calendar-margin-width * 2))/37);
-//Colors dark
-$calendar-header-color: #21252c;
-$calendar-header-text-color: #ffffff;
-$calendar-cell-border-color:#474545;
-$calendar-day-color: #2c2929;
-$calendar-day-text-color:#c2bdbd;
-$calendar-day-hover-color:#505f79;
-$calendar-month-header-color:#2b2c30;
-$calendar-month-header-text-color:#ffffff;
-$calendar-saturday-color:#351713;
-$calendar-sunday-color: #362409;
-$calendar-noday-color:#363636;
-$calendar-today-color:#f55a1d;
-$calendar-today-text-color:#ffffff;
-$calendar-utils-color: #2d2e2d;
-$calendar-utils-text-color: #ffffff;
-
-//Colors light
-/*
-$calendar-header-color: #4e77ba;
-$calendar-header-text-color: #ffffff;
-$calendar-cell-border-color:#92a3b0;
-$calendar-day-color: #ffffff;
-$calendar-day-text-color:#000000;
-$calendar-day-hover-color:#dbe8ff;
-$calendar-month-header-color:#d3e3ff;
-$calendar-month-header-text-color:#000000;
-$calendar-saturday-color:#fff9ce;
-$calendar-sunday-color: #ffe3bc;
-$calendar-noday-color:#c7c9cc;
-$calendar-today-color:#004d99;
-$calendar-today-text-color:#ffffff;
-$calendar-utils-color: #e3ffdd;
-$calendar-utils-text-color: #000000;
-*/

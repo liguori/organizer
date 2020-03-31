@@ -1,11 +1,11 @@
-@import "../variable.scss";
+@import "../variable";
 
 .header{
     height: $row-header-height;
 }
 
 .calendar-container{
-    border: $cell-border-size solid $calendar-cell-border-color;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     display: inline-block;
 }
@@ -14,10 +14,10 @@
    width:$year-month-col-width;
    height: $row-header-height;
    display: inline-block;
-   border: $cell-border-size solid $calendar-cell-border-color;
+   border: $cell-border-size solid var(--calendarCellBorderColor);
    box-sizing: border-box;
-   background-color: $calendar-header-color;
-   color: $calendar-header-text-color;
+   background-color: var(--calendarHeaderColor);
+   color: var(--calendarHeaderTextColor);
    text-align: center;
    line-height: 3.6vh;
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -28,10 +28,10 @@
     width:$day-width;
     height: $row-header-height;
     display: inline-block;
-    border: $cell-border-size solid $calendar-cell-border-color;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
-    background-color: $calendar-header-color;
-    color: $calendar-header-text-color;
+    background-color: var(--calendarHeaderColor);
+    color: var(--calendarHeaderTextColor);
     text-align: center;
     line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -42,10 +42,10 @@
     width:$util-width;
     height: $row-header-height;
     display: inline-block;
-    border: $cell-border-size solid $calendar-cell-border-color;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
-    background-color: $calendar-header-color;
-    color: $calendar-header-text-color;
+    background-color: var(--calendarHeaderColor);
+    color: var(--calendarHeaderTextColor);
     text-align: center;
     line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
@@ -64,25 +64,25 @@
     height: $row-height;
     display: inline-block;
     text-align: center;
-    border: $cell-border-size solid $calendar-cell-border-color;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     font-family: 'Segoe UI';
     margin: 0 auto 0 auto;
     overflow: hidden;
     cursor: pointer;
-    background-color: $calendar-day-color;
-    color:$calendar-day-text-color;
+    background-color: var(--calendarDayColor);
+    color:var(--calendarDayTextColor);
 }
 
 .month-day:hover{
-    background-color: $calendar-day-hover-color;
+    background-color: var(--calendarDayHoverColor);
 }
 
 .month-header{
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    font-size: 0.95vw;
    line-height: 3.6vh;
-   border: $cell-border-size solid $calendar-cell-border-color;
+   border: $cell-border-size solid var(--calendarCellBorderColor);
    box-sizing: border-box;
    margin: 0;
    padding: 0;
@@ -90,8 +90,8 @@
    font-weight: bold;
    width:$year-month-col-width;
    height: $row-height;
-   background-color: $calendar-month-header-color;
-   color:$calendar-month-header-text-color;
+   background-color: var(--calendarMonthHeaderColor);
+   color:var(--calendarMonthHeaderTextColor);
    display: inline-block;
    text-align: center;
 }
@@ -103,23 +103,23 @@
 }
 
 .highlight-saturday{
-   background-color:$calendar-saturday-color;
+   background-color:var(--calendarSaturdayColor);
    font-weight: bold;
 }
 
 
 .highlight-sunday{
-   background-color: $calendar-sunday-color;
+   background-color: var(--calendarSundayColor);
    font-weight: bold;
 }
 
 .no-day{
-    background-color: $calendar-noday-color;
+    background-color: var(--calendarNodayColor);
 }
 
 .today{
-    background-color: $calendar-today-color;
-    color: $calendar-today-text-color;
+    background-color: var(--calendarTodayColor);
+    color: var(--calendarTodayTextColor);
 }
 
 .util-value{
@@ -129,11 +129,11 @@
     height: $row-height;
     font-size: $util-font-size;
     display: inline-block;
-    border: $cell-border-size solid $calendar-cell-border-color;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     overflow: hidden;
-    background-color: $calendar-utils-color;
-    color: $calendar-utils-text-color;
+    background-color: var(--calendarUtilsColor);
+    color: var(--calendarUtilsTextColor);
 }

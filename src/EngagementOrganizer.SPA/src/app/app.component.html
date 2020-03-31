@@ -1,5 +1,7 @@
-<div class="header">
-    <a [routerLink]="getCalendarCurrentYearUrl()">Calendar</a> | <a
-        [routerLink]="getCustomerCurrentYearUrl()">Customer</a>
+<div class="theme-wrapper">
+    <div class="header">
+        <a [routerLink]="getCalendarCurrentYearUrl()">Calendar</a> | <a
+            [routerLink]="getCustomerCurrentYearUrl()">Customer</a> | <a (click)="toggleDarkLight()">Change Theme</a>
+    </div>
+    <router-outlet></router-outlet>
 </div>
-<router-outlet></router-outlet>

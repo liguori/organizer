@@ -26,7 +26,12 @@
             "assets": [
               "src/favicon.ico",
               "src/assets",
-              "src/env.js"
+              "src/env.js",
+              {
+                "glob": "**/*",
+                "input": "./node_modules/@angular/material/prebuilt-themes/",
+                "output": "./assets/"
+              }
             ],
             "styles": [
               "src/styles.scss"

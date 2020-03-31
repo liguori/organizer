@@ -20,6 +20,8 @@ export class HomeComponent implements OnInit {
 
   appointments: Array<AppointmentExtraInfo>;
 
+
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,

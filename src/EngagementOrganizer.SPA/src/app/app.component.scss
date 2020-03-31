@@ -1,10 +1,15 @@
+@import "./variable";
+
+
 .header{
     height: 20px;
     text-align: center;
 }
 
 .header a{
-    color: white;
+    color: var(--appMenuLinkColor);
+    text-decoration: underline;
+    cursor: pointer;
 }
 
 *{
