@@ -13,7 +13,13 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
-    icon: path.join(__dirname, 'engament.ico')
+    icon: path.join(__dirname, 'engament.ico'),
+    transparent: false,
+    frame: false,
+    webPreferences: {
+      nodeIntegration: true,
+      preload: path.join(__dirname, 'preload.js')
+    }
   });
 
   mainWindow.maximize();
@@ -66,7 +72,7 @@ function initialize() {
   //  run server
   var apipath = path.join(__dirname, 'Services/EngagementOrganizer.API.dll');
 
-  apiProcess = proc('dotnet',[apipath],{cwd: path.dirname(apipath)});
+  apiProcess = proc('dotnet', [apipath], { cwd: path.dirname(apipath) });
 
   apiProcess.stdout.on('data', (data) => {
     writeLog(`stdout: ${data}`);
@@ -82,7 +88,7 @@ process.on('exit', function () {
   apiProcess.kill();
 });
 
-function writeLog(msg){
+function writeLog(msg) {
   console.log(msg);
 }
 // In this file you can include the rest of your app's specific main process
