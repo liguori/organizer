@@ -35,17 +35,16 @@ Once the build is completed, you can run the self-contained electron application
 ## Screenshots
 
 **Calendar view**
+Light Theme
+![Full fixed lenght file example](docs/CalendarView.png)
+Dark Theme
+![Full fixed lenght file example](docs/CalendarView_Dark.png)
 
-Light Theme             |  Dark Theme
-:-------------------------:|:-------------------------:
-![Full fixed lenght file example](docs/CalendarView.png)|![Full fixed lenght file example](docs/CalendarView_Dark.png)
+**Appointment editing**
+![Full fixed lenght file example](docs/AppointmentEditing.png)
 
-**Features**
+**Available days**
+![Full fixed lenght file example](docs/AvailableDays.png)
 
-Appointment editing            |  Available days
-:-------------------------:|:-------------------------:
-![Full fixed lenght file example](docs/AppointmentEditing.png)|![Full fixed lenght file example](docs/AvailableDays.png)
-
-Customer summary           |
-:-------------------------:|
+**Customer Summary**
 ![Full fixed lenght file example](docs/CustomerSummary.png)|
