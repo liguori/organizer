@@ -35,6 +35,7 @@ Once the build is completed, you can run the self-contained electron application
 ## Screenshots
 
 **Calendar view**
+
 Light Theme
 ![Full fixed lenght file example](docs/CalendarView.png)
 Dark Theme
