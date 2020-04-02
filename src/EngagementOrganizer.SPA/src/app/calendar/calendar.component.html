@@ -8,12 +8,13 @@
     </div>
     <div class="util-header">Ut %</div>
   </div>
-  <div *ngFor="let currentMonth of months" class="month-row">
+  <div *ngFor="let currentMonth of months" class="month-row"
+    [ngClass]="{'month-selected' : isCurrentMonth(currentMonth) }">
     <div class="month-header">
       {{currentMonth.monthDescription}}
     </div>
-    <div *ngFor="let currentDay of getMonthDays(currentMonth.monthNumber,currentYear);trackBy: trackByDayItems" class="month-day"
-      [ngClass]="getDayHighlightingClass(currentDay)" (click)="dayClicked(currentDay)">
+    <div *ngFor="let currentDay of getMonthDays(currentMonth.monthNumber,currentYear);trackBy: trackByDayItems"
+      class="month-day" [ngClass]="getDayHighlightingClass(currentDay)" (click)="dayClicked(currentDay)">
       <div class="day-label">{{currentDay.date | date : 'dd'}}&nbsp;</div>
       <app-event-viewer [appointments]="getEventsByDate(currentDay.date)"
         (eventSelected)="eventViewerEventSelected($event)"></app-event-viewer>

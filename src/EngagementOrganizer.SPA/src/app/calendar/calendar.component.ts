@@ -4,6 +4,7 @@ import { CalendarDay } from '../models/calendarDay';
 import { Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApiClient';
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
+import { Month } from '../models/month';
 
 @Component({
   selector: 'app-calendar',
@@ -127,6 +128,11 @@ export class CalendarComponent implements OnInit {
 
   trackByDayItems(index: number, item: CalendarDay): Date {
     return item.date;
+  }
+
+  public isCurrentMonth(param: Month): boolean {
+    var today = new Date()
+    return param.monthNumber == (today.getMonth() + 1) && this.currentYear == today.getFullYear();
   }
 
   months = DateTimeUtils.months;

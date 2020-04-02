@@ -5,8 +5,6 @@
 }
 
 .calendar-container{
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
     display: inline-block;
 }
 
@@ -56,6 +54,10 @@
     height: $row-height;
 }
 
+.month-selected{
+    border:1px solid  var(--calendarTodayColor);
+}
+
 .month-day{
     position: relative;
     padding: 0vw 0vw 0vw 0vw;
@@ -81,7 +83,7 @@
 .month-header{
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    font-size: 0.95vw;
-   line-height: 3.6vh;
+   line-height: $row-height;
    border: $cell-border-size solid var(--calendarCellBorderColor);
    box-sizing: border-box;
    margin: 0;
@@ -136,4 +138,5 @@
     overflow: hidden;
     background-color: var(--calendarUtilsColor);
     color: var(--calendarUtilsTextColor);
+    line-height: $row-height;
 }
