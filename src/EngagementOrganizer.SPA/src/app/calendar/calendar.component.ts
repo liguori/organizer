@@ -125,5 +125,9 @@ export class CalendarComponent implements OnInit {
     return res;
   }
 
+  trackByDayItems(index: number, item: CalendarDay): Date {
+    return item.date;
+  }
+
   months = DateTimeUtils.months;
 }

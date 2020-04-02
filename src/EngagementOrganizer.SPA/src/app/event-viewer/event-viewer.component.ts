@@ -60,4 +60,8 @@ export class EventViewerComponent implements OnInit {
       return app.type.shortDescription;
     }
   }
+
+  trackByEventItems(index: number, item: AppointmentExtraInfo): number {
+    return item.id;
+  }
 }
