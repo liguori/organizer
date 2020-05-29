@@ -19,6 +19,8 @@ namespace EngagementOrganizer.API.Models
 
         public int TypeID { get; set; }
 
+        public int? AvailabilityID { get; set; }
+
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
