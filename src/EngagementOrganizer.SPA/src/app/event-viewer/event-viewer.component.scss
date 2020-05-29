@@ -46,3 +46,11 @@
     border:2px solid red;
     box-sizing: border-box;
 }
+
+.availability{
+    position: absolute; 
+    top:0px;
+    height: 2px;
+    width: 100%;
+    border-bottom:  1px solid orange;
+}

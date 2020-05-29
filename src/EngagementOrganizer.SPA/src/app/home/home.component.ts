@@ -94,6 +94,7 @@ export class HomeComponent implements OnInit {
       requireTravel: app.requireTravel,
       travelBooked: app.travelBooked,
       id: app.id,
+      availabilityID:app.availabilityID,
       note: app.note,
       project: app.project,
       type: app.type.id,

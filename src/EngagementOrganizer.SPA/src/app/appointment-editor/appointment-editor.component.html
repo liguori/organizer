@@ -24,17 +24,28 @@
       <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)">
         <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
       </mat-form-field>
+      <mat-form-field>
+        <mat-label>Availability</mat-label>
+        <mat-select [(ngModel)]="currentAppointment.availabilityID">
+          <mat-option [value]=""> </mat-option>
+          <mat-option [value]="0">Free</mat-option>
+          <mat-option [value]="1">Busy</mat-option>
+          <mat-option [value]="2">Pre delivered</mat-option>
+        </mat-select>
+      </mat-form-field>
       <span class="warning-message">{{currentAppointment.warningMessage}}</span>
     </div>
     <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
       <mat-form-field>
-        <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateFromPicker" placeholder="From">
+        <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}"
+          [matDatepicker]="dateFromPicker" placeholder="From">
         <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
         <mat-datepicker #dateFromPicker></mat-datepicker>
       </mat-form-field>
       <button (click)="oneDay()" mat-mini-fab color="primary">C</button>
       <mat-form-field>
-        <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateToPicker" placeholder="To">
+        <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}"
+          [matDatepicker]="dateToPicker" placeholder="To">
         <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
         <mat-datepicker #dateToPicker></mat-datepicker>
       </mat-form-field>

@@ -20,6 +20,7 @@ export interface AppointmentExtraInfo {
     customer?: Customer;
     customerID?: number;
     type?: AppointmentType;
+    availabilityID?: number;
     typeID?: number;
     project?: string;
     projectColor?: string;

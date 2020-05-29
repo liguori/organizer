@@ -24,6 +24,7 @@ export interface Appointment {
     startDate?: Date;
     endDate?: Date;
     note?: string;
+    availabilityID?: number;
     confirmed?: boolean;
     requireTravel?: boolean;
     travelBooked?: boolean;

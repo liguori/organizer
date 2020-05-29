@@ -42,13 +42,37 @@ export class EventViewerComponent implements OnInit {
   }
 
 
+  getAvailabilityStyle(pp: AppointmentExtraInfo) {
+    if (pp.availabilityID != null) {
+      var currentColor = "";
+      switch (pp.availabilityID) {
+        case 0:
+          currentColor = "#FF0000"
+          break;
+        case 1:
+          currentColor = "#00FF00"
+          break;
+        case 2:
+          currentColor = "#0000FF"
+          break;
+      }
+      let styles = {
+        'background-color': currentColor
+      };
+      return styles;
+    } else {
+      return null;
+    }
+  }
+
+
   getProjectBadgeStyle(pp: AppointmentExtraInfo) {
     if (pp.projectColor != null) {
       let styles = {
         'background-color': pp.projectColor
       };
       return styles;
-    }else{
+    } else {
       return null;
     }
   }

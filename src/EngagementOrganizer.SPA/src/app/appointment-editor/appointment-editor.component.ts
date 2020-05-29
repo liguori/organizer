@@ -77,6 +77,7 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.confirmed = this.currentAppointment.confirmed;
     appToSend.customerID = this.currentAppointment.customer;
     appToSend.note = this.currentAppointment.note;
+    appToSend.availabilityID=this.currentAppointment.availabilityID;
     appToSend.requireTravel = this.currentAppointment.requireTravel;
     appToSend.project = this.currentAppointment.project;
     appToSend.travelBooked = this.currentAppointment.travelBooked;
