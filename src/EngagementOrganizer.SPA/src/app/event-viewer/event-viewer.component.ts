@@ -47,13 +47,13 @@ export class EventViewerComponent implements OnInit {
       var currentColor = "";
       switch (pp.availabilityID) {
         case 0:
-          currentColor = "#FF0000"
-          break;
-        case 1:
           currentColor = "#00FF00"
           break;
+        case 1:
+          currentColor = "#FF0000"
+          break;
         case 2:
-          currentColor = "#0000FF"
+          currentColor = "#ebc934"
           break;
       }
       let styles = {
