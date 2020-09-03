@@ -17,7 +17,7 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 ## Build
 
-Requirements: You need to install NodeJS 12.16.1 and .NET Core 3.1 SDK.
+Requirements: You need to install NodeJS 12.16.1, .NET Core 3.1 SDK, and Angular CLI.
 
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
