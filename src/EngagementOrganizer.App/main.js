@@ -13,16 +13,17 @@ let mainWindow
 function createWindow() {
   // Create the browser window.
   mainWindow = new BrowserWindow({
+    show: false,
     icon: path.join(__dirname, 'engament.ico'),
     transparent: false,
     frame: false,
     webPreferences: {
       nodeIntegration: true,
+      enableRemoteModule: true,
       preload: path.join(__dirname, 'preload.js')
     }
   });
-
-  mainWindow.maximize();
+  mainWindow.setMenuBarVisibility(false);
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
@@ -31,7 +32,10 @@ function createWindow() {
     slashes: true
   }));
 
-  mainWindow.setMenuBarVisibility(false);
+  mainWindow.once('ready-to-show', () => {
+    mainWindow.maximize();
+    mainWindow.show();
+  })
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {
@@ -41,7 +45,6 @@ function createWindow() {
     mainWindow = null
   })
 }
-
 // This method will be called when Electron has finished
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
