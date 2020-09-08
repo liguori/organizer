@@ -24,6 +24,6 @@ jobs:
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
-        run: ./src/MakeBuild.ps1
+        run: ./MakeBuild.ps1
         working-directory: ./src/
         shell: pwsh
