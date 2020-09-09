@@ -7,7 +7,7 @@ on:
     branches: [ master ]
 
 jobs:
-  Windows Build:
+  WindowsBuild:
       runs-on: windows-latest
       steps:
         - name: Checkout code
@@ -52,8 +52,8 @@ jobs:
             asset_name: EngagementOrganizer_v${{ steps.date.outputs.date }}_win.zip
             asset_content_type: application/zip
  
-  Linux Build:
-    needs: [Windows Build]
+  LinuxBuild:
+    needs: [WindowsBuild]
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
