@@ -6,7 +6,7 @@ if (Test-Path $fodlerUI) { Remove-Item -LiteralPath $fodlerUI -Force -Recurse }
 dotnet publish .\EngagementOrganizer.API\EngagementOrganizer.API.sln -o $folderService
 cd .\EngagementOrganizer.SPA
 npm install
-ng build --prod --base-href ./ --outputPath=".$fodlerUI" --configuration='production'
+npm run build -- --prod --base-href ./ --outputPath=".$fodlerUI" --configuration='production'
 cd ..\EngagementOrganizer.APP
 npm install
 .\node_modules\.bin\gulp
