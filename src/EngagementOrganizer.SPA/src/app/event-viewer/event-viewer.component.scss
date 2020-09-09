@@ -34,8 +34,10 @@
     clip-path: polygon(0 0,0 100%, 100% 100%);
 }
 
-.confirmed{
-    text-decoration:underline;
+.not-confirmed{
+    border:1.2px solid #fbff00;
+    box-sizing: border-box;
+    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
 }
 
 .billable{
@@ -43,8 +45,9 @@
 }
 
 .warning{
-    border:2px solid red;
+    border:1.3px solid red;
     box-sizing: border-box;
+    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
 }
 
 .availability{
