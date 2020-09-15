@@ -12,7 +12,6 @@ Engagement management tool.
 - SQLite
 - Electron
 
-
 ## Introduction
 
 This tool represents a proof of concept. The quality of the code whose completion times were in the order of a few days in my spare time is proof of that (minimum valuable product).
