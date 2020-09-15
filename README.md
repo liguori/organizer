@@ -1,6 +1,8 @@
 # Engagement-Organizer
 Engagement management tool. 
 
+![CI](https://github.com/liguori/Engagement-Organizer/workflows/CI/badge.svg)
+
  ## Technologies
 
 - Angular
