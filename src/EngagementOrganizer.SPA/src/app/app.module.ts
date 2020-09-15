@@ -25,7 +25,8 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-import {StyleManager} from './themes/style-manager'
+import {StyleManager} from './themes/style-manager';
+import { WarningResumeComponent } from './warning-resume/warning-resume.component'
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
@@ -63,7 +64,8 @@ export function createApiConfigFactory() {
     CustomerComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
-    CustomerViewComponent
+    CustomerViewComponent,
+    WarningResumeComponent
   ],
   imports: [
     BrowserModule,
