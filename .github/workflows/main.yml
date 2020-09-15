@@ -14,7 +14,7 @@ jobs:
         - name: Get EngagementOrganizer.App version - Win
           uses: culshaw/read-package-node-version-actions@v1
           with: 
-            path: "./src/EngagementOrganizer.App/package.json"
+            path: "./src/EngagementOrganizer.App"
           id: package-version
       
         - name: Run Engagement Organizer Build - Win
@@ -70,7 +70,7 @@ jobs:
       - name: Get EngagementOrganizer.App version - Win
         uses: culshaw/read-package-node-version-actions@v1
         with: 
-          path: "./src/EngagementOrganizer.App/package.json"
+          path: "./src/EngagementOrganizer.App"
         id: package-version
      
       - name: Get the latest release
