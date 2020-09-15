@@ -10,7 +10,13 @@ jobs:
       steps:
         - name: Checkout code
           uses: actions/checkout@v2
-
+          
+        - name: Get EngagementOrganizer.App version - Win
+          uses: culshaw/read-package-node-version-actions@v1
+          with: 
+            path: "./src/EngagementOrganizer.App/package.json"
+          id: package-version
+      
         - name: Run Engagement Organizer Build - Win
           run: ./MakeBuild.ps1
           working-directory: ./src/
@@ -20,21 +26,15 @@ jobs:
           run: |
             Compress-Archive -Path .\src\dist\win-unpacked -DestinationPath .\EngagementOrganizer_win.zip
           shell: pwsh
-        
-        - name: Get EngagementOrganizer.App version - Win
-          id: package-version
-          uses: martinbeentjes/npm-get-version-action@master
-          with:
-            path: src/EngagementOrganizer.App/
-      
+          
         - name: Create Release - Win
           id: create_release
           uses: actions/create-release@v1
           env:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # This token is provided by Actions, you do not need to create your own token
           with:
-            tag_name: v${{ steps.package-version.outputs.current-version }}
-            release_name: Release v${{ steps.package-version.outputs.current-version }}
+            tag_name: v${{ steps.package-version.outputs.version }}
+            release_name: Release v${{ steps.package-version.outputs.version }}
             body: |
               No changelog provided. Take a look to the commits
             draft: false
@@ -48,7 +48,7 @@ jobs:
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
             asset_path: ./EngagementOrganizer_win.zip
-            asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.current-version }}_win.zip
+            asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.version }}_win.zip
             asset_content_type: application/zip
  
   LinuxBuild:
@@ -67,11 +67,11 @@ jobs:
         run: |
           zip -r EngagementOrganizer_linux.zip folder ./src/dist/linux-unpacked
           
-      - name: Get EngagementOrganizer.App version
+      - name: Get EngagementOrganizer.App version - Win
+        uses: culshaw/read-package-node-version-actions@v1
+        with: 
+          path: "./src/EngagementOrganizer.App/package.json"
         id: package-version
-        uses: martinbeentjes/npm-get-version-action@master
-        with:
-          path: src/EngagementOrganizer.App/
      
       - name: Get the latest release
         uses: octokit/request-action@v2.x
@@ -98,5 +98,5 @@ jobs:
         with:
           upload_url: ${{ steps.get_upload_url.outputs.url }} # This pulls from the GET RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
           asset_path: ./EngagementOrganizer_linux.zip
-          asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.current-version }}_linux.zip
+          asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.version }}_linux.zip
           asset_content_type: application/zip
