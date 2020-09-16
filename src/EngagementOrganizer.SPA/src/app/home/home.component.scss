@@ -1,19 +1,18 @@
-.warning-view{
-    display: inline-block;
-    color:red;
-    font-size: 13px;
-    margin-left: 10px;
-}
-
 .calendar-container{
     text-align: center;
+    height: 91%;
 }
 
 .header{
-    height: 65px;
-    padding: 0px 10px 0px 10px;
+    height: 6%;
+    padding: 0px 0px;
+    overflow: hidden;
 }
 
 .calendar-option{
     float:right;
+}
+
+.calendar-app{
+    height: 45%;
 }
