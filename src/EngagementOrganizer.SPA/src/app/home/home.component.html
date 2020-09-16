@@ -22,6 +22,6 @@
     </div>
 </div>
 <div class="calendar-container">
-    <app-calendar [currentYear]="selectedYear" [filterProject]="filterProject" [appointments]="appointments"
+    <app-calendar  class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject" [appointments]="appointments"
         (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>

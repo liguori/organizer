@@ -19,6 +19,12 @@
 }
 
 .header{
-    height: 65px;
-    padding: 0px 10px 0px 10px;
+    height: 7%;
+    padding: 0px 0px;
+    overflow: hidden;
+}
+
+.customer-list{
+    height: 90%;
+    overflow-y: auto;
 }

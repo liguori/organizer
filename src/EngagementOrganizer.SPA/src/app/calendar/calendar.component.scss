@@ -4,8 +4,10 @@
     height: $row-header-height;
 }
 
-.calendar-container{
+.calendar-box{
     display: inline-block;
+    height: 100% !important;
+    width: 100%;
 }
 
 .year-header{
@@ -63,7 +65,7 @@
     padding: 0vw 0vw 0vw 0vw;
     vertical-align: top;
     width:$day-width;
-    height: $row-height;
+    height: 100%;
     display: inline-block;
     text-align: center;
     border: $cell-border-size solid var(--calendarCellBorderColor);
@@ -83,7 +85,6 @@
 .month-header{
    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
    font-size: 0.95vw;
-   line-height: $row-height;
    border: $cell-border-size solid var(--calendarCellBorderColor);
    box-sizing: border-box;
    margin: 0;
@@ -91,11 +92,12 @@
    text-transform: uppercase;
    font-weight: bold;
    width:$year-month-col-width;
-   height: $row-height;
+   height: 100%;
    background-color: var(--calendarMonthHeaderColor);
    color:var(--calendarMonthHeaderTextColor);
-   display: inline-block;
-   text-align: center;
+   display: inline-flex;
+   align-items: center;
+   justify-content: center;
 }
 
 .day-label{
@@ -128,15 +130,16 @@
     vertical-align: top;
     padding: 0;
     width:$util-width;
-    height: $row-height;
+    height: 100%;
     font-size: $util-font-size;
     display: inline-block;
     border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    overflow: hidden;
     background-color: var(--calendarUtilsColor);
     color: var(--calendarUtilsTextColor);
-    line-height: $row-height;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
