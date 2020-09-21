@@ -10,6 +10,7 @@ import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
+import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 
 @Component({
   selector: 'app-home',
@@ -81,6 +82,20 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
       this.currentAppointment = result;
+    });
+  }
+
+  showDialogWarning(){
+    const dialogRef = this.dialog.open(WarningResumeComponent, {
+      width: '700px',
+      height: '400px',
+      data: {
+        warnings: this.getWarnings()
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 

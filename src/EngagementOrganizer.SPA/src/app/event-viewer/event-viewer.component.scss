@@ -5,10 +5,11 @@
     width: 100%;
     font-size: $event-font-size;
     height: $event-height;
-    line-height: $event-height;
-    display:inline-block;
     float: left;
     font-family: 'Segoe UI';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .event:hover{

@@ -1,0 +1,6 @@
+<span class="warning-view">
+    <b>WARNINGS:</b>
+    <div *ngFor="let warn of warnings">
+        {{warn.startDate | date: 'dd/MM/yyyy'}} - {{warn.type.description}} - {{warn.warningDescription}} - {{warn.customer.name}}
+    </div>
+</span>
