@@ -31,7 +31,7 @@ steps:
   inputs:
     command: 'custom'
     workingDir: './src/EngagementOrganizer.SPA/'
-    customCommand: 'run build --prod --base-href ./ --configuration=''production'''
+    customCommand: 'run build -- --prod --base-href ./ --configuration=''production'''
   
 - task: PublishPipelineArtifact@1
   inputs:
