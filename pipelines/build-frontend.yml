@@ -22,12 +22,16 @@ steps:
     versionSpec: '12.x'
   displayName: 'Install Node.js'
 
+- task: Npm@1
+  inputs:
+    command: 'install'
+    workingDir: './src/EngagementOrganizer.SPA/'
  
 - task: Npm@1
   inputs:
     command: 'custom'
     workingDir: './src/EngagementOrganizer.SPA/'
-    customCommand: 'build --prod --base-href ./ --configuration=''production'''
+    customCommand: 'run build --prod --base-href ./ --configuration=''production'''
   
 - task: PublishPipelineArtifact@1
   inputs:
