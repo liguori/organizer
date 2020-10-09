@@ -23,6 +23,7 @@ steps:
   displayName: 'Install Node.js'
 
 - task: PowerShell@2
+  displayName: 'Angular Build'
   inputs:
     targetType: 'inline'
     script: |
