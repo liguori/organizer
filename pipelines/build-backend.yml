@@ -20,7 +20,7 @@ steps:
   inputs:
     command: 'publish'
     publishWebProjects: false
-    projects: './src/EngagementOrganizer.API/EngagementOrganizer.API.csproj'
+    projects: './src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.API.csproj'
     arguments: '-o "$(Pipeline.Workspace)/output" -c "Release"'
     modifyOutputPath: false
 
