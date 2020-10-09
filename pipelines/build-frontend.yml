@@ -22,19 +22,16 @@ steps:
     versionSpec: '12.x'
   displayName: 'Install Node.js'
 
-- task: Npm@1
+- task: PowerShell@2
   inputs:
-    command: 'install'
-    workingDir: './src/EngagementOrganizer.SPA/'
+    targetType: 'inline'
+    script: |
+      cd .\src\EngagementOrganizer.SPA\
+      npm install
+      npm run build -- --prod --base-href ./ --outputPath=".$fodlerUI" --configuration='production'
  
-- task: Npm@1
-  inputs:
-    command: 'custom'
-    workingDir: './src/EngagementOrganizer.SPA/'
-    customCommand: 'run build -- --prod --base-href ./ --configuration=''production'''
-  
 - task: PublishPipelineArtifact@1
   inputs:
-    targetPath: '$(Pipeline.Workspace)/src/EngagementOrganizer.SPA/dist/'
+    targetPath: '$(Pipeline.Workspace)\src\EngagementOrganizer.SPA\dist\'
     artifact: 'ENgagementOrganizer.SPA'
     publishLocation: 'pipeline'
