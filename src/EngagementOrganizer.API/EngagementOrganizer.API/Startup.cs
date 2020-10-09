@@ -59,7 +59,7 @@ namespace EngagementOrganizer.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IHostEnvironment env, EngagementOrganizerContext context)
         {
             if (env.IsDevelopment())
             {
@@ -69,6 +69,7 @@ namespace EngagementOrganizer.API
             {
             }
 
+            context.Database.EnsureCreated();
 
             app.UseCors("AllowAllOrigin");
 
@@ -82,7 +83,8 @@ namespace EngagementOrganizer.API
             });
 
             app.UseRouting();
-            app.UseEndpoints(endpoints => {
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllers();
             });
         }
