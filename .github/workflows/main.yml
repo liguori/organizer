@@ -2,6 +2,10 @@ name: CI
 
 on:
   pull_request:
+    paths: 
+      - './src/EngagementOrganizer.API/*'
+      - './src/EngagementOrganizer.SPA/*'
+      - './src/EngagementOrganizer.App/*'
     branches: [ master ]
 
 jobs:
