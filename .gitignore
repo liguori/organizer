@@ -1,2 +1,3 @@
 /src/dist/*
 .vs
+/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.db
