@@ -6,7 +6,7 @@
             "type": "edge",
             "request": "launch",
             "url": "http://localhost:4200",
-            "preLaunchTask": "ngserve",
+            "preLaunchTask": "npm_start",
             "webRoot": "${workspaceRoot}"            
         }
     ]

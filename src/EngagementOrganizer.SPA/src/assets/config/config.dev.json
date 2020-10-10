@@ -3,6 +3,7 @@
         "name": "DEV"
     },
     "api": {
-        "url": " http://localhost:5541"
+        "url": "https://localhost:44380",
+        "key": "ndisanfidsfnsdifwjsdir32r"
     }
 }

@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EngagementOrganizer.API.Authentication;
 using EngagementOrganizer.API.Infrastructure;
 using EngagementOrganizer.API.Services;
 using EngagementOrganizer.API.Services.Abstract;
@@ -15,6 +16,8 @@ namespace EngagementOrganizer.API
 {
     public class Startup
     {
+        const string ApiKeys = "ApiKeys";
+
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -27,10 +30,44 @@ namespace EngagementOrganizer.API
         {
             services.AddControllers();
 
+
+            // Add the ApiKey Authentication
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = ApiKeyAuthOptions.ApiKeySchemaName;
+                options.DefaultChallengeScheme = ApiKeyAuthOptions.ApiKeySchemaName;
+            })
+            .AddApiKeyAuth(options => options.AuthKeys = Configuration[ApiKeys].Split(","));
+
             // Register the Swagger generator, defining 1 or more Swagger documents
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PFE Organizer", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Engagement Organizer", Version = "v1" });
+                //Add API Key Informations
+                c.AddSecurityDefinition(ApiKeyAuthOptions.ApiKeySchemaName, new OpenApiSecurityScheme
+                {
+                    Description = "Api key needed to access the endpoints. " + ApiKeyAuthOptions.HeaderName + ": My_API_Key",
+                    In = ParameterLocation.Header,
+                    Name = ApiKeyAuthOptions.HeaderName,
+                    Type = SecuritySchemeType.ApiKey
+                });
+                c.AddSecurityRequirement(new OpenApiSecurityRequirement
+                {
+                    {
+                        new OpenApiSecurityScheme
+                        {
+                            Name = ApiKeyAuthOptions.HeaderName,
+                            Type = SecuritySchemeType.ApiKey,
+                            In = ParameterLocation.Header,
+                            Reference = new OpenApiReference
+                            {
+                                Type = ReferenceType.SecurityScheme,
+                                Id = ApiKeyAuthOptions.ApiKeySchemaName
+                            },
+                         },
+                         new string[] {}
+                     }
+                });
             });
 
             services.AddDbContext<EngagementOrganizerContext>(
@@ -79,10 +116,15 @@ namespace EngagementOrganizer.API
             // specifying the Swagger JSON endpoint.
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/swagger.json", "My API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "EngagementOrganizer API V1");
             });
 
             app.UseRouting();
+
+            app.UseAuthentication();
+
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();

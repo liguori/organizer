@@ -12,6 +12,8 @@
     <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
       (keyup.enter)="changeFilterProject($event.target.value)">
   </mat-form-field>
+  &nbsp;&nbsp;
+  <mat-checkbox [(ngModel)]="showOnlyCustomerWithAppointments">With appointments</mat-checkbox>
   <div class="customer-editor">
     <button *ngIf="!isEditingCustomer" (click)="addCustomer()" mat-raised-button color="primary">ADD</button>
     <div *ngIf="isEditingCustomer">
@@ -35,5 +37,5 @@
 </div>
 <div class="customer-list">
   <app-customer-view [customers]="customers" [appointments]="appointments" [selectedYear]="selectedYear"
-    [filterProject]="filterProject" (customerSelectedForEdit)="editCustomer($event)"></app-customer-view>
+    [filterProject]="filterProject" [showOnlyCustomerWithAppointments]="showOnlyCustomerWithAppointments" (customerSelectedForEdit)="editCustomer($event)"></app-customer-view>
 </div>

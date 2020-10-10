@@ -7,9 +7,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using EngagementOrganizer.API.Infrastructure;
 using EngagementOrganizer.API.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EngagementOrganizer.API.Controllers
 {
+    [Authorize]
     [Route("api/[controller]")]
     [ApiController]
     public class CustomersController : ControllerBase
