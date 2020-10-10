@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ThemeVariables } from './themes/themesVariables';
 import { StyleManager } from './themes/style-manager';
+import { AppConfig } from './app.config';
 
 @Component({
   selector: 'app-root',
@@ -15,6 +16,8 @@ export class AppComponent implements OnInit {
   }
 
   themeToggle: boolean;
+  apiBackupUrl: string = AppConfig.settings.api.url + "/api/Appointments/Backup?X-API-Key=" + AppConfig.settings.api.key;
+
   ngOnInit() {
     this.themeToggle = this.getStoredThemeState();
     this.initializeTheme();

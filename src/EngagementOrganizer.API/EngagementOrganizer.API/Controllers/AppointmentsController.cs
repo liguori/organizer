@@ -1,16 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
 using EngagementOrganizer.API.Infrastructure;
 using EngagementOrganizer.API.Models;
 using EngagementOrganizer.API.Services.Abstract;
-using System.Security.Cryptography.X509Certificates;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace EngagementOrganizer.API.Controllers
 {
@@ -22,12 +20,21 @@ namespace EngagementOrganizer.API.Controllers
         private readonly EngagementOrganizerContext _context;
         private readonly IMapper _mapper;
         private readonly IWarningChecker _warningChecker;
+        public readonly IConfiguration configuration;
 
-        public AppointmentsController(EngagementOrganizerContext context, IMapper mapper, IWarningChecker warningChecker)
+        public AppointmentsController(EngagementOrganizerContext context, IMapper mapper, IWarningChecker warningChecker, IConfiguration configuration)
         {
             _context = context;
             _mapper = mapper;
             _warningChecker = warningChecker;
+            this.configuration = configuration;
+        }
+
+        // GET: api/Appointments/Backup
+        [HttpGet("Backup")]
+        public async Task<ActionResult> GetBackup()
+        {
+            return File(await System.IO.File.ReadAllBytesAsync(configuration["DatabasePath"]), "application/octet-stream", "Database.db");
         }
 
         // GET: api/Appointments

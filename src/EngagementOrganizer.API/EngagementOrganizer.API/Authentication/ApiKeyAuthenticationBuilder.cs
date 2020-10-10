@@ -35,11 +35,15 @@ namespace EngagementOrganizer.API.Authentication
 
         protected override Task<AuthenticateResult> HandleAuthenticateAsync()
         {
-            if (!Request.Headers.TryGetValue(ApiKeyAuthOptions.HeaderName, out var authorization))
+            StringValues authorization;
+            if (!Request.Headers.TryGetValue(ApiKeyAuthOptions.HeaderName, out authorization))
             {
-                return Task.FromResult(AuthenticateResult.Fail("Cannot read authorization header."));
+                if (!Request.Query.TryGetValue(ApiKeyAuthOptions.HeaderName, out authorization))
+                {
+                    return Task.FromResult(AuthenticateResult.Fail("Cannot read authorization header."));
+                }
             }
-            if (authorization.Any(key => Options.AuthKeys.All(ak => ak != key)))
+            if ((authorization).Any(key => Options.AuthKeys.All(ak => ak != key)))
             {
                 return Task.FromResult(AuthenticateResult.Fail("Invalid auth key."));
             }
