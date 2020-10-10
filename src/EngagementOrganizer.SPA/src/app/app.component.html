@@ -1,7 +1,7 @@
 <div class="theme-wrapper">
     <div class="header">
         <a [routerLink]="getCalendarCurrentYearUrl()">Calendar</a> | <a
-            [routerLink]="getCustomerCurrentYearUrl()">Customer</a> | <a (click)="toggleDarkLight()">Change Theme</a>
+            [routerLink]="getCustomerCurrentYearUrl()">Customer</a> | <a (click)="toggleDarkLight()">Change Theme</a> | <a [href]="apiBackupUrl">Backup</a>
     </div>
     <router-outlet></router-outlet>
 </div>
