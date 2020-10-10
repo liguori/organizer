@@ -25,6 +25,9 @@ export class CustomerViewComponent implements OnInit {
   @Input()
   filterProject: string;
 
+  @Input()
+  showOnlyCustomerWithAppointments: boolean;
+
   @Output()
   public customerSelectedForEdit = new EventEmitter<Customer>();
 
@@ -33,7 +36,7 @@ export class CustomerViewComponent implements OnInit {
 
   getCustomersWithAppointmentInYear() {
     if (this.customers) {
-      return this.customers.filter(x => this.getCountEventsBySelectedYearAndCustomer(x.id) > 0);
+      return this.customers.filter(x => this.getCountEventsBySelectedYearAndCustomer(x.id) > 0 || !this.showOnlyCustomerWithAppointments);
     }
   }
 

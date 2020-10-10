@@ -14,6 +14,7 @@ export class CustomerComponent implements OnInit {
   public customers: Array<Customer>;
   public selectedYear: number;
   public filterProject: string;
+  public showOnlyCustomerWithAppointments: boolean = true;
 
   constructor(
     private router: Router,
