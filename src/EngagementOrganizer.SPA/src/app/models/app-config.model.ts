@@ -4,5 +4,6 @@ export interface IAppConfig {
     };
     api: {
         url: string;
+        key: string;
     };
 }

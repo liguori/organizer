@@ -25,7 +25,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-import {StyleManager} from './themes/style-manager';
+import { StyleManager } from './themes/style-manager';
 import { WarningResumeComponent } from './warning-resume/warning-resume.component'
 
 //create our cost var with the information about the format that we want
@@ -43,7 +43,8 @@ export const MY_FORMATS = {
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: AppConfig.settings.api.url
+    basePath: AppConfig.settings.api.url,
+    apiKeys: { "X-API-Key": AppConfig.settings.api.key }
   }
   return new Configuration(params);
 }
@@ -96,7 +97,7 @@ export function createApiConfigFactory() {
       deps: [AppConfig], multi: true
     },
     MatDatepickerModule,
-    { provide: DateAdapter, useClass: MomentDateAdapter},
+    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     StyleManager
   ],

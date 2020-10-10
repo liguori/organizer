@@ -10,9 +10,11 @@ using EngagementOrganizer.API.Infrastructure;
 using EngagementOrganizer.API.Models;
 using EngagementOrganizer.API.Services.Abstract;
 using System.Security.Cryptography.X509Certificates;
+using Microsoft.AspNetCore.Authorization;
 
 namespace EngagementOrganizer.API.Controllers
 {
+    [Authorize()]
     [Route("api/[controller]")]
     [ApiController]
     public class AppointmentsController : ControllerBase

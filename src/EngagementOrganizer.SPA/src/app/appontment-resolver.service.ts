@@ -9,6 +9,6 @@ export class AppontmentResolver implements Resolve<any> {
   constructor(private appointmentService: AppointmentsService) {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.appointmentService.getAppointments(route.params["year?"]);
+    return this.appointmentService.apiAppointmentsGet(route.params["year?"]);
   }
 }
