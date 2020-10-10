@@ -49,8 +49,7 @@ Dark Theme
 ![Full fixed lenght file example](docs/AvailableDays.png)
 
 **Customer Summary**
-![Full fixed lenght file example](docs/CustomerSummary.png)|
-
+![Full fixed lenght file example](docs/CustomerSummary.png)
 
 ## Hosting Models
 **Architecture**
