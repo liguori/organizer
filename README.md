@@ -50,3 +50,19 @@ Dark Theme
 
 **Customer Summary**
 ![Full fixed lenght file example](docs/CustomerSummary.png)|
+
+
+## Hosting Models
+**Architecture**
+The app is composed of 3 layerd:
+- API: The REST api that wraps all the business logic and data access (./src/EngagementOrganizer.API)
+- SPA: The Single Page Application that represents the user interface (./src/EngagementOrganizer.SPA)
+- Electron: Can host the API and SPA for a standalone usage (./src/EngagementOrganizer.App)
+
+**Web Application**
+The application can be hosted as a web application, you just need to build and deploy in a web server the following components:
+- API
+- SPA
+
+**Electron Application**
+The GitHub Release or the output of the MakeBuild.ps1 command will produce a standalone Electon Application that can be directly executed 
