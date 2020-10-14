@@ -6,3 +6,7 @@
 !.vscode/launch.json
 !.vscode/extensions.json
 .history/*
+
+
+# IDE - VS
+.vs/*
