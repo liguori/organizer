@@ -43,6 +43,9 @@
             "type": "npm",
             "script": "start",
             "isBackground": true,
+            "options": {
+              "cwd": "${workspaceFolder}/src/EngagementOrganizer.SPA/"
+            },
             "presentation": {
               "focus": true,
               "panel": "dedicated"

@@ -5,7 +5,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": ".NET Core Launch (web)",
+            "name": "Engagement.API .NET Core Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
@@ -27,13 +27,13 @@
             }
         },
         {
-            "name": ".NET Core Attach",
+            "name": "Engagement.API .NET Core Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
         },
         {
-            "name": "Start with debugging",
+            "name": "Engagement.SPA Launch (web)",
             "type": "edge",
             "request": "launch",
             "url": "http://localhost:4200",
