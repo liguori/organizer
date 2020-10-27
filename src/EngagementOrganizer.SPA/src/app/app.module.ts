@@ -7,6 +7,7 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
 import { CustomerComponent } from './customer/customer.component';
+import { UtilizationComponent } from './utilization/utilization.component';
 import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
@@ -63,6 +64,7 @@ export function createApiConfigFactory() {
     CalendarComponent,
     HomeComponent,
     CustomerComponent,
+    UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
     CustomerViewComponent,
