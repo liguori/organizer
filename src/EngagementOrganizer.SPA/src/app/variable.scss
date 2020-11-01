@@ -11,3 +11,6 @@ $util-font-size:1.1vw;
 $cell-border-size:0.5px;
 $year-month-col-width:3%;
 $day-width:((100% - $year-month-col-width - $util-width)/37);
+$utilization-table:80%;
+$utilization-width:(($utilization-table)/7);
+$utilization-row-height:((100&)/20);

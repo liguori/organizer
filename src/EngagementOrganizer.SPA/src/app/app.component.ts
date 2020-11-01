@@ -31,6 +31,10 @@ export class AppComponent implements OnInit {
     return 'customer/' + new Date().getFullYear().toString();
   }
 
+  getUtilizationCurrentYearUrl() {
+    return 'utilization/' + new Date().getFullYear().toString();
+  }
+
   toggleDarkLight() {
     this.themeToggle = !this.themeToggle;
     this.setStoredThemeState(this.themeToggle);
