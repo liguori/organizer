@@ -102,16 +102,23 @@ export class UtilizationService {
      * 
      * 
      * @param year 
+     * @param includeNotConfirmed 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiUtilizationYearGet(year: number, observe?: 'body', reportProgress?: boolean): Observable<Utilization>;
-    public apiUtilizationYearGet(year: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Utilization>>;
-    public apiUtilizationYearGet(year: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Utilization>>;
-    public apiUtilizationYearGet(year: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiUtilizationYearGet(year: number, includeNotConfirmed?: boolean, observe?: 'body', reportProgress?: boolean): Observable<Utilization>;
+    public apiUtilizationYearGet(year: number, includeNotConfirmed?: boolean, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Utilization>>;
+    public apiUtilizationYearGet(year: number, includeNotConfirmed?: boolean, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Utilization>>;
+    public apiUtilizationYearGet(year: number, includeNotConfirmed?: boolean, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
 
         if (year === null || year === undefined) {
             throw new Error('Required parameter year was null or undefined when calling apiUtilizationYearGet.');
+        }
+
+
+        let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
+        if (includeNotConfirmed !== undefined && includeNotConfirmed !== null) {
+            queryParameters = queryParameters.set('includeNotConfirmed', <any>includeNotConfirmed);
         }
 
         let headers = this.defaultHeaders;
@@ -126,6 +133,7 @@ export class UtilizationService {
             'text/plain',
             'application/json',
             'text/json'
+            
         ];
         const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         if (httpHeaderAcceptSelected != undefined) {
@@ -138,6 +146,7 @@ export class UtilizationService {
 
         return this.httpClient.request<Utilization>('get',`${this.basePath}/api/Utilization/${encodeURIComponent(String(year))}`,
             {
+                params: queryParameters,
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,

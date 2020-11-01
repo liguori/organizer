@@ -1,10 +1,7 @@
 import {
   Component,
   OnInit,
-  Input,
-  Output,
-  EventEmitter,
-  ChangeDetectionStrategy
+  Input
 } from "@angular/core";
 import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
 import {
@@ -12,7 +9,7 @@ import {
   UtilizationRow,
   UtilizationService
 } from "../api/EngagementOrganizerApiClient";
-import { filter } from "rxjs/operators";
+import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 @Component({
   selector: "app-utilization",
@@ -25,6 +22,7 @@ export class UtilizationComponent implements OnInit {
 
   public selectedYear: number;
   public target: number;
+  public includeNotConfirmed: boolean = true;
 
   constructor(
     private router: Router,
@@ -36,6 +34,8 @@ export class UtilizationComponent implements OnInit {
 
   ngOnInit() {
     this.selectedYear = Number.parseInt(this.route.snapshot.params["year?"]);
+    var now = new Date();
+    if (this.selectedYear == now.getFullYear() && now.getMonth() > 7) this.selectedYear++;
     this.getUtilization();
   }
 
@@ -44,9 +44,13 @@ export class UtilizationComponent implements OnInit {
     this.getUtilization();
   }
 
+  changeIncludeNotConfirmed() {
+    this.getUtilization();
+  }
+
   getUtilization() {
     this.utilizationService
-      .apiUtilizationYearGet(this.selectedYear)
+      .apiUtilizationYearGet(this.selectedYear, this.includeNotConfirmed)
       .subscribe(util => {
         this.utilization = util;
         this.recalculateTargets(this.target);
@@ -92,7 +96,7 @@ export class UtilizationComponent implements OnInit {
   }
 
   getBilledHoursClass(util: UtilizationRow): String {
-    if(util.billedHours < util.toBeBilledHours) {
+    if (util.billedHours < util.toBeBilledHours) {
       return 'red-cell';
     } else {
       return 'dark-green-cell';
@@ -100,7 +104,7 @@ export class UtilizationComponent implements OnInit {
   }
 
   getTargetClass(util: UtilizationRow): String {
-    if(util.target > 110) {
+    if (util.target > 110) {
       return 'dark-green-cell';
     } else if (util.target > 100 && util.target < 110) {
       return 'green-cell';
@@ -112,7 +116,7 @@ export class UtilizationComponent implements OnInit {
   }
 
   getDaysToTargetClass(util: UtilizationRow): String {
-    if(util.daysToTarget > 0) {
+    if (util.daysToTarget > 0) {
       return 'red-cell';
     } else {
       return 'dark-green-cell';

@@ -50,22 +50,10 @@
     padding-left: 3vh;
 }
 
-.month-header{
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 0.95vw;
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-    text-transform: uppercase;
-    font-weight: bold;
-    width:$utilization-width;
-    height: 100%;
+.row-header{
     background-color: var(--calendarMonthHeaderColor);
     color:var(--calendarMonthHeaderTextColor);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    text-transform: uppercase;
  }
 
  .red-cell{

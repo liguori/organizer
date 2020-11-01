@@ -1,14 +1,12 @@
+using EngagementOrganizer.API.Infrastructure;
+using EngagementOrganizer.API.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using EngagementOrganizer.API.Infrastructure;
-using EngagementOrganizer.API.Models;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Logging;
 
 namespace EngagementOrganizer.API.Controllers
 {
@@ -30,16 +28,16 @@ namespace EngagementOrganizer.API.Controllers
         [HttpGet]
         public async Task<ActionResult<Utilization>> GetUtilization()
         {
-            return await GetUtilization(DateTime.Now.Year);
+            return await GetUtilization(DateTime.Now.Year, true);
         }
 
-        // GET: api/Customers/5
+        // GET: api/Utilization/Year
         [HttpGet("{year}")]
-        public async Task<ActionResult<Utilization>> GetUtilization(int year)
+        public async Task<ActionResult<Utilization>> GetUtilization(int year, bool includeNotConfirmed)
         {
             var DateStart = new DateTime(year - 1, 7, 1);
             var DateEnd = new DateTime(year, 6, 30);
-            var appointments = _context.Appointments.Where(a => a.Confirmed == true && a.Type.Billable == true && a.EndDate >= DateStart && a.StartDate <= DateEnd).ToList();
+            var appointments = _context.Appointments.Where(a => (a.Confirmed || includeNotConfirmed) && a.Type.Billable == true && a.EndDate >= DateStart && a.StartDate <= DateEnd).ToList();
             var utilization = new Utilization()
             {
                 UtilizationMonths = new List<UtilizationRow>(),
@@ -64,7 +62,7 @@ namespace EngagementOrganizer.API.Controllers
                         ).Count();
                         workerDays++;
                     }
-                    _logger.LogInformation($"Day: {currentDate.ToString("dd/MM/yyyy")} BillableDays: {countAppointment}");
+                    _logger.LogInformation($"Day: {currentDate:dd/MM/yyyy} BillableDays: {countAppointment}");
 
                 }
                 _logger.LogInformation($"Month: {DateStart.ToString("MMM")} Billable: {workerDays * 8}h BIlled: {countAppointment * 8}h");
