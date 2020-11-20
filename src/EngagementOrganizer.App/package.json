@@ -18,12 +18,12 @@
   },
   "private": true,
   "devDependencies": {
-    "electron": "10.1.2",
-    "electron-builder": "^22.8.0",
+    "electron": "^11.0.2",
+    "electron-builder": "^22.9.1",
     "gulp": "^4.0.2",
     "gulp-replace": "^1.0.0"
   },
   "dependencies": {
-    "custom-electron-titlebar": "^3.2.4"
+    "custom-electron-titlebar": "^3.2.5"
   }
 }
