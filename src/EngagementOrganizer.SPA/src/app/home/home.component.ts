@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiModule, Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApiClient';
-import { AppModule } from '../app.module';
+import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/EngagementOrganizerApiClient';
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import * as moment from 'moment';
@@ -20,19 +19,20 @@ import { WarningResumeComponent } from '../warning-resume/warning-resume.compone
 export class HomeComponent implements OnInit {
 
   appointments: Array<AppointmentExtraInfo>;
-
-
+  upstreamEventTokenEnabled: Boolean;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sanitized: DomSanitizer,
     private customDialog: CustomDialogService,
+    private appointmentService: AppointmentsService,
     public dialog: MatDialog) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.appointments = this.route.snapshot.data.appointments;
+      this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
     });
   }
 
@@ -44,10 +44,12 @@ export class HomeComponent implements OnInit {
       yearToSet = this.route.snapshot.params["year?"];
     }
     this.selectedYear = Number.parseInt(yearToSet);
+    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
   }
 
   changeYear(value) {
     this.selectedYear = Number.parseInt(value);
+    this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', value]);
   }
 
@@ -55,8 +57,20 @@ export class HomeComponent implements OnInit {
     this.filterProject = value;
   }
 
+  changeUpstreamEventToken(value) {
+    this.upstreamEventToken = value;
+    this.persistUiFilterInLocalStorage();
+    this.router.navigate(['calendar/', this.selectedYear]);
+  }
+
+  persistUiFilterInLocalStorage() {
+    localStorage.setItem('UpstreamEventToken', this.upstreamEventToken);
+  }
+
+
   selectedYear: number;
   filterProject: string;
+  upstreamEventToken: string;
 
   currentAppointment: AppointmentViewModel;
 
@@ -80,12 +94,11 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
       this.currentAppointment = result;
     });
   }
 
-  showDialogWarning(){
+  showDialogWarning() {
     const dialogRef = this.dialog.open(WarningResumeComponent, {
       width: '700px',
       height: '400px',
@@ -95,7 +108,6 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
     });
   }
 
@@ -109,7 +121,7 @@ export class HomeComponent implements OnInit {
       requireTravel: app.requireTravel,
       travelBooked: app.travelBooked,
       id: app.id,
-      availabilityID:app.availabilityID,
+      availabilityID: app.availabilityID,
       note: app.note,
       project: app.project,
       type: app.type.id,
@@ -120,7 +132,11 @@ export class HomeComponent implements OnInit {
   }
 
   getWarnings(): Array<AppointmentExtraInfo> {
-    return this.appointments.filter(x => x.warning);
+    if (this.appointments) {
+      return this.appointments.filter(x => x.warning);
+    } else {
+      return [];
+    }
   }
 
   availability() {

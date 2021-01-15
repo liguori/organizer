@@ -7,10 +7,15 @@
     </mat-form-field>
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
-    <mat-form-field class="filter-projext-box">
+    <mat-form-field class="filter-box">
         <mat-label>Project</mat-label>
         <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
             (keyup.enter)="changeFilterProject($event.target.value)">
+    </mat-form-field>
+    <mat-form-field class="filter-box upstream-event-token" *ngIf="upstreamEventTokenEnabled">
+        <mat-label>Upstream Event Token</mat-label>
+        <input matInput placeholder="Upstream Event Token" [(ngModel)]="upstreamEventToken"
+            (keyup.enter)="changeUpstreamEventToken($event.target.value)">
     </mat-form-field>
     <div class="calendar-option">
         <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">
@@ -22,6 +27,7 @@
     </div>
 </div>
 <div class="calendar-container">
-    <app-calendar  class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject" [appointments]="appointments"
+    <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
+        [appointments]="appointments" [upstreamEventToken]="upstreamEventToken"
         (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>

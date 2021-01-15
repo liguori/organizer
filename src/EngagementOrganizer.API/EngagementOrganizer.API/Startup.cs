@@ -92,7 +92,9 @@ namespace EngagementOrganizer.API
             IMapper mapper = mappingConfig.CreateMapper();
             services.AddSingleton(mapper);
 
-            services.AddSingleton<IWarningChecker, WarningChecker>();
+            services.AddTransient<IWarningChecker, WarningChecker>();
+            services.AddTransient<IUpstreamApiAppointments, UpstreamApiAppointments>();
+            services.AddHttpClient();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

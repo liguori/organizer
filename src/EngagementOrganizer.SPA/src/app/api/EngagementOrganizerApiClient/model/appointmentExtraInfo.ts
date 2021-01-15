@@ -29,4 +29,5 @@ export interface AppointmentExtraInfo {
     confirmed?: boolean;
     requireTravel?: boolean;
     travelBooked?: boolean;
+    isFromUpstream?: boolean;
 }
