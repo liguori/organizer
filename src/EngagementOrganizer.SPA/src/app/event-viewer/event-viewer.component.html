@@ -1,6 +1,6 @@
 <span [title]="getEventDescription(app)" *ngFor="let app of appointments;trackBy: trackByEventItems" class="event"
     (click)="eventClick(app)" [ngStyle]="getEventStyle(app)"
-    [ngClass]="{'not-confirmed':(!app.confirmed && !app.warning),'billable':app.type.billable,'warning':app.warning}">
+    [ngClass]="{'upstream':(app.isFromUpstream && app.customer.id==0),'upstream-matched':(app.isFromUpstream && app.customer.id!=0) ,'not-confirmed':(!app.confirmed && !app.warning),'billable':app.type.billable,'warning':app.warning}">
     <div class="availability" *ngIf="app.availabilityID!==null" [ngStyle]="getAvailabilityStyle(app)"></div>
     <div class="travel-badge" *ngIf="app.requireTravel"></div>
     {{getEventDescription(app)}}

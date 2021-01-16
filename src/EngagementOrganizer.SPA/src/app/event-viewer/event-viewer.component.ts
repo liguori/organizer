@@ -34,11 +34,9 @@ export class EventViewerComponent implements OnInit {
       col = app.type.textColor;
       bkCol = app.type.color;
     }
-    var textDecoration = app.isFromUpstream ? 'underline' : 'none';
     let styles = {
       'background-color': bkCol,
-      'color': col,
-      'text-decoration': textDecoration
+      'color': col
     };
     return styles;
   }
