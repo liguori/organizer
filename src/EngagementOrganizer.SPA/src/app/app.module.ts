@@ -24,6 +24,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { StyleManager } from './themes/style-manager';
@@ -86,6 +87,7 @@ export function createApiConfigFactory() {
     MatDatepickerModule,
     MatNativeDateModule,
     CustomDialogModule,
+    MatIconModule,
     EngagementOrganizerApiClient.forRoot(createApiConfigFactory)
   ],
   entryComponents: [

@@ -9,20 +9,26 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EngagementOrganizer.API.Migrations
 {
     [DbContext(typeof(EngagementOrganizerContext))]
-    [Migration("20191022073327_AddedProjectField")]
-    partial class AddedProjectField
+    [Migration("20210116112814_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "3.0.0");
+                .HasAnnotation("ProductVersion", "5.0.2");
 
             modelBuilder.Entity("EngagementOrganizer.API.Models.Appointment", b =>
                 {
                     b.Property<int>("ID")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("INTEGER");
+
+                    b.Property<int?>("AvailabilityID")
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("CalendarName")
+                        .HasColumnType("TEXT");
 
                     b.Property<bool>("Confirmed")
                         .HasColumnType("INTEGER");
@@ -87,6 +93,90 @@ namespace EngagementOrganizer.API.Migrations
                     b.HasKey("ID");
 
                     b.ToTable("AppointmentType");
+
+                    b.HasData(
+                        new
+                        {
+                            ID = 1,
+                            Billable = true,
+                            Description = "Delivery",
+                            RequireCustomer = true
+                        },
+                        new
+                        {
+                            ID = 2,
+                            Billable = true,
+                            Color = "#ffe95b",
+                            Description = "Sickness",
+                            RequireCustomer = false,
+                            ShortDescription = "SICK",
+                            TextColor = "#000000"
+                        },
+                        new
+                        {
+                            ID = 3,
+                            Billable = false,
+                            Description = "Shadowing",
+                            RequireCustomer = true
+                        },
+                        new
+                        {
+                            ID = 4,
+                            Billable = false,
+                            Color = "#cecece",
+                            Description = "Holiday",
+                            RequireCustomer = false,
+                            ShortDescription = "H",
+                            TextColor = "#000000"
+                        },
+                        new
+                        {
+                            ID = 5,
+                            Billable = false,
+                            Color = "#efb8b8",
+                            Description = "National Celebration",
+                            RequireCustomer = false,
+                            ShortDescription = "CEL",
+                            TextColor = "#000000"
+                        },
+                        new
+                        {
+                            ID = 6,
+                            Billable = false,
+                            Color = "#3087c1",
+                            Description = "Company Event",
+                            RequireCustomer = false,
+                            ShortDescription = "COM",
+                            TextColor = "#ffffff"
+                        },
+                        new
+                        {
+                            ID = 7,
+                            Billable = false,
+                            Color = "#97ff8c",
+                            Description = "Blocker",
+                            RequireCustomer = false,
+                            ShortDescription = "B",
+                            TextColor = "#000000"
+                        },
+                        new
+                        {
+                            ID = 99,
+                            Billable = true,
+                            Color = "#0000ff",
+                            Description = "Upstream Calendar",
+                            RequireCustomer = false,
+                            ShortDescription = "Upstream",
+                            TextColor = "#ffffff"
+                        });
+                });
+
+            modelBuilder.Entity("EngagementOrganizer.API.Models.Calendar", b =>
+                {
+                    b.Property<string>("CalendarName")
+                        .HasColumnType("TEXT");
+
+                    b.ToTable("Calendars");
                 });
 
             modelBuilder.Entity("EngagementOrganizer.API.Models.Customer", b =>
@@ -105,6 +195,9 @@ namespace EngagementOrganizer.API.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Note")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("ProjectColors")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Referral")
@@ -132,6 +225,10 @@ namespace EngagementOrganizer.API.Migrations
                         .HasForeignKey("TypeID")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Customer");
+
+                    b.Navigation("Type");
                 });
 #pragma warning restore 612, 618
         }

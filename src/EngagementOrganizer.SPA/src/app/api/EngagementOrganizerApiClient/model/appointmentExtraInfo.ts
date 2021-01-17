@@ -12,7 +12,7 @@
 import { AppointmentType } from './appointmentType';
 import { Customer } from './customer';
 
-export interface AppointmentExtraInfo { 
+export interface AppointmentExtraInfo {
     warning?: boolean;
     warningDescription?: string;
     projectColor?: string;
@@ -30,4 +30,5 @@ export interface AppointmentExtraInfo {
     requireTravel?: boolean;
     travelBooked?: boolean;
     isFromUpstream?: boolean;
+    calendarName?: string;
 }

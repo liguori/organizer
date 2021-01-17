@@ -5,10 +5,10 @@ import { AppointmentsService } from '../api/EngagementOrganizerApiClient/api/app
 @Injectable({
   providedIn: 'root'
 })
-export class AppointmentResolver implements Resolve<any> {
+export class CalendarResolver implements Resolve<any> {
   constructor(private appointmentService: AppointmentsService) {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    return this.appointmentService.apiAppointmentsGet(route.params["year?"], localStorage.getItem("SelectedCalendar"), localStorage.getItem('UpstreamEventToken'));
+    return this.appointmentService.apiAppointmentsCalendarsGet();
   }
 }

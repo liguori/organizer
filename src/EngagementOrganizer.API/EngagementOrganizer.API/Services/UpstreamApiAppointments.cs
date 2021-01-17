@@ -59,6 +59,7 @@ namespace EngagementOrganizer.API.Services
                     var colorHex = "";
                     var textColorHex = "";
                     var matchedCustomer = customers.Where(x => x.ShortDescription.Equals(ele.CustomerShortDescription.Split(new[] { '\r', '\n' }).FirstOrDefault(), StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
+                    if (matchedCustomer == null) matchedCustomer = customers.Where(x => x.Name.Equals(ele.CustomerShortDescription.Split(new[] { '\r', '\n' }).FirstOrDefault(), StringComparison.CurrentCultureIgnoreCase)).FirstOrDefault();
                     if (colorCombination.ContainsKey(ele.CustomerShortDescription.ToLower().Trim()))
                     {
                         var currentCombinationToUse = colorCombination[ele.CustomerShortDescription.ToLower().Trim()];

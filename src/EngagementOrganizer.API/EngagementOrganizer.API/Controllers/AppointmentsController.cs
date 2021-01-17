@@ -41,10 +41,14 @@ namespace EngagementOrganizer.API.Controllers
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName,[FromHeader]string upstreamCustomTokenInput)
+        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, [FromHeader] string upstreamCustomTokenInput)
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
+            if (!string.IsNullOrWhiteSpace(calendarName))
+                appointment = appointment.Where(x => x.CalendarName == calendarName);
+            else
+                appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
             var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
             _warningChecker.PerformCheck(appointmentList);
@@ -53,6 +57,43 @@ namespace EngagementOrganizer.API.Controllers
             return appointmentList;
         }
 
+        // GET: api/Appointments/calendars
+        [HttpGet("calendars")]
+        public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars()
+        {
+            return await _context.Calendars.ToListAsync();
+        }
+
+
+        // DELETE: api/calendar/{calendarname}
+        [HttpDelete("calendar/{calendarName}")]
+        public async Task<ActionResult<Calendar>> DeleteCalendar(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            if (calendar == null)
+            {
+                return NotFound();
+            }
+
+            _context.Calendars.Remove(calendar);
+            await _context.SaveChangesAsync();
+
+            return calendar;
+        }
+
+        // POST: api/calendar/{calendarname}
+        [HttpPost("calendar/{calendarName}")]
+        public async Task<IActionResult> CreateCalendar(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            if (calendar == null)
+            {
+                calendar = new Calendar { CalendarName = calendarName };
+                _context.Calendars.Add(calendar);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(calendar);
+        }
 
         // GET: api/Appointments/upstreamCustomToken
         [HttpGet("upstreamCustomToken")]

@@ -12,7 +12,7 @@
 import { AppointmentType } from './appointmentType';
 import { Customer } from './customer';
 
-export interface Appointment { 
+export interface Appointment {
     id?: number;
     customer?: Customer;
     customerID?: number;
@@ -26,4 +26,5 @@ export interface Appointment {
     confirmed?: boolean;
     requireTravel?: boolean;
     travelBooked?: boolean;
+    calendarName?: string;
 }

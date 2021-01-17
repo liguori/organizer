@@ -10,6 +10,7 @@ import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
+import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 
 @Component({
   selector: 'app-home',
@@ -20,19 +21,28 @@ export class HomeComponent implements OnInit {
 
   appointments: Array<AppointmentExtraInfo>;
   upstreamEventTokenEnabled: Boolean;
+  calendars: Array<Calendar>;
+
+  selectedYear: number;
+  filterProject: string;
+  upstreamEventToken: string;
+  selectedCalendar: string;
+
+  currentAppointment: AppointmentViewModel;
 
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sanitized: DomSanitizer,
     private customDialog: CustomDialogService,
-    private appointmentService: AppointmentsService,
+    private apiAppointments: AppointmentsService,
     public dialog: MatDialog) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
       this.appointments = this.route.snapshot.data.appointments;
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
+      this.calendars = this.route.snapshot.data.calendars;
     });
   }
 
@@ -45,6 +55,7 @@ export class HomeComponent implements OnInit {
     }
     this.selectedYear = Number.parseInt(yearToSet);
     this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
+    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
   }
 
   changeYear(value) {
@@ -65,20 +76,20 @@ export class HomeComponent implements OnInit {
 
   persistUiFilterInLocalStorage() {
     localStorage.setItem('UpstreamEventToken', this.upstreamEventToken);
+    localStorage.setItem('SelectedCalendar', this.selectedCalendar);
   }
 
-
-  selectedYear: number;
-  filterProject: string;
-  upstreamEventToken: string;
-
-  currentAppointment: AppointmentViewModel;
+  calendarSelected(value) {
+    this.persistUiFilterInLocalStorage();
+    this.router.navigate(['calendar/', this.selectedYear]);
+  }
 
   calendarDaySelected(date: Date) {
     this.currentAppointment = {
       isEditing: false,
       startDate: date,
       endDate: date,
+      calendarName: this.selectedCalendar
     }
     this.showDialog();
   }
@@ -89,7 +100,7 @@ export class HomeComponent implements OnInit {
       height: '400px',
       data: {
         route: this.route,
-        currentAppointment: this.currentAppointment
+        currentAppointment: this.currentAppointment,
       }
     });
 
@@ -126,7 +137,8 @@ export class HomeComponent implements OnInit {
       project: app.project,
       type: app.type.id,
       warning: app.warning,
-      warningMessage: app.warningDescription
+      warningMessage: app.warningDescription,
+      calendarName: this.selectedCalendar
     }
     this.showDialog();
   }
@@ -161,7 +173,6 @@ export class HomeComponent implements OnInit {
     this.customDialog.openAlertDialog({ dialogTitle: "Available days", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
   }
 
-
   getEventsByDate(date: Date): Array<Appointment> {
     var ris: Array<Appointment> = [];
     if (date != null) {
@@ -170,5 +181,25 @@ export class HomeComponent implements OnInit {
     return ris;
   }
 
+  deleteCalendar(event, calendarName: string) {
+    event.preventDefault(); //<--prevent default
+    event.stopPropagation();  //stop propagation
+    if (confirm("Do you want to delete the calendar: " + calendarName + "?")) {
+      this.apiAppointments.apiAppointmentsCalendarCalendarNameDelete(calendarName).subscribe(x => {
+        if (localStorage.getItem('SelectedCalendar') == calendarName) localStorage.removeItem("SelectedCalendar");
+        this.router.navigate(['calendar/', this.selectedYear]);
+      });
+    }
+  }
 
+  createCalendar() {
+    var calendarName = prompt("Insert the calendar name");
+    if (calendarName != null && calendarName.trim() != '') {
+      this.apiAppointments.apiAppointmentsCalendarCalendarNamePost(calendarName).subscribe(x => {
+        this.selectedCalendar = calendarName;
+        this.persistUiFilterInLocalStorage();
+        this.router.navigate(['calendar/', this.selectedYear]);
+      });
+    }
+  }
 }
