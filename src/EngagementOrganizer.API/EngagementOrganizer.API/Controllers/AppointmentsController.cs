@@ -20,36 +20,87 @@ namespace EngagementOrganizer.API.Controllers
         private readonly EngagementOrganizerContext _context;
         private readonly IMapper _mapper;
         private readonly IWarningChecker _warningChecker;
-        public readonly IConfiguration configuration;
+        private readonly IUpstreamApiAppointments _upstreamAppointments;
+        public readonly IConfiguration _configuration;
 
-        public AppointmentsController(EngagementOrganizerContext context, IMapper mapper, IWarningChecker warningChecker, IConfiguration configuration)
+        public AppointmentsController(EngagementOrganizerContext context, IMapper mapper, IWarningChecker warningChecker, IConfiguration configuration, IUpstreamApiAppointments upstreamAppointment)
         {
             _context = context;
             _mapper = mapper;
             _warningChecker = warningChecker;
-            this.configuration = configuration;
+            _configuration = configuration;
+            _upstreamAppointments = upstreamAppointment;
         }
 
         // GET: api/Appointments/Backup
         [HttpGet("Backup")]
         public async Task<ActionResult> GetBackup()
         {
-            return File(await System.IO.File.ReadAllBytesAsync(configuration["DatabasePath"]), "application/octet-stream", "Database.db");
+            return File(await System.IO.File.ReadAllBytesAsync(_configuration["DatabasePath"]), "application/octet-stream", "Database.db");
         }
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year)
+        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, [FromHeader] string upstreamCustomTokenInput)
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
+            if (!string.IsNullOrWhiteSpace(calendarName))
+                appointment = appointment.Where(x => x.CalendarName == calendarName);
+            else
+                appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
             var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
             _warningChecker.PerformCheck(appointmentList);
+            await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, upstreamCustomTokenInput);
             SetProjectColor(appointmentList);
             return appointmentList;
         }
 
+        // GET: api/Appointments/calendars
+        [HttpGet("calendars")]
+        public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars()
+        {
+            return await _context.Calendars.ToListAsync();
+        }
+
+
+        // DELETE: api/calendar/{calendarname}
+        [HttpDelete("calendar/{calendarName}")]
+        public async Task<ActionResult<Calendar>> DeleteCalendar(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            if (calendar == null)
+            {
+                return NotFound();
+            }
+
+            _context.Calendars.Remove(calendar);
+            await _context.SaveChangesAsync();
+
+            return calendar;
+        }
+
+        // POST: api/calendar/{calendarname}
+        [HttpPost("calendar/{calendarName}")]
+        public async Task<IActionResult> CreateCalendar(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            if (calendar == null)
+            {
+                calendar = new Calendar { CalendarName = calendarName };
+                _context.Calendars.Add(calendar);
+                await _context.SaveChangesAsync();
+            }
+            return Ok(calendar);
+        }
+
+        // GET: api/Appointments/upstreamCustomToken
+        [HttpGet("upstreamCustomToken")]
+        public async Task<ActionResult<bool>> GetAppointmentsUpstreamCustomToken()
+        {
+            return _configuration.GetValue<bool>(ConfigurationValues.UpstreamApiCustomTokenInput);
+        }
 
         void SetProjectColor(List<AppointmentExtraInfo> appList)
         {

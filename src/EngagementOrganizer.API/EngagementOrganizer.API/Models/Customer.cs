@@ -13,10 +13,10 @@ namespace EngagementOrganizer.API.Models
 
         public string ShortDescription { get; set; }
 
-        public string Color { get; set; }
+        public string Color { get; set; } = "#0000FF";
 
-        public string TextColor { get; set; }
-        
+        public string TextColor { get; set; } = "#FFFFFF";
+
         public string ProjectColors { get; set; }
 
         public string Referral { get; set; }

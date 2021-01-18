@@ -27,7 +27,6 @@ export class CustomDialogComponent implements OnInit {
    * Checks if the dialog message is HTML
    */
   get isDialogMsgHtml(): boolean {
-    console.log(typeof this.config.dialogMsg);
     return typeof this.config.dialogMsg === 'object';
   }
 

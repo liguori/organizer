@@ -32,5 +32,7 @@ namespace EngagementOrganizer.API.Models
         public bool RequireTravel { get; set; }
 
         public bool TravelBooked { get; set; }
+
+        public string CalendarName { get; set; }
     }
 }

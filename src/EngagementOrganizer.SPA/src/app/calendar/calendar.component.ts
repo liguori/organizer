@@ -21,6 +21,9 @@ export class CalendarComponent implements OnInit {
   filterProject: string;
 
   @Input()
+  upstreamEventToken: string;
+
+  @Input()
   appointments: Array<AppointmentExtraInfo>;
 
   constructor(private route: ActivatedRoute, private router: Router) {

@@ -28,7 +28,7 @@ export class AppointmentEditorComponent implements OnInit {
   ngOnInit() {
     this.appointmentTypeService.apiAppointmentTypesGet().subscribe(
       data => {
-        this.appointmentsType = data
+        this.appointmentsType = data.filter(x => x.id != 99);
       },
       (err) => {
         console.log(err.message);
@@ -77,13 +77,14 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.confirmed = this.currentAppointment.confirmed;
     appToSend.customerID = this.currentAppointment.customer;
     appToSend.note = this.currentAppointment.note;
-    appToSend.availabilityID=this.currentAppointment.availabilityID;
+    appToSend.availabilityID = this.currentAppointment.availabilityID;
     appToSend.requireTravel = this.currentAppointment.requireTravel;
     appToSend.project = this.currentAppointment.project;
     appToSend.travelBooked = this.currentAppointment.travelBooked;
     appToSend.typeID = this.currentAppointment.type;
     appToSend.startDate = this.setToUtc(this.currentAppointment.startDate);
     appToSend.endDate = this.setToUtc(this.currentAppointment.endDate);
+    appToSend.calendarName = this.currentAppointment.calendarName;
 
     if (!this.validateData(appToSend)) return;
 

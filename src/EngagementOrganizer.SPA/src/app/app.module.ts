@@ -12,6 +12,7 @@ import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
+import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -24,6 +25,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { StyleManager } from './themes/style-manager';
@@ -67,6 +69,7 @@ export function createApiConfigFactory() {
     UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
+    AppointmentSummaryComponent,
     CustomerViewComponent,
     WarningResumeComponent
   ],
@@ -86,10 +89,12 @@ export function createApiConfigFactory() {
     MatDatepickerModule,
     MatNativeDateModule,
     CustomDialogModule,
+    MatIconModule,
     EngagementOrganizerApiClient.forRoot(createApiConfigFactory)
   ],
   entryComponents: [
-    AppointmentEditorComponent
+    AppointmentEditorComponent,
+    AppointmentSummaryComponent
   ],
   providers: [
     AppConfig,

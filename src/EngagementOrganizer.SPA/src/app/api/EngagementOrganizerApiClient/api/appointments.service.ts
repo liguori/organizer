@@ -19,6 +19,7 @@ import { Observable }                                        from 'rxjs';
 
 import { Appointment } from '../model/appointment';
 import { AppointmentExtraInfo } from '../model/appointmentExtraInfo';
+import { Calendar } from '../model/calendar';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -59,22 +60,208 @@ export class AppointmentsService {
     /**
      * 
      * 
-     * @param year 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAppointmentsGet(year?: number, observe?: 'body', reportProgress?: boolean): Observable<Array<AppointmentExtraInfo>>;
-    public apiAppointmentsGet(year?: number, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AppointmentExtraInfo>>>;
-    public apiAppointmentsGet(year?: number, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AppointmentExtraInfo>>>;
-    public apiAppointmentsGet(year?: number, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiAppointmentsBackupGet(observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiAppointmentsBackupGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiAppointmentsBackupGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiAppointmentsBackupGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ApiKeyAuthentication) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
+            headers = headers.set('X-API-Key', this.configuration.apiKeys["X-API-Key"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('get',`${this.basePath}/api/Appointments/Backup`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param calendarName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAppointmentsCalendarCalendarNameDelete(calendarName: string, observe?: 'body', reportProgress?: boolean): Observable<Calendar>;
+    public apiAppointmentsCalendarCalendarNameDelete(calendarName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Calendar>>;
+    public apiAppointmentsCalendarCalendarNameDelete(calendarName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Calendar>>;
+    public apiAppointmentsCalendarCalendarNameDelete(calendarName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (calendarName === null || calendarName === undefined) {
+            throw new Error('Required parameter calendarName was null or undefined when calling apiAppointmentsCalendarCalendarNameDelete.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ApiKeyAuthentication) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
+            headers = headers.set('X-API-Key', this.configuration.apiKeys["X-API-Key"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Calendar>('delete',`${this.basePath}/api/Appointments/calendar/${encodeURIComponent(String(calendarName))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param calendarName 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAppointmentsCalendarCalendarNamePost(calendarName: string, observe?: 'body', reportProgress?: boolean): Observable<any>;
+    public apiAppointmentsCalendarCalendarNamePost(calendarName: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<any>>;
+    public apiAppointmentsCalendarCalendarNamePost(calendarName: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<any>>;
+    public apiAppointmentsCalendarCalendarNamePost(calendarName: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        if (calendarName === null || calendarName === undefined) {
+            throw new Error('Required parameter calendarName was null or undefined when calling apiAppointmentsCalendarCalendarNamePost.');
+        }
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ApiKeyAuthentication) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
+            headers = headers.set('X-API-Key', this.configuration.apiKeys["X-API-Key"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<any>('post',`${this.basePath}/api/Appointments/calendar/${encodeURIComponent(String(calendarName))}`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAppointmentsCalendarsGet(observe?: 'body', reportProgress?: boolean): Observable<Array<Calendar>>;
+    public apiAppointmentsCalendarsGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<Calendar>>>;
+    public apiAppointmentsCalendarsGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<Calendar>>>;
+    public apiAppointmentsCalendarsGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ApiKeyAuthentication) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
+            headers = headers.set('X-API-Key', this.configuration.apiKeys["X-API-Key"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<Array<Calendar>>('get',`${this.basePath}/api/Appointments/calendars`,
+            {
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param year 
+     * @param calendarName 
+     * @param upstreamCustomTokenInput 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<AppointmentExtraInfo>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AppointmentExtraInfo>>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AppointmentExtraInfo>>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+
 
 
         let queryParameters = new HttpParams({encoder: new CustomHttpUrlEncodingCodec()});
         if (year !== undefined && year !== null) {
             queryParameters = queryParameters.set('year', <any>year);
         }
+        if (calendarName !== undefined && calendarName !== null) {
+            queryParameters = queryParameters.set('calendarName', <any>calendarName);
+        }
 
         let headers = this.defaultHeaders;
+        if (upstreamCustomTokenInput !== undefined && upstreamCustomTokenInput !== null) {
+            headers = headers.set('upstreamCustomTokenInput', String(upstreamCustomTokenInput));
+        }
 
         // authentication (ApiKeyAuthentication) required
         if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
@@ -303,6 +490,49 @@ export class AppointmentsService {
         return this.httpClient.request<Appointment>('post',`${this.basePath}/api/Appointments`,
             {
                 body: body,
+                withCredentials: this.configuration.withCredentials,
+                headers: headers,
+                observe: observe,
+                reportProgress: reportProgress
+            }
+        );
+    }
+
+    /**
+     * 
+     * 
+     * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
+     * @param reportProgress flag to report request and response progress.
+     */
+    public apiAppointmentsUpstreamCustomTokenGet(observe?: 'body', reportProgress?: boolean): Observable<boolean>;
+    public apiAppointmentsUpstreamCustomTokenGet(observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<boolean>>;
+    public apiAppointmentsUpstreamCustomTokenGet(observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<boolean>>;
+    public apiAppointmentsUpstreamCustomTokenGet(observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
+        let headers = this.defaultHeaders;
+
+        // authentication (ApiKeyAuthentication) required
+        if (this.configuration.apiKeys && this.configuration.apiKeys["X-API-Key"]) {
+            headers = headers.set('X-API-Key', this.configuration.apiKeys["X-API-Key"]);
+        }
+
+        // to determine the Accept header
+        let httpHeaderAccepts: string[] = [
+            'text/plain',
+            'application/json',
+            'text/json'
+        ];
+        const httpHeaderAcceptSelected: string | undefined = this.configuration.selectHeaderAccept(httpHeaderAccepts);
+        if (httpHeaderAcceptSelected != undefined) {
+            headers = headers.set('Accept', httpHeaderAcceptSelected);
+        }
+
+        // to determine the Content-Type header
+        const consumes: string[] = [
+        ];
+
+        return this.httpClient.request<boolean>('get',`${this.basePath}/api/Appointments/upstreamCustomToken`,
+            {
                 withCredentials: this.configuration.withCredentials,
                 headers: headers,
                 observe: observe,
