@@ -85,7 +85,7 @@ namespace EngagementOrganizer.API.Services
                         Note = ele.Description,
                         IsFromUpstream = true,
                         TypeID = 99,
-                        Type = new AppointmentType { ID = 99, Billable = true, RequireCustomer = true },
+                        Type = new AppointmentType { ID = 99, Billable = ele.Billable, RequireCustomer = true },
                         Confirmed = true
                     });
                 }

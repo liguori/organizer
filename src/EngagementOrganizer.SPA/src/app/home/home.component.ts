@@ -11,6 +11,7 @@ import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dial
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
+import { AppointmentSummaryComponent } from '../appointment-summary/appointment-summary.component';
 
 @Component({
   selector: 'app-home',
@@ -91,10 +92,24 @@ export class HomeComponent implements OnInit {
       endDate: date,
       calendarName: this.selectedCalendar
     }
-    this.showDialog();
+    this.showAppointmentEditorDialog();
   }
 
-  showDialog() {
+  showAppointmentSummaryDialog(app: AppointmentExtraInfo) {
+    const dialogRef = this.dialog.open(AppointmentSummaryComponent, {
+      width: '700px',
+      height: '300px',
+      data: {
+        route: this.route,
+        currentAppointment: app,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  showAppointmentEditorDialog() {
     const dialogRef = this.dialog.open(AppointmentEditorComponent, {
       width: '1100px',
       height: '400px',
@@ -123,24 +138,28 @@ export class HomeComponent implements OnInit {
   }
 
   calendarEventSelcted(app: AppointmentExtraInfo) {
-    this.currentAppointment = {
-      isEditing: true,
-      startDate: new Date(app.startDate.toString()),
-      endDate: new Date(app.endDate.toString()),
-      confirmed: app.confirmed,
-      customer: app.customerID,
-      requireTravel: app.requireTravel,
-      travelBooked: app.travelBooked,
-      id: app.id,
-      availabilityID: app.availabilityID,
-      note: app.note,
-      project: app.project,
-      type: app.type.id,
-      warning: app.warning,
-      warningMessage: app.warningDescription,
-      calendarName: this.selectedCalendar
+    if (app.isFromUpstream) {
+      this.showAppointmentSummaryDialog(app);
+    } else {
+      this.currentAppointment = {
+        isEditing: true,
+        startDate: new Date(app.startDate.toString()),
+        endDate: new Date(app.endDate.toString()),
+        confirmed: app.confirmed,
+        customer: app.customerID,
+        requireTravel: app.requireTravel,
+        travelBooked: app.travelBooked,
+        id: app.id,
+        availabilityID: app.availabilityID,
+        note: app.note,
+        project: app.project,
+        type: app.type.id,
+        warning: app.warning,
+        warningMessage: app.warningDescription,
+        calendarName: this.selectedCalendar
+      }
+      this.showAppointmentEditorDialog();
     }
-    this.showDialog();
   }
 
   getWarnings(): Array<AppointmentExtraInfo> {

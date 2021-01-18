@@ -12,6 +12,7 @@ import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
+import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -68,6 +69,7 @@ export function createApiConfigFactory() {
     UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
+    AppointmentSummaryComponent,
     CustomerViewComponent,
     WarningResumeComponent
   ],
@@ -91,7 +93,8 @@ export function createApiConfigFactory() {
     EngagementOrganizerApiClient.forRoot(createApiConfigFactory)
   ],
   entryComponents: [
-    AppointmentEditorComponent
+    AppointmentEditorComponent,
+    AppointmentSummaryComponent
   ],
   providers: [
     AppConfig,

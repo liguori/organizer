@@ -28,7 +28,7 @@ export class AppointmentEditorComponent implements OnInit {
   ngOnInit() {
     this.appointmentTypeService.apiAppointmentTypesGet().subscribe(
       data => {
-        this.appointmentsType = data
+        this.appointmentsType = data.filter(x => x.id != 99);
       },
       (err) => {
         console.log(err.message);
