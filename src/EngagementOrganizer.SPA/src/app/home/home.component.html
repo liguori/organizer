@@ -8,6 +8,13 @@
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
     <mat-form-field class="filter-box">
+        <mat-label>View</mat-label>
+        <mat-select [(ngModel)]="selectedView" (selectionChange)="calendarSelected($event.value)">
+            <mat-option [value]="calendarView.Year">Year</mat-option>
+            <mat-option [value]="calendarView.Month">Month</mat-option>
+        </mat-select>
+    </mat-form-field>&nbsp;
+    <mat-form-field class="filter-box">
         <mat-label>Project</mat-label>
         <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
             (keyup.enter)="changeFilterProject($event.target.value)">
@@ -50,6 +57,6 @@
 </div>
 <div class="calendar-container">
     <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
-        [appointments]="appointments" [upstreamEventToken]="upstreamEventToken"
+        [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
         (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>

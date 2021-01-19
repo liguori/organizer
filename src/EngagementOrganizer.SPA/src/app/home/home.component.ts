@@ -12,6 +12,7 @@ import { AppointmentEditorComponent } from '../appointment-editor/appointment-ed
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 import { AppointmentSummaryComponent } from '../appointment-summary/appointment-summary.component';
+import { CalendarView } from '../models/calendarView';
 
 @Component({
   selector: 'app-home',
@@ -28,6 +29,7 @@ export class HomeComponent implements OnInit {
   filterProject: string;
   upstreamEventToken: string;
   selectedCalendar: string;
+  selectedView: CalendarView = CalendarView.Year;
 
   currentAppointment: AppointmentViewModel;
 
@@ -220,5 +222,9 @@ export class HomeComponent implements OnInit {
         this.router.navigate(['calendar/', this.selectedYear]);
       });
     }
+  }
+
+  public get calendarView(): typeof CalendarView {
+    return CalendarView; 
   }
 }

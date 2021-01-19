@@ -24,8 +24,7 @@
    font-size: $header-font-size;
   
 }
-.month-day-header{
-    width:$day-width;
+.day-header{
     height: $row-header-height;
     display: inline-block;
     border: $cell-border-size solid var(--calendarCellBorderColor);
@@ -36,6 +35,14 @@
     line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: $header-font-size;
+}
+
+.day-header-month{
+    width:$day-width-month;
+}
+
+.day-header-year{
+    width:$day-width-year;
 }
 
 .util-header{
@@ -52,19 +59,22 @@
     font-size: $header-font-size;
 }
 
-.month-row{
-    height: $row-height;
+.row-year{
+    height: $row-height-year;
+}
+
+.row-month{
+    height: $row-height-month;
 }
 
 .month-selected{
     border:1px solid  var(--calendarTodayColor);
 }
 
-.month-day{
+.day{
     position: relative;
     padding: 0vw 0vw 0vw 0vw;
     vertical-align: top;
-    width:$day-width;
     height: 100%;
     display: inline-block;
     text-align: center;
@@ -78,8 +88,16 @@
     color:var(--calendarDayTextColor);
 }
 
-.month-day:hover{
+.day:hover{
     background-color: var(--calendarDayHoverColor);
+}
+
+.day-month{
+    width:$day-width-month;
+}
+
+.day-year{
+    width:$day-width-year;
 }
 
 .month-header{

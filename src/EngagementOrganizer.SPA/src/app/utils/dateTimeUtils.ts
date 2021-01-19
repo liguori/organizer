@@ -2,9 +2,25 @@ import { Month } from '../models/month';
 import { Day } from '../models/day';
 
 export class DateTimeUtils {
-    static getDaysInMonth = function (month, year) {
-        return new Date(year, month, 0).getDate();
+
+    static getDaysInMonth = function (monthBase1, year) {
+        return new Date(year, monthBase1, 0).getDate();
     };
+
+    static countDaysTo(date: Date, targetDayOfWeek, directionAndSteps) {
+        var count = 0;
+        var calculatedDate: Date = date;
+        while (calculatedDate.getDay() == targetDayOfWeek) {
+            date = this.addDays(date, directionAndSteps);
+        }
+        return count;
+    }
+
+    static addDays(date, days) {
+        const copy = new Date(Number(date))
+        copy.setDate(date.getDate() + days)
+        return copy
+    }
 
     static readonly months: Array<Month> = [
         { monthNumber: 1, monthDescription: "Jan" },

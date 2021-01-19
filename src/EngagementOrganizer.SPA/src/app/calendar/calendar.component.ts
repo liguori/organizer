@@ -5,6 +5,7 @@ import { Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApi
 import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { Month } from '../models/month';
+import { CalendarView } from '../models/calendarView';
 
 @Component({
   selector: 'app-calendar',
@@ -13,9 +14,17 @@ import { Month } from '../models/month';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CalendarComponent implements OnInit {
-  readonly MaxTile: number = 37;
+  readonly MaxTileYearView: number = 37;
+  readonly MaxTileMonthView: number = 7;
+
+  @Input()
+  currentView: CalendarView = CalendarView.Year;
+
   @Input()
   currentYear: number = new Date().getFullYear();
+
+  @Input()
+  currentMonthStartDate = new Date(2021, 6, 19);
 
   @Input()
   filterProject: string;
@@ -30,7 +39,6 @@ export class CalendarComponent implements OnInit {
   }
 
   ngOnInit() {
-
   }
 
   @Output() daySelected = new EventEmitter<Date>();
@@ -58,11 +66,18 @@ export class CalendarComponent implements OnInit {
     return ris.sort((a, b) => (a.typeID > b.typeID) ? -1 : 1);
   }
 
-  getMonthDayHeaders(): Array<Day> {
+  getXHeaders(): Array<Day> {
     var res = new Array<Day>();
-    for (let index = 0; index < this.MaxTile; index++) {
-      var currentDayIndex = index % DateTimeUtils.days.length;
-      res.push(DateTimeUtils.days[currentDayIndex]);
+    if (this.currentView == CalendarView.Year) {
+      for (let index = 0; index < this.getMaxTile(); index++) {
+        var currentDayIndex = index % DateTimeUtils.days.length;
+        res.push(DateTimeUtils.days[currentDayIndex]);
+      }
+    } else if (this.currentView == CalendarView.Month) {
+      for (let index = 0; index < DateTimeUtils.days.length; index++) {
+        var currentDayIndex = index % DateTimeUtils.days.length;
+        res.push(DateTimeUtils.days[currentDayIndex]);
+      }
     }
     return res;
   }
@@ -104,11 +119,36 @@ export class CalendarComponent implements OnInit {
     return (100 * billableAppointmentCount / workingDayCount).toFixed(0);
   }
 
-  getMonthDays(month, year): Array<CalendarDay> {
+  getCurrentDaysRangeInY(currentYvalue): { start: number, end: number } {
+    if (this.currentView == CalendarView.Year) {
+      return { start: 1, end: DateTimeUtils.getDaysInMonth(currentYvalue, this.currentYear) };
+    } else if (this.currentView == CalendarView.Month) {
+      return { start: 1, end: 7 };
+    }
+  }
+
+  getCurrentDate(currentYvalue, currentDayNumber): Date {
+    if (this.currentView == CalendarView.Year) {
+      return new Date(this.currentYear, currentYvalue - 1, currentDayNumber);
+    } else if (this.currentView == CalendarView.Month) {
+      return DateTimeUtils.addDays(this.currentMonthStartDate, (7 * (currentYvalue - 1) + (currentDayNumber - 1)))
+    }
+  }
+
+
+  getMaxTile() {
+    if (this.currentView == CalendarView.Year) {
+      return this.MaxTileYearView;
+    } else if (this.currentView == CalendarView.Month) {
+      return this.MaxTileMonthView;
+    }
+  }
+
+  getXValues(currentYvalue): Array<CalendarDay> {
     var res = new Array<CalendarDay>();
-    var currentDaysInMonth = DateTimeUtils.getDaysInMonth(month, year);
-    for (let i = 1; i <= currentDaysInMonth; i++) {
-      var currentDate = new Date(year, month - 1, i);
+    var currentDaysInY = this.getCurrentDaysRangeInY(currentYvalue);
+    for (let i = currentDaysInY.start; i <= currentDaysInY.end; i++) {
+      var currentDate = this.getCurrentDate(currentYvalue, i);
       if (i == 1) {
         var startingDayOfTheWeek = currentDate.getDay();
         if (startingDayOfTheWeek != 1) {
@@ -119,14 +159,22 @@ export class CalendarComponent implements OnInit {
         }
       }
       res.push({ date: currentDate, index: res.length + 1 });
-      if (i == currentDaysInMonth) {
-        var tileLeft = this.MaxTile - res.length;
+      if (i == currentDaysInY.end) {
+        var tileLeft = this.getMaxTile() - res.length;
         for (let k = 0; k < tileLeft; k++) {
           res.push({ index: res.length + 1 });
         }
       }
     }
     return res;
+  }
+
+  getYValues() {
+    if (this.currentView == CalendarView.Year) {
+      return DateTimeUtils.months.map(x => ({ value: x.monthNumber, description: x.monthDescription }));
+    } else if (this.currentView == CalendarView.Month) {
+      return [1, 2, 3, 4, 5].map(x => ({ value: x, description: x.toString() }));
+    }
   }
 
   trackByDayItems(index: number, item: CalendarDay): Date {
@@ -138,5 +186,7 @@ export class CalendarComponent implements OnInit {
     return param.monthNumber == (today.getMonth() + 1) && this.currentYear == today.getFullYear();
   }
 
-  months = DateTimeUtils.months;
+  public get calendarView(): typeof CalendarView {
+    return CalendarView; 
+  }
 }

@@ -1,24 +1,28 @@
 <div class="calendar-box">
   <div class="header">
-    <div class="year-header">
+    <div class="year-header" *ngIf="currentView== calendarView.Year">
       {{currentYear}}
     </div>
-    <div *ngFor="let currentDayHeader of getMonthDayHeaders()" class="month-day-header">
+    <div *ngFor="let currentDayHeader of getXHeaders()" class="day-header"
+      [class.day-header-month]="currentView== calendarView.Month"
+      [class.day-header-year]="currentView== calendarView.Year">
       {{currentDayHeader.dayDescription}}
     </div>
-    <div class="util-header">Ut %</div>
+    <div class="util-header" *ngIf="currentView== calendarView.Year">Ut %</div>
   </div>
-  <div *ngFor="let currentMonth of months" class="month-row"
-    [ngClass]="{'month-selected' : isCurrentMonth(currentMonth) }">
-    <div class="month-header">
-      {{currentMonth.monthDescription}}
+  <div *ngFor="let currentY of getYValues()" [class.row-month]="currentView== calendarView.Month"
+    [class.row-year]="currentView== calendarView.Year" [ngClass]="{'month-selected' : isCurrentMonth(currentY) }">
+    <div class="month-header" *ngIf="currentView== calendarView.Year">
+      {{currentY.description}}
     </div>
-    <div *ngFor="let currentDay of getMonthDays(currentMonth.monthNumber,currentYear);trackBy: trackByDayItems"
-      class="month-day" [ngClass]="getDayHighlightingClass(currentDay)" (click)="dayClicked(currentDay)">
-      <div class="day-label">{{currentDay.date | date : 'dd'}}&nbsp;</div>
-      <app-event-viewer [appointments]="getEventsByDate(currentDay.date)"
+    <div *ngFor="let currentX of getXValues(currentY.value);trackBy: trackByDayItems" class="day"
+      [class.day-month]="currentView== calendarView.Month" [class.day-year]="currentView== calendarView.Year"
+      [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
+      <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
+      <app-event-viewer [appointments]="getEventsByDate(currentX.date)"
         (eventSelected)="eventViewerEventSelected($event)"></app-event-viewer>
     </div>
-    <div class="util-value">{{getMonthUtilization(currentMonth.monthNumber,currentYear)}}</div>
+    <div class="util-value" *ngIf="currentView== calendarView.Year">{{getMonthUtilization(currentY.value,currentYear)}}
+    </div>
   </div>
 </div>
