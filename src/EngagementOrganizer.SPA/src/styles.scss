@@ -1,4 +1,3 @@
-
 body,html
 {
     margin: 0;
@@ -17,7 +16,11 @@ body,html
 
 
 .filters-header{
-    height: 55px;
+    min-height: 50px;
     padding: 5px 0px;
-    overflow: hidden;
+}
+
+
+.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #f3d5ff !important;
 }

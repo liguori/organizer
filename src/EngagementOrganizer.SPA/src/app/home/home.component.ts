@@ -31,6 +31,8 @@ export class HomeComponent implements OnInit {
   upstreamEventToken: string;
   selectedCalendar: string;
   selectedView: CalendarView = CalendarView.Year;
+  selectedCustomers: string[];
+  filterSelectedCustomer: string;
 
   currentAppointment: AppointmentViewModel;
 
@@ -239,7 +241,7 @@ export class HomeComponent implements OnInit {
 
   getAppointmentCustomers(): string[] {
     if (this.appointments && this.appointments.length > 0) {
-      return [...new Set(this.appointments.filter(x => x.customer != null).map(x => x.customer.shortDescription))].sort();
+      return [...new Set(this.appointments.filter(x => x.customer != null && (!this.filterSelectedCustomer || x.customer.shortDescription.toLowerCase().includes(this.filterSelectedCustomer.toLowerCase()))).map(x => x.customer.shortDescription))].sort();
     } else {
       return [];
     }

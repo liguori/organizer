@@ -26,8 +26,7 @@
             (keyup.enter)="changeFilterProject($event.target.value)">
     </mat-form-field>
     <mat-form-field class="filter-box">
-        <mat-label>Calendar</mat-label>
-        <mat-select [(ngModel)]="selectedCalendar" (selectionChange)="calendarSelected($event.value)">
+        <mat-select [(ngModel)]="selectedCalendar" placeholder="Calendar" (selectionChange)="calendarSelected($event.value)">
             <mat-option value=""> </mat-option>
             <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
                 <div style="display:flex; justify-content: space-between;">
@@ -47,16 +46,20 @@
     <button mat-mini-fab color="primary" (click)="createCalendar()">
         <mat-icon>create_new_folder</mat-icon>
     </button>
+    <mat-form-field id="calendar-customer-filter" class="filter-box">
+        <mat-label>Customer</mat-label>
+        <mat-select multiple [ngModel]="selectedCustomers">
+            <mat-option>
+                <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
+                    [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
+            </mat-option>
+            <mat-option *ngFor="let customer of getAppointmentCustomers()" [value]="customer">{{customer}}</mat-option>
+        </mat-select>
+    </mat-form-field>
     <mat-form-field id="upstream-event-token" class="filter-box" *ngIf="upstreamEventTokenEnabled">
         <mat-label>Upstream Event Token</mat-label>
         <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
             (keyup.enter)="changeUpstreamEventToken($event.target.value)">
-    </mat-form-field>
-    <mat-form-field id="calendar-customer-filter" class="filter-box">
-        <mat-label>Customer</mat-label>
-        <mat-select  multiple>
-            <mat-option *ngFor="let customer of getAppointmentCustomers()" [value]="customer">{{customer}}</mat-option>
-        </mat-select>
     </mat-form-field>
     <div class="calendar-option">
         <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">
