@@ -1,5 +1,6 @@
-# Engagement-Organizer
+# Engagement-Organizer 2.0
 ![CI](https://github.com/liguori/Engagement-Organizer/workflows/CI/badge.svg)
+
 
 Engagement management tool. 
 
