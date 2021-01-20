@@ -24,7 +24,7 @@ export class CalendarComponent implements OnInit {
   currentYear: number = new Date().getFullYear();
 
   @Input()
-  currentMonthStartDate = new Date(2021, 6, 19);
+  currentMonthStartDate = DateTimeUtils.getNowWithoutTime();
 
   @Input()
   filterProject: string;
@@ -131,7 +131,8 @@ export class CalendarComponent implements OnInit {
     if (this.currentView == CalendarView.Year) {
       return new Date(this.currentYear, currentYvalue - 1, currentDayNumber);
     } else if (this.currentView == CalendarView.Month) {
-      return DateTimeUtils.addDays(this.currentMonthStartDate, (7 * (currentYvalue - 1) + (currentDayNumber - 1)))
+      var referDate = DateTimeUtils.addDays(this.currentMonthStartDate, -DateTimeUtils.countDaysTo(this.currentMonthStartDate, 1, -1))
+      return DateTimeUtils.addDays(referDate, (7 * (currentYvalue - 1) + (currentDayNumber - 1)))
     }
   }
 
@@ -187,6 +188,6 @@ export class CalendarComponent implements OnInit {
   }
 
   public get calendarView(): typeof CalendarView {
-    return CalendarView; 
+    return CalendarView;
   }
 }

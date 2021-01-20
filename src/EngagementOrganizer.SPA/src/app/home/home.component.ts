@@ -26,6 +26,7 @@ export class HomeComponent implements OnInit {
   calendars: Array<Calendar>;
 
   selectedYear: number;
+  selectedDate: Date = DateTimeUtils.getNowWithoutTime();
   filterProject: string;
   upstreamEventToken: string;
   selectedCalendar: string;
@@ -61,10 +62,18 @@ export class HomeComponent implements OnInit {
     this.selectedCalendar = localStorage.getItem('SelectedCalendar');
   }
 
-  changeYear(value) {
-    this.selectedYear = Number.parseInt(value);
-    this.persistUiFilterInLocalStorage();
-    this.router.navigate(['calendar/', value]);
+  changeCurrentIndex(value) {
+    if (this.selectedView == CalendarView.Year) {
+      this.selectedYear = Number.parseInt(this.selectedYear + value);
+      this.persistUiFilterInLocalStorage();
+      this.router.navigate(['calendar/', this.selectedYear]);
+    } else if (this.selectedView == CalendarView.Month) {
+      this.selectedDate = DateTimeUtils.addDays(this.selectedDate, 7 * value);
+    }
+  }
+
+  changeDate(value) {
+    this.selectedDate = value.toDate();
   }
 
   changeFilterProject(value) {
@@ -225,6 +234,6 @@ export class HomeComponent implements OnInit {
   }
 
   public get calendarView(): typeof CalendarView {
-    return CalendarView; 
+    return CalendarView;
   }
 }

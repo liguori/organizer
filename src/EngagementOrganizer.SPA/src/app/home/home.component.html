@@ -1,12 +1,18 @@
 <div class="header">
-    <button mat-mini-fab color="primary" (click)="changeYear(selectedYear-1)">-</button>&nbsp;
-    <mat-form-field class="year-box">
+    <button mat-mini-fab color="primary" (click)="changeCurrentIndex(-1)">-</button>&nbsp;
+    <mat-form-field *ngIf="selectedView == calendarView.Month">
+        <input matInput [ngModel]="selectedDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateToPicker"
+            placeholder="To" (dateChange)="changeDate($event.value)">
+        <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+        <mat-datepicker #dateToPicker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="year-box" *ngIf="selectedView == calendarView.Year">
         <mat-label>Year</mat-label>
         <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
-            (keyup.enter)="changeYear($event.target.value)">
+            (keyup.enter)="changeCurrentIndex($event.target.value)">
     </mat-form-field>
     &nbsp;&nbsp;
-    <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
+    <button mat-mini-fab color="primary" (click)="changeCurrentIndex(+1)">+</button>
     <mat-form-field class="filter-box">
         <mat-label>View</mat-label>
         <mat-select [(ngModel)]="selectedView" (selectionChange)="calendarSelected($event.value)">
@@ -58,5 +64,6 @@
 <div class="calendar-container">
     <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
         [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
-        (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+        [currentMonthStartDate]="selectedDate" (daySelected)="calendarDaySelected($event)"
+        (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>
