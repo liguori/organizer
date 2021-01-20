@@ -1,0 +1,10 @@
+<div class="appointment-summary">APPOINTMENT SUMMARY</div>
+<br>
+<b> Date:{{currentAppointment.startDate | date:'dd/MM/yyyy'}} - {{currentAppointment.endDate | date:'dd/MM/yyyy'}}</b>
+<br>
+<b>{{currentAppointment.customer.shortDescription}}</b>
+<br><br>
+Note:<br>
+{{currentAppointment.note}}
+<br><br><br>
+<button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>

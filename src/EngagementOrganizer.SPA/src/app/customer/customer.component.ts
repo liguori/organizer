@@ -14,6 +14,7 @@ export class CustomerComponent implements OnInit {
   public customers: Array<Customer>;
   public selectedYear: number;
   public filterProject: string;
+  public showOnlyCustomerWithAppointments: boolean = true;
 
   constructor(
     private router: Router,
@@ -23,7 +24,7 @@ export class CustomerComponent implements OnInit {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.customerService.getCustomers().subscribe(cus => {
+      this.customerService.apiCustomersGet().subscribe(cus => {
         this.customers = cus;
       });
       this.appointments = this.route.snapshot.data.appointments;
@@ -66,7 +67,7 @@ export class CustomerComponent implements OnInit {
 
       if (this.currentCustomer.id == null) {
         this.currentCustomer.id = 0;
-        this.customerService.postCustomer(this.currentCustomer).subscribe(
+        this.customerService.apiCustomersPost(this.currentCustomer).subscribe(
           data => {
             this.router.navigate(['customer/', this.route.snapshot.params["year?"]]);
           },
@@ -75,7 +76,7 @@ export class CustomerComponent implements OnInit {
           }
         );
       } else {
-        this.customerService.putCustomer(this.currentCustomer.id, this.currentCustomer).subscribe(
+        this.customerService.apiCustomersIdPut(this.currentCustomer.id, this.currentCustomer).subscribe(
           data => {
             this.router.navigate(['customer/', this.route.snapshot.params["year?"]]);
           },

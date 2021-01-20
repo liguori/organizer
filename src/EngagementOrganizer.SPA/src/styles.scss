@@ -1,14 +1,16 @@
 
-body
+body,html
 {
     margin: 0;
     font-family: 'Segoe UI';
+    height: 100%;
+    overflow: hidden;
 }
 
 .year-box{
     width:40px;
 }
 
-.filter-projext-box{
+.filter-box{
    margin-left: 50px;
 }

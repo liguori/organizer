@@ -6,6 +6,7 @@ import { HttpClient } from '@angular/common/http';
 import { AppointmentTypesService } from './api/appointmentTypes.service';
 import { AppointmentsService } from './api/appointments.service';
 import { CustomersService } from './api/customers.service';
+import { UtilizationService } from './api/utilization.service';
 
 @NgModule({
   imports:      [],
@@ -14,10 +15,11 @@ import { CustomersService } from './api/customers.service';
   providers: [
     AppointmentTypesService,
     AppointmentsService,
-    CustomersService ]
+    CustomersService,
+    UtilizationService ]
 })
 export class ApiModule {
-    public static forRoot(configurationFactory: () => Configuration): ModuleWithProviders<ApiModule> {
+    public static forRoot(configurationFactory: () => Configuration) {
         return {
             ngModule: ApiModule,
             providers: [ { provide: Configuration, useFactory: configurationFactory } ]

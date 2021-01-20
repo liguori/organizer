@@ -5,10 +5,12 @@
     width: 100%;
     font-size: $event-font-size;
     height: $event-height;
-    line-height: $event-height;
-    display:inline-block;
     float: left;
     font-family: 'Segoe UI';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
 }
 
 .event:hover{
@@ -34,8 +36,10 @@
     clip-path: polygon(0 0,0 100%, 100% 100%);
 }
 
-.confirmed{
-    text-decoration:underline;
+.not-confirmed{
+    border:1.2px solid #fbff00;
+    box-sizing: border-box;
+    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
 }
 
 .billable{
@@ -43,8 +47,9 @@
 }
 
 .warning{
-    border:2px solid red;
+    border:1.3px solid red;
     box-sizing: border-box;
+    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
 }
 
 .availability{
@@ -53,4 +58,13 @@
     height: 3px;
     width: 100%;
     border-bottom:  0.1px solid rgb(138, 127, 127);
+}
+
+.upstream{
+    text-decoration: underline;
+    font-size: 7px !important;
+}
+
+.upstream-matched{
+    text-decoration: underline;
 }

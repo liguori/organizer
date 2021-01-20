@@ -13,4 +13,5 @@ export interface AppointmentViewModel {
     travelBooked?: boolean;
     warning?:boolean;
     warningMessage?:string;
+    calendarName?: string;
 }

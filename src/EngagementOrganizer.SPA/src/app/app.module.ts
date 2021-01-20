@@ -7,10 +7,12 @@ import { AppComponent } from './app.component';
 import { CalendarComponent } from './calendar/calendar.component';
 import { HomeComponent } from './home/home.component';
 import { CustomerComponent } from './customer/customer.component';
+import { UtilizationComponent } from './utilization/utilization.component';
 import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
+import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
@@ -23,9 +25,11 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
+import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
-import {StyleManager} from './themes/style-manager'
+import { StyleManager } from './themes/style-manager';
+import { WarningResumeComponent } from './warning-resume/warning-resume.component'
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
@@ -42,7 +46,8 @@ export const MY_FORMATS = {
 
 export function apiConfigFactory(): Configuration {
   const params: ConfigurationParameters = {
-    basePath: AppConfig.settings.api.url
+    basePath: AppConfig.settings.api.url,
+    apiKeys: { "X-API-Key": AppConfig.settings.api.key }
   }
   return new Configuration(params);
 }
@@ -61,9 +66,12 @@ export function createApiConfigFactory() {
     CalendarComponent,
     HomeComponent,
     CustomerComponent,
+    UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
-    CustomerViewComponent
+    AppointmentSummaryComponent,
+    CustomerViewComponent,
+    WarningResumeComponent
   ],
   imports: [
     BrowserModule,
@@ -81,10 +89,12 @@ export function createApiConfigFactory() {
     MatDatepickerModule,
     MatNativeDateModule,
     CustomDialogModule,
+    MatIconModule,
     EngagementOrganizerApiClient.forRoot(createApiConfigFactory)
   ],
   entryComponents: [
-    AppointmentEditorComponent
+    AppointmentEditorComponent,
+    AppointmentSummaryComponent
   ],
   providers: [
     AppConfig,
@@ -94,7 +104,7 @@ export function createApiConfigFactory() {
       deps: [AppConfig], multi: true
     },
     MatDatepickerModule,
-    { provide: DateAdapter, useClass: MomentDateAdapter},
+    { provide: DateAdapter, useClass: MomentDateAdapter },
     { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
     StyleManager
   ],

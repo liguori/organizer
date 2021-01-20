@@ -26,16 +26,16 @@ export class AppointmentEditorComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.appointmentTypeService.getAppointmentTypes().subscribe(
+    this.appointmentTypeService.apiAppointmentTypesGet().subscribe(
       data => {
-        this.appointmentsType = data
+        this.appointmentsType = data.filter(x => x.id != 99);
       },
       (err) => {
         console.log(err.message);
       }
     );;
 
-    this.customerService.getCustomers().subscribe(
+    this.customerService.apiCustomersGet().subscribe(
       data => {
         this.customers = data
       },
@@ -77,20 +77,21 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.confirmed = this.currentAppointment.confirmed;
     appToSend.customerID = this.currentAppointment.customer;
     appToSend.note = this.currentAppointment.note;
-    appToSend.availabilityID=this.currentAppointment.availabilityID;
+    appToSend.availabilityID = this.currentAppointment.availabilityID;
     appToSend.requireTravel = this.currentAppointment.requireTravel;
     appToSend.project = this.currentAppointment.project;
     appToSend.travelBooked = this.currentAppointment.travelBooked;
     appToSend.typeID = this.currentAppointment.type;
     appToSend.startDate = this.setToUtc(this.currentAppointment.startDate);
     appToSend.endDate = this.setToUtc(this.currentAppointment.endDate);
+    appToSend.calendarName = this.currentAppointment.calendarName;
 
     if (!this.validateData(appToSend)) return;
 
     if (confirm("Are you sure you want to save the appointment?")) {
       if (this.currentAppointment.isEditing) {
         appToSend.id = this.currentAppointment.id;
-        this.appServ.putAppointment(this.currentAppointment.id, appToSend).subscribe(
+        this.appServ.apiAppointmentsIdPut(this.currentAppointment.id, appToSend).subscribe(
           data => {
             this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);
             this.dialogRef.close();
@@ -100,7 +101,7 @@ export class AppointmentEditorComponent implements OnInit {
           }
         );;
       } else {
-        this.appServ.postAppointment(appToSend).subscribe(
+        this.appServ.apiAppointmentsPost(appToSend).subscribe(
           data => {
             this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);
             this.dialogRef.close();
@@ -115,7 +116,7 @@ export class AppointmentEditorComponent implements OnInit {
 
   delete() {
     if (confirm("Are you sure you want to delete the appointment from " + this.currentAppointment.startDate + ' to ' + this.currentAppointment.endDate)) {
-      this.appServ.deleteAppointment(this.currentAppointment.id).subscribe(
+      this.appServ.apiAppointmentsIdDelete(this.currentAppointment.id).subscribe(
         data => {
           this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);
           this.currentAppointment = null;

@@ -1,0 +1,87 @@
+@import "../variable";
+
+.header{
+    height: $row-header-height;
+}
+
+.utilization{
+    height: 100% !important;
+    width: $utilization-table;
+    overflow-y: auto;
+}
+
+.table-header{
+   width: $utilization-width;
+   height: $row-header-height;
+   display: inline-block;
+   border: $cell-border-size solid var(--calendarCellBorderColor);
+   box-sizing: border-box;
+   background-color: var(--calendarHeaderColor);
+   color: var(--calendarHeaderTextColor);
+   text-align: center;
+   line-height: 3.6vh;
+   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+   font-size: $header-font-size;
+ }
+
+.quarter{
+    padding-top: 3.6vh;
+}
+
+.half{
+    padding-top: 3.6vh;
+}
+
+.year{
+    padding-top: 3.6vh;
+}
+
+.cell-label{
+    font-size: $day-label-font-size;
+    height: $day-label-height;
+    line-height: $day-label-height;
+}
+
+.table-row{
+    height: $utilization-row-height;
+}
+
+.target-box{
+    padding-left: 3vh;
+}
+
+.row-header{
+    background-color: var(--calendarMonthHeaderColor);
+    color:var(--calendarMonthHeaderTextColor);
+    text-transform: uppercase;
+ }
+
+ .red-cell{
+    background-color: #ff0000;
+ }
+
+ .dark-green-cell{
+     background-color:#076b00;
+ }
+ .green-cell{
+    background-color:#11e802;
+}
+.yellow-cell{
+    background-color:#e8e002;
+}
+ .cell{
+    position: relative;
+    padding: 0vw 0vw 0vw 0vw;
+    vertical-align: top;
+    width:$utilization-width;
+    height: 100%;
+    display: inline-block;
+    text-align: center;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
+    box-sizing: border-box;
+    font-family: 'Segoe UI';
+    margin: 0 auto 0 auto;
+    overflow: hidden;
+    cursor: pointer;
+    color:var(--calendarDayTextColor);
+}

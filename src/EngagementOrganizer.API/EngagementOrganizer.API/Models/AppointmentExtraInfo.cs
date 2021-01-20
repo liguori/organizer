@@ -13,5 +13,7 @@ namespace EngagementOrganizer.API.Models
 
         public string ProjectColor { get; set; }
 
+        public bool IsFromUpstream { get; set; } = false;
+
     }
 }

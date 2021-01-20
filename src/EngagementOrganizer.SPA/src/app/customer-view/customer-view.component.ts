@@ -25,12 +25,20 @@ export class CustomerViewComponent implements OnInit {
   @Input()
   filterProject: string;
 
+  @Input()
+  showOnlyCustomerWithAppointments: boolean;
+
   @Output()
   public customerSelectedForEdit = new EventEmitter<Customer>();
 
   ngOnInit() {
   }
 
+  getCustomersWithAppointmentInYear() {
+    if (this.customers) {
+      return this.customers.filter(x => this.getCountEventsBySelectedYearAndCustomer(x.id) > 0 || !this.showOnlyCustomerWithAppointments);
+    }
+  }
 
   getCustomerStyle(cus: Customer) {
     let style = {
@@ -65,6 +73,10 @@ export class CustomerViewComponent implements OnInit {
     }
     ris += '<br><br>TOTAL: ' + countCustomerDays + ' days in ' + countCustomerMonths + ' months';
     return ris;
+  }
+
+  getCountEventsBySelectedYearAndCustomer(customerId: number) {
+    return this.appointments.filter(x => x.customerID == customerId && new Date(x.startDate.toString()).getFullYear() == this.selectedYear).length;
   }
 
   getEventsByDateAndCustomer(date: Date, customerId: number): Array<Appointment> {

@@ -7,24 +7,49 @@
     </mat-form-field>
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
-   <mat-form-field class="filter-projext-box">
+    <mat-form-field class="filter-box">
         <mat-label>Project</mat-label>
         <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
             (keyup.enter)="changeFilterProject($event.target.value)">
     </mat-form-field>
+    <mat-form-field class="filter-box">
+        <mat-label>Calendar</mat-label>
+        <mat-select [(ngModel)]="selectedCalendar" (selectionChange)="calendarSelected($event.value)">
+            <mat-option value=""> </mat-option>
+            <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
+                <div style="display:flex; justify-content: space-between;">
+                    <span>{{calendar.calendarName}}</span>
+                    <span></span>
+                    <span class="deleteYear" (click)="deleteCalendar($event,calendar.calendarName)"
+                        title="Delete calendar">
+                        <mat-icon>delete_forever</mat-icon>
+                    </span>
+                </div>
+            </mat-option>
+            <mat-select-trigger>
+                {{this.selectedCalendar}}
+            </mat-select-trigger>
+        </mat-select>
+    </mat-form-field>&nbsp;
+    <button mat-mini-fab color="primary" (click)="createCalendar()">
+        <mat-icon>create_new_folder</mat-icon>
+    </button>
+    <mat-form-field class="filter-box upstream-event-token" *ngIf="upstreamEventTokenEnabled">
+        <mat-label>Upstream Event Token</mat-label>
+        <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
+            (keyup.enter)="changeUpstreamEventToken($event.target.value)">
+    </mat-form-field>
     <div class="calendar-option">
+        <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">
+            W
+        </button>&nbsp;
         <button (click)="availability()" mat-raised-button color="primary">
             AVAILABILITY
         </button>
     </div>
 </div>
 <div class="calendar-container">
-    <app-calendar [currentYear]="selectedYear" [filterProject]="filterProject" [appointments]="appointments" (daySelected)="calendarDaySelected($event)"
-        (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+    <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
+        [appointments]="appointments" [upstreamEventToken]="upstreamEventToken"
+        (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>
-<span class="warning-view" *ngIf="getWarnings().length>0">
-    <b>WARNINGS:</b>
-    <div *ngFor="let warn of getWarnings()">
-        {{warn.startDate | date: 'dd/MM/yyyy'}} - {{warn.type.description}} - {{warn.warningDescription}}
-    </div>
-</span>

@@ -1,8 +1,10 @@
-<div *ngFor="let cus of customers" [ngStyle]="getCustomerStyle(cus)" class="customer-tile">
+<div *ngFor="let cus of getCustomersWithAppointmentInYear()" [ngStyle]="getCustomerStyle(cus)" class="customer-tile">
     <div>
         <b>({{cus.shortDescription}}) - {{cus.name}}</b>
-        <div class="action-customer"><button (click)="customerSelectedForEdit.emit(cus)" mat-raised-button color="basic">EDIT</button>
+        <div class="action-customer"><button (click)="customerSelectedForEdit.emit(cus)" mat-raised-button
+                color="basic">EDIT</button>
         </div>
     </div>
     <span [innerHTML]="getCustomerSummary(cus)"></span>
 </div>
+<div *ngIf="getCustomersWithAppointmentInYear()?.length==0">No customer's appointments for the selcted year</div>

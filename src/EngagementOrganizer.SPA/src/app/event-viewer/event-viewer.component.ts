@@ -27,7 +27,7 @@ export class EventViewerComponent implements OnInit {
   getEventStyle(app: AppointmentExtraInfo) {
     let col = '';
     let bkCol = '';
-    if (app.customerID != null) {
+    if (app.customerID != null || app.isFromUpstream) {
       col = app.customer.textColor;
       bkCol = app.customer.color;
     } else {
@@ -78,7 +78,7 @@ export class EventViewerComponent implements OnInit {
   }
 
   getEventDescription(app: AppointmentExtraInfo): string {
-    if (app.customerID != null) {
+    if (app.customerID != null || app.isFromUpstream) {
       return app.customer.shortDescription;
     } else {
       return app.type.shortDescription;
