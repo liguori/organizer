@@ -20,7 +20,7 @@
       [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
       <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
       <app-event-viewer [appointments]="getEventsByDate(currentX.date)"
-        (eventSelected)="eventViewerEventSelected($event)"></app-event-viewer>
+        (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView"></app-event-viewer>
     </div>
     <div class="util-value" *ngIf="currentView== calendarView.Year">{{getMonthUtilization(currentY.value,currentYear)}}
     </div>

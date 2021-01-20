@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApiClient';
+import { CalendarView } from '../models/calendarView';
 
 @Component({
   selector: 'app-event-viewer',
@@ -13,6 +14,9 @@ export class EventViewerComponent implements OnInit {
   ngOnInit() {
 
   }
+
+  @Input()
+  currentView: CalendarView = CalendarView.Year;
 
   @Input()
   appointments: Array<AppointmentExtraInfo>;
@@ -87,5 +91,9 @@ export class EventViewerComponent implements OnInit {
 
   trackByEventItems(index: number, item: AppointmentExtraInfo): number {
     return item.id;
+  }
+
+  public get calendarView(): typeof CalendarView {
+    return CalendarView;
   }
 }

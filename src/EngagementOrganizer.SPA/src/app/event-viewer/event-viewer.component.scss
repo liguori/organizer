@@ -3,14 +3,23 @@
 .event{
     position: relative;
     width: 100%;
-    font-size: $event-font-size;
-    height: $event-height;
+   
     float: left;
     font-family: 'Segoe UI';
     display: inline-flex;
     align-items: center;
     justify-content: center;
     overflow: hidden;
+}
+
+.event-year{
+    font-size:  $event-font-size-year;
+    height: $event-height-year;
+}
+
+.event-month{
+    font-size: $event-font-size-month;
+    height: $event-height-month;
 }
 
 .event:hover{
@@ -60,9 +69,15 @@
     border-bottom:  0.1px solid rgb(138, 127, 127);
 }
 
-.upstream{
+
+.upstream-year{
     text-decoration: underline;
     font-size: 7px !important;
+}
+
+.upstream-month{
+    text-decoration: underline;
+    font-size: $event-font-size-month !important;
 }
 
 .upstream-matched{
