@@ -29,7 +29,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { StyleManager } from './themes/style-manager';
-import { WarningResumeComponent } from './warning-resume/warning-resume.component'
+import { WarningResumeComponent } from './warning-resume/warning-resume.component';
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {

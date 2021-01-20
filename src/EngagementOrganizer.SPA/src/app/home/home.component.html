@@ -1,6 +1,6 @@
-<div class="header">
+<div class="filters-header">
     <button mat-mini-fab color="primary" (click)="changeCurrentIndex(-1)">-</button>&nbsp;
-    <mat-form-field *ngIf="selectedView == calendarView.Month">
+    <mat-form-field *ngIf="selectedView == calendarView.Month" id="calendar-select-date-filter">
         <input matInput [ngModel]="selectedDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateToPicker"
             placeholder="To" (dateChange)="changeDate($event.value)">
         <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
@@ -13,14 +13,14 @@
     </mat-form-field>
     &nbsp;&nbsp;
     <button mat-mini-fab color="primary" (click)="changeCurrentIndex(+1)">+</button>
-    <mat-form-field class="filter-box">
+    <mat-form-field class="filter-box" id="calendar-view-filter">
         <mat-label>View</mat-label>
         <mat-select [(ngModel)]="selectedView" (selectionChange)="calendarSelected($event.value)">
             <mat-option [value]="calendarView.Year">Year</mat-option>
             <mat-option [value]="calendarView.Month">Month</mat-option>
         </mat-select>
     </mat-form-field>&nbsp;
-    <mat-form-field class="filter-box">
+    <mat-form-field id="calendar-project-filter" class="filter-box">
         <mat-label>Project</mat-label>
         <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
             (keyup.enter)="changeFilterProject($event.target.value)">
@@ -47,10 +47,16 @@
     <button mat-mini-fab color="primary" (click)="createCalendar()">
         <mat-icon>create_new_folder</mat-icon>
     </button>
-    <mat-form-field class="filter-box upstream-event-token" *ngIf="upstreamEventTokenEnabled">
+    <mat-form-field id="upstream-event-token" class="filter-box" *ngIf="upstreamEventTokenEnabled">
         <mat-label>Upstream Event Token</mat-label>
         <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
             (keyup.enter)="changeUpstreamEventToken($event.target.value)">
+    </mat-form-field>
+    <mat-form-field id="calendar-customer-filter" class="filter-box">
+        <mat-label>Customer</mat-label>
+        <mat-select  multiple>
+            <mat-option *ngFor="let customer of getAppointmentCustomers()" [value]="customer">{{customer}}</mat-option>
+        </mat-select>
     </mat-form-field>
     <div class="calendar-option">
         <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">

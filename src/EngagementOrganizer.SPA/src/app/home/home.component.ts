@@ -3,7 +3,7 @@ import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/E
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import * as moment from 'moment';
-import { filter } from 'rxjs/operators';
+import { filter, retry } from 'rxjs/operators';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -235,5 +235,13 @@ export class HomeComponent implements OnInit {
 
   public get calendarView(): typeof CalendarView {
     return CalendarView;
+  }
+
+  getAppointmentCustomers(): string[] {
+    if (this.appointments && this.appointments.length > 0) {
+      return [...new Set(this.appointments.filter(x => x.customer != null).map(x => x.customer.shortDescription))].sort();
+    } else {
+      return [];
+    }
   }
 }
