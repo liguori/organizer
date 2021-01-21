@@ -86,7 +86,8 @@ namespace EngagementOrganizer.API.Services
                         IsFromUpstream = true,
                         TypeID = 99,
                         Type = new AppointmentType { ID = 99, Billable = ele.Billable, RequireCustomer = true },
-                        Confirmed = true
+                        Confirmed = true,
+                        CalendarName = ele.SourceCalendar
                     });
                 }
             }

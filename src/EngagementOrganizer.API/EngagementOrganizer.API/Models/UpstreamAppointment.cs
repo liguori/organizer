@@ -13,5 +13,6 @@ namespace EngagementOrganizer.API.Models
         public DateTime EndDate { get; set; }
         public string CustomerShortDescription { get; set; }
         public bool Billable { get; set; }
+        public string SourceCalendar { get; set; }
     }
 }
