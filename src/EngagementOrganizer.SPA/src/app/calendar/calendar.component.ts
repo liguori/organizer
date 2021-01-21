@@ -6,6 +6,7 @@ import { ActivatedRoute, Router, NavigationEnd } from '@angular/router';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { Month } from '../models/month';
 import { CalendarView } from '../models/calendarView';
+import { CalendarDisplay } from '../models/calendarDisplay';
 
 @Component({
   selector: 'app-calendar',
@@ -19,6 +20,10 @@ export class CalendarComponent implements OnInit {
 
   @Input()
   currentView: CalendarView = CalendarView.Year;
+
+  
+  @Input()
+  selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
 
   @Input()
   currentYear: number = new Date().getFullYear();

@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { Appointment, AppointmentExtraInfo } from '../api/EngagementOrganizerApiClient';
+import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarView } from '../models/calendarView';
 
 @Component({
@@ -18,11 +19,17 @@ export class EventViewerComponent implements OnInit {
   @Input()
   currentView: CalendarView = CalendarView.Year;
 
+  
+  @Input()
+  selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
+
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
   @Output()
   eventSelected = new EventEmitter<AppointmentExtraInfo>();
+
+  
 
   eventClick(app: AppointmentExtraInfo) {
     this.eventSelected.emit(app);
@@ -95,5 +102,9 @@ export class EventViewerComponent implements OnInit {
 
   public get calendarView(): typeof CalendarView {
     return CalendarView;
+  }
+
+  public get calendarDisplay(): typeof CalendarDisplay {
+    return CalendarDisplay;
   }
 }

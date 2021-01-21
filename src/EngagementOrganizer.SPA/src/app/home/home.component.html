@@ -82,6 +82,6 @@
 <div class="calendar-container">
     <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
         [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
-        [currentMonthStartDate]="selectedDate" (daySelected)="calendarDaySelected($event)"
-        (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+        [selectedDisplay]="selectedDisplay" [currentMonthStartDate]="selectedDate"
+        (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
 </div>

@@ -83,3 +83,18 @@
 .upstream-matched{
     text-decoration: underline;
 }
+
+
+.calendar{
+    position: relative;
+    width: 100%;
+   
+    float: left;
+    font-family: 'Segoe UI';
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+
+    background-color: aquamarine;
+}

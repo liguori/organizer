@@ -1,13 +1,21 @@
-<span [title]="getEventDescription(app)" *ngFor="let app of appointments;trackBy: trackByEventItems" class="event"
-    [class.event-month]="currentView== calendarView.Month" [class.event-year]="currentView== calendarView.Year"
-    (click)="eventClick(app)" [ngStyle]="getEventStyle(app)" [ngClass]="{
+<span [title]="getEventDescription(app)" *ngFor="let app of appointments;trackBy: trackByEventItems">
+
+    <span *ngIf="selectedDisplay==calendarDisplay.Event" class="event"
+        [class.event-month]="currentView== calendarView.Month" [class.event-year]="currentView== calendarView.Year"
+        (click)="eventClick(app)" [ngStyle]="getEventStyle(app)" [ngClass]="{
     'upstream-month':(app.isFromUpstream && app.customer.id==0 && currentView== calendarView.Month),
     'upstream-year':(app.isFromUpstream && app.customer.id==0&& currentView== calendarView.Year),
     'upstream-matched':(app.isFromUpstream &&
     app.customer.id!=0) ,'not-confirmed':(!app.confirmed &&
     !app.warning),'billable':app.type.billable,'warning':app.warning}">
-    <div class="availability" *ngIf="app.availabilityID!==null" [ngStyle]="getAvailabilityStyle(app)"></div>
-    <div class="travel-badge" *ngIf="app.requireTravel"></div>
-    {{getEventDescription(app)}}
-    <div class="project-badge" [ngStyle]="getProjectBadgeStyle(app)"></div>
+        <div class="availability" *ngIf="app.availabilityID!==null" [ngStyle]="getAvailabilityStyle(app)"></div>
+        <div class="travel-badge" *ngIf="app.requireTravel"></div>
+        {{getEventDescription(app)}}
+        <div class="project-badge" [ngStyle]="getProjectBadgeStyle(app)"></div>
+    </span>
+
+    <span *ngIf="selectedDisplay==calendarDisplay.Calendar" class="calendar">
+        {{app.calendarName}}
+    </span>
+
 </span>
