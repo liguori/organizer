@@ -25,8 +25,16 @@
         <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
             (keyup.enter)="changeFilterProject($event.target.value)">
     </mat-form-field>
-    <mat-form-field class="filter-box">
-        <mat-select [(ngModel)]="selectedCalendar" placeholder="Calendar" (selectionChange)="calendarSelected($event.value)">
+    <mat-form-field class="filter-box" id="calendar-view-display">
+        <mat-label>Display</mat-label>
+        <mat-select [(ngModel)]="selectedDisplay" (selectionChange)="displaySelected($event.value)">
+            <mat-option [value]="calendarDisplay.Event">Event</mat-option>
+            <mat-option [value]="calendarDisplay.Calendar">Calendar</mat-option>
+        </mat-select>
+    </mat-form-field>
+    <mat-form-field class="filter-box" *ngIf="selectedDisplay== calendarDisplay.Event">
+        <mat-select [(ngModel)]="selectedCalendar" placeholder="Calendar"
+            (selectionChange)="calendarSelected($event.value)">
             <mat-option value=""> </mat-option>
             <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
                 <div style="display:flex; justify-content: space-between;">
@@ -48,7 +56,8 @@
     </button>
     <mat-form-field id="calendar-customer-filter" class="filter-box">
         <mat-label>Customer</mat-label>
-        <mat-select multiple [ngModel]="selectedCustomers">
+        <mat-select multiple [(ngModel)]="selectedCustomers"
+            (selectionChange)="filterCustomerSelectedValueChange($event)">
             <mat-option>
                 <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
                     [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>

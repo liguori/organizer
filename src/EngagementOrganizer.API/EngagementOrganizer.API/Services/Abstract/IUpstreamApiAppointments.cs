@@ -6,6 +6,6 @@ namespace EngagementOrganizer.API.Services.Abstract
 {
     public interface IUpstreamApiAppointments
     {
-        Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName, string upstreamCustomTokenInput);
+        Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName,CalendarDisplay display, string upstreamCustomTokenInput);
     }
 }

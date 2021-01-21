@@ -13,6 +13,7 @@ import { WarningResumeComponent } from '../warning-resume/warning-resume.compone
 import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 import { AppointmentSummaryComponent } from '../appointment-summary/appointment-summary.component';
 import { CalendarView } from '../models/calendarView';
+import { CalendarDisplay } from '../models/calendarDisplay';
 
 @Component({
   selector: 'app-home',
@@ -21,6 +22,7 @@ import { CalendarView } from '../models/calendarView';
 })
 export class HomeComponent implements OnInit {
 
+  originalAppointments: Array<AppointmentExtraInfo>;
   appointments: Array<AppointmentExtraInfo>;
   upstreamEventTokenEnabled: Boolean;
   calendars: Array<Calendar>;
@@ -31,6 +33,7 @@ export class HomeComponent implements OnInit {
   upstreamEventToken: string;
   selectedCalendar: string;
   selectedView: CalendarView = CalendarView.Year;
+  selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
   selectedCustomers: string[];
   filterSelectedCustomer: string;
 
@@ -46,7 +49,8 @@ export class HomeComponent implements OnInit {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.appointments = this.route.snapshot.data.appointments;
+      this.originalAppointments = this.route.snapshot.data.appointments;
+      this.appointments = this.originalAppointments;
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
       this.calendars = this.route.snapshot.data.calendars;
     });
@@ -91,9 +95,16 @@ export class HomeComponent implements OnInit {
   persistUiFilterInLocalStorage() {
     localStorage.setItem('UpstreamEventToken', this.upstreamEventToken);
     localStorage.setItem('SelectedCalendar', this.selectedCalendar);
+    localStorage.setItem('SelectedDisplay', this.selectedDisplay.toString());
   }
 
   calendarSelected(value) {
+    this.persistUiFilterInLocalStorage();
+    this.router.navigate(['calendar/', this.selectedYear]);
+  }
+
+  displaySelected(value) {
+    this.selectedCalendar = "";
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
   }
@@ -239,11 +250,23 @@ export class HomeComponent implements OnInit {
     return CalendarView;
   }
 
+  public get calendarDisplay(): typeof CalendarDisplay {
+    return CalendarDisplay;
+  }
+
   getAppointmentCustomers(): string[] {
-    if (this.appointments && this.appointments.length > 0) {
-      return [...new Set(this.appointments.filter(x => x.customer != null && (!this.filterSelectedCustomer || x.customer.shortDescription.toLowerCase().includes(this.filterSelectedCustomer.toLowerCase()))).map(x => x.customer.shortDescription))].sort();
+    if (this.originalAppointments && this.originalAppointments.length > 0) {
+      return [...new Set(this.originalAppointments.filter(x => x.customer != null && (!this.filterSelectedCustomer || x.customer.shortDescription.toLowerCase().includes(this.filterSelectedCustomer.toLowerCase()))).map(x => x.customer.shortDescription))].sort();
     } else {
       return [];
+    }
+  }
+
+  filterCustomerSelectedValueChange(event) {
+    if (this.selectedCustomers && this.selectedCustomers.length > 0) {
+      this.appointments = this.originalAppointments.filter(x => this.selectedCustomers.filter(y => y?.toLowerCase() == x.customer?.shortDescription?.toLowerCase()).length > 0);
+    } else {
+      this.appointments = this.originalAppointments;
     }
   }
 }

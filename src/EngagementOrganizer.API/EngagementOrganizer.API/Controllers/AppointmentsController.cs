@@ -41,18 +41,21 @@ namespace EngagementOrganizer.API.Controllers
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, [FromHeader] string upstreamCustomTokenInput)
+        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, CalendarDisplay display, [FromHeader] string upstreamCustomTokenInput)
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
-            if (!string.IsNullOrWhiteSpace(calendarName))
-                appointment = appointment.Where(x => x.CalendarName == calendarName);
-            else
-                appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
+            if (display == CalendarDisplay.Event)
+            {
+                if (!string.IsNullOrWhiteSpace(calendarName))
+                    appointment = appointment.Where(x => x.CalendarName == calendarName);
+                else
+                    appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
+            }
             var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
             _warningChecker.PerformCheck(appointmentList);
-            await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, upstreamCustomTokenInput);
+            await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, display, upstreamCustomTokenInput);
             SetProjectColor(appointmentList);
             return appointmentList;
         }

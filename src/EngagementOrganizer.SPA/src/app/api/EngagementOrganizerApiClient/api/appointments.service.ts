@@ -20,6 +20,7 @@ import { Observable }                                        from 'rxjs';
 import { Appointment } from '../model/appointment';
 import { AppointmentExtraInfo } from '../model/appointmentExtraInfo';
 import { Calendar } from '../model/calendar';
+import { CalendarDisplay } from '../model/calendarDisplay';
 
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
 import { Configuration }                                     from '../configuration';
@@ -238,14 +239,16 @@ export class AppointmentsService {
      * 
      * @param year 
      * @param calendarName 
+     * @param display 
      * @param upstreamCustomTokenInput 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<AppointmentExtraInfo>>;
-    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AppointmentExtraInfo>>>;
-    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AppointmentExtraInfo>>>;
-    public apiAppointmentsGet(year?: number, calendarName?: string, upstreamCustomTokenInput?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+    public apiAppointmentsGet(year?: number, calendarName?: string, display?: CalendarDisplay, upstreamCustomTokenInput?: string, observe?: 'body', reportProgress?: boolean): Observable<Array<AppointmentExtraInfo>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, display?: CalendarDisplay, upstreamCustomTokenInput?: string, observe?: 'response', reportProgress?: boolean): Observable<HttpResponse<Array<AppointmentExtraInfo>>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, display?: CalendarDisplay, upstreamCustomTokenInput?: string, observe?: 'events', reportProgress?: boolean): Observable<HttpEvent<Array<AppointmentExtraInfo>>>;
+    public apiAppointmentsGet(year?: number, calendarName?: string, display?: CalendarDisplay, upstreamCustomTokenInput?: string, observe: any = 'body', reportProgress: boolean = false ): Observable<any> {
+
 
 
 
@@ -256,6 +259,9 @@ export class AppointmentsService {
         }
         if (calendarName !== undefined && calendarName !== null) {
             queryParameters = queryParameters.set('calendarName', <any>calendarName);
+        }
+        if (display !== undefined && display !== null) {
+            queryParameters = queryParameters.set('display', <any>display);
         }
 
         let headers = this.defaultHeaders;

@@ -32,7 +32,7 @@ namespace EngagementOrganizer.API.Services
             _logger = logger;
         }
 
-        public async Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName, string upstreamCustomTokenInput)
+        public async Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName, CalendarDisplay display, string upstreamCustomTokenInput)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace EngagementOrganizer.API.Services
                     httpClient.DefaultRequestHeaders.Add(UpstreamApiKeyHeaderName, _configuration[ConfigurationValues.UpstreamApiKey]);
                 }
 
-                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}");
+                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}&display={display}");
 
                 var customers = await _context.Customers.ToListAsync();
                 var colorCombination = new Dictionary<string, (string color, string textColor)>();
