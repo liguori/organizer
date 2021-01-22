@@ -31,6 +31,7 @@ import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/mat
 import { StyleManager } from './themes/style-manager';
 import { WarningResumeComponent } from './warning-resume/warning-resume.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
@@ -92,7 +93,8 @@ export function createApiConfigFactory() {
     CustomDialogModule,
     MatIconModule,
     EngagementOrganizerApiClient.forRoot(createApiConfigFactory),
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    ColorPickerModule
   ],
   entryComponents: [
     AppointmentEditorComponent,
