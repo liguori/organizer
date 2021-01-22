@@ -32,7 +32,7 @@
             <mat-option [value]="calendarDisplay.Calendar">Calendar</mat-option>
         </mat-select>
     </mat-form-field>
-    <mat-form-field class="filter-box" *ngIf="selectedDisplay== calendarDisplay.Event">
+    <mat-form-field class="filter-box">
         <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
             (selectionChange)="calendarSelected($event.value)">
             <mat-option value=""> </mat-option>

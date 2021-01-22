@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace EngagementOrganizer.API.Controllers
 {
@@ -45,7 +46,7 @@ namespace EngagementOrganizer.API.Controllers
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
-            if (display == CalendarDisplay.Event)
+            if (display == CalendarDisplay.Event || (display == CalendarDisplay.Calendar && !string.IsNullOrWhiteSpace(calendarName)))
             {
                 if (!string.IsNullOrWhiteSpace(calendarName))
                     appointment = appointment.Where(x => x.CalendarName == calendarName);

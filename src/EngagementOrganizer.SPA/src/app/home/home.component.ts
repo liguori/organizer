@@ -52,6 +52,7 @@ export class HomeComponent implements OnInit {
     ).subscribe((event: NavigationEnd) => {
       this.originalAppointments = this.route.snapshot.data.appointments;
       this.appointments = this.originalAppointments;
+      this.applyInMemoryFilters()
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
       this.calendars = this.route.snapshot.data.calendars;
     });
@@ -65,8 +66,7 @@ export class HomeComponent implements OnInit {
       yearToSet = this.route.snapshot.params["year?"];
     }
     this.selectedYear = Number.parseInt(yearToSet);
-    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
-    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    this.initializeUiFilterFromLocalStorage();
   }
 
   changeCurrentIndex(value) {
@@ -91,6 +91,12 @@ export class HomeComponent implements OnInit {
     this.upstreamEventToken = value;
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
+  }
+
+  initializeUiFilterFromLocalStorage() {
+    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
+    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    this.selectedDisplay = parseInt(localStorage.getItem('SelectedDisplay'));
   }
 
   persistUiFilterInLocalStorage() {
@@ -277,11 +283,15 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  filterCustomerSelectedValueChange(event) {
+  applyInMemoryFilters() {
     if (this.selectedCustomers && this.selectedCustomers.length > 0) {
       this.appointments = this.originalAppointments.filter(x => this.selectedCustomers.filter(y => y?.toLowerCase() == x.customer?.shortDescription?.toLowerCase()).length > 0);
     } else {
       this.appointments = this.originalAppointments;
     }
+  }
+
+  filterCustomerSelectedValueChange(event) {
+    this.applyInMemoryFilters()
   }
 }
