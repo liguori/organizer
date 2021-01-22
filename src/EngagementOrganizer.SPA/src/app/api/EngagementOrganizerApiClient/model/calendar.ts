@@ -10,6 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface Calendar { 
+export interface Calendar {
     calendarName?: string;
+    description?: string;
+    color?: string;
+    textColor?: string;
 }

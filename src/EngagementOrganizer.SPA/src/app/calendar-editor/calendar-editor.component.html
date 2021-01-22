@@ -1,0 +1,28 @@
+<div class="new-calendar-edit" *ngIf="currentCalendar== null">NEW CALENDAR
+  CREATION</div>
+<div class="existent-calendar-edit" *ngIf="currentCalendar!= null">EXISTENT
+  CALENDAR EDIT ({{currentCalendar}})</div>
+<div *ngIf="editCalendar">
+  <div fxLayout="column" fxLayoutAlign="center stretch" class="row">
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <mat-form-field class="input-text">
+        <input matInput [(ngModel)]="editCalendar.calendarName" placeholder="Name">
+      </mat-form-field>
+      <mat-form-field class="input-text">
+        <input matInput [(ngModel)]="editCalendar.color" placeholder="Color" [(colorPicker)]="editCalendar.color">
+      </mat-form-field>
+      <mat-form-field class="input-text">
+        <input matInput [(ngModel)]="editCalendar.textColor" placeholder="Text color" [(colorPicker)]="editCalendar.textColor">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <mat-form-field class="input-text">
+        <input matInput [(ngModel)]="editCalendar.description" placeholder="Description">
+      </mat-form-field>
+    </div>
+    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+      <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
+      <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
+    </div>
+  </div>
+</div>

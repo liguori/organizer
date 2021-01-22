@@ -29,10 +29,14 @@ namespace EngagementOrganizer.API.Migrations
                 name: "Calendars",
                 columns: table => new
                 {
-                    CalendarName = table.Column<string>(type: "TEXT", nullable: true)
+                    CalendarName = table.Column<string>(type: "TEXT", nullable: false),
+                    Description = table.Column<string>(type: "TEXT", nullable: true),
+                    Color = table.Column<string>(type: "TEXT", nullable: true),
+                    TextColor = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
                 {
+                    table.PrimaryKey("PK_Calendars", x => x.CalendarName);
                 });
 
             migrationBuilder.CreateTable(

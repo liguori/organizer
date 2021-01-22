@@ -67,6 +67,20 @@ namespace EngagementOrganizer.API.Controllers
             return await _context.Calendars.ToListAsync();
         }
 
+        // GET: api/Appointments/calendar/calendarName
+        [HttpGet("calendar/{calendarName}")]
+        public async Task<ActionResult<Calendar>> GetAppointment(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+
+            if (calendar == null)
+            {
+                return NotFound();
+            }
+
+            return calendar;
+        }
+
 
         // DELETE: api/calendar/{calendarname}
         [HttpDelete("calendar/{calendarName}")]
@@ -84,18 +98,46 @@ namespace EngagementOrganizer.API.Controllers
             return calendar;
         }
 
-        // POST: api/calendar/{calendarname}
-        [HttpPost("calendar/{calendarName}")]
-        public async Task<IActionResult> CreateCalendar(string calendarName)
+        // POST: api/calendar/
+        [HttpPost("calendar")]
+        public async Task<IActionResult> PostCalendar(Calendar calendar)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
-            if (calendar == null)
+            var currentCalendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendar.CalendarName);
+            if (currentCalendar == null)
             {
-                calendar = new Calendar { CalendarName = calendarName };
                 _context.Calendars.Add(calendar);
                 await _context.SaveChangesAsync();
             }
             return Ok(calendar);
+        }
+
+        // PUT: api/calendar/calendarName
+        [HttpPut("calendar/{calendarName}")]
+        public async Task<IActionResult> PutCalendar(string calendarName, Calendar calendar)
+        {
+            if (calendarName != calendar.CalendarName)
+            {
+                return BadRequest();
+            }
+            _context.Entry(calendar).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CalendarExists(calendarName))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // GET: api/Appointments/upstreamCustomToken
@@ -210,6 +252,11 @@ namespace EngagementOrganizer.API.Controllers
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.ID == id);
+        }
+
+        private bool CalendarExists(string name)
+        {
+            return _context.Calendars.Any(e => e.CalendarName == name);
         }
     }
 }

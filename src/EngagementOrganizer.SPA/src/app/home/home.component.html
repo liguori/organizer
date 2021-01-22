@@ -33,22 +33,22 @@
         </mat-select>
     </mat-form-field>
     <mat-form-field class="filter-box" *ngIf="selectedDisplay== calendarDisplay.Event">
-        <mat-select [(ngModel)]="selectedCalendar" placeholder="Calendar"
+        <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
             (selectionChange)="calendarSelected($event.value)">
             <mat-option value=""> </mat-option>
             <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
                 <div style="display:flex; justify-content: space-between;">
-                    <span>{{calendar.calendarName}}</span>
-                    <span></span>
-                    <span class="deleteYear" (click)="deleteCalendar($event,calendar.calendarName)"
-                        title="Delete calendar">
-                        <mat-icon>delete_forever</mat-icon>
+                    <span>{{calendar.description}}</span>
+                    <span *ngIf="selectedCalendar!=calendar.calendarName || calendarSelection.panelOpen">
+                        <span (click)="showCalendarEditorDialog($event,calendar.calendarName)" title="Edit calendar">
+                            <mat-icon>edit</mat-icon>
+                        </span>
+                        <span (click)="deleteCalendar($event,calendar.calendarName)" title="Delete calendar">
+                            <mat-icon>delete_forever</mat-icon>
+                        </span>
                     </span>
                 </div>
             </mat-option>
-            <mat-select-trigger>
-                {{this.selectedCalendar}}
-            </mat-select-trigger>
         </mat-select>
     </mat-form-field>&nbsp;
     <button mat-mini-fab color="primary" (click)="createCalendar()">

@@ -12,6 +12,7 @@ import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
+import { CalendarEditorComponent } from './calendar-editor/calendar-editor.component';
 import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -71,6 +72,7 @@ export function createApiConfigFactory() {
     UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
+    CalendarEditorComponent,
     AppointmentSummaryComponent,
     CustomerViewComponent,
     WarningResumeComponent
@@ -98,7 +100,8 @@ export function createApiConfigFactory() {
   ],
   entryComponents: [
     AppointmentEditorComponent,
-    AppointmentSummaryComponent
+    AppointmentSummaryComponent,
+    CalendarEditorComponent
   ],
   providers: [
     AppConfig,

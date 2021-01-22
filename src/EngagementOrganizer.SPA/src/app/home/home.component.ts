@@ -14,6 +14,7 @@ import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 import { AppointmentSummaryComponent } from '../appointment-summary/appointment-summary.component';
 import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
+import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
 
 @Component({
   selector: 'app-home',
@@ -133,6 +134,27 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  showCalendarEditorDialog(event, calendarToEdit) {
+    if (event) {
+      event.preventDefault(); //<--prevent default
+      event.stopPropagation();  //stop propagation
+    }
+    const dialogRef = this.dialog.open(CalendarEditorComponent, {
+      width: '700px',
+      height: '255px',
+      data: {
+        route: this.route,
+        currentCalendar: calendarToEdit,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedCalendar = result.calendarName;
+      this.persistUiFilterInLocalStorage();
+      this.router.navigate(['calendar/', this.selectedYear]);
+    });
+  }
+
   showAppointmentEditorDialog() {
     const dialogRef = this.dialog.open(AppointmentEditorComponent, {
       width: '1100px',
@@ -236,14 +258,7 @@ export class HomeComponent implements OnInit {
   }
 
   createCalendar() {
-    var calendarName = prompt("Insert the calendar name");
-    if (calendarName != null && calendarName.trim() != '') {
-      this.apiAppointments.apiAppointmentsCalendarCalendarNamePost(calendarName).subscribe(x => {
-        this.selectedCalendar = calendarName;
-        this.persistUiFilterInLocalStorage();
-        this.router.navigate(['calendar/', this.selectedYear]);
-      });
-    }
+    this.showCalendarEditorDialog(null, null);
   }
 
   public get calendarView(): typeof CalendarView {
