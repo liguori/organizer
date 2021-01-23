@@ -21,7 +21,7 @@ export class CalendarComponent implements OnInit {
   @Input()
   currentView: CalendarView = CalendarView.Year;
 
-  
+
   @Input()
   selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
 
@@ -187,9 +187,9 @@ export class CalendarComponent implements OnInit {
     return item.date;
   }
 
-  public isCurrentMonth(param: Month): boolean {
+  public isCurrentMonth(param): boolean {
     var today = new Date()
-    return param.monthNumber == (today.getMonth() + 1) && this.currentYear == today.getFullYear();
+    return param.value == (today.getMonth() + 1) && this.currentYear == today.getFullYear();
   }
 
   public get calendarView(): typeof CalendarView {
