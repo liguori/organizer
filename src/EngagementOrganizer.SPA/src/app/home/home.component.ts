@@ -115,7 +115,6 @@ export class HomeComponent implements OnInit {
   }
 
   displaySelected(value) {
-    this.selectedCalendar = "";
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
   }
