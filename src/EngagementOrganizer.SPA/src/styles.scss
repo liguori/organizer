@@ -24,3 +24,8 @@ body,html
     flex: 0 1 auto;
     padding: 5px 0px;
 }
+
+.cdk-global-scrollblock {
+    position: static;
+    overflow: hidden !important;
+}
