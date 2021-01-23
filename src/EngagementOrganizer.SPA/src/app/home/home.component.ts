@@ -96,7 +96,11 @@ export class HomeComponent implements OnInit {
   initializeUiFilterFromLocalStorage() {
     this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
     this.selectedCalendar = localStorage.getItem('SelectedCalendar');
-    this.selectedDisplay = parseInt(localStorage.getItem('SelectedDisplay'));
+    if (localStorage.getItem('SelectedDisplay')) {
+      this.selectedDisplay = parseInt(localStorage.getItem('SelectedDisplay'));
+    } else {
+      this.selectedDisplay = CalendarDisplay.Event;
+    }
   }
 
   persistUiFilterInLocalStorage() {
