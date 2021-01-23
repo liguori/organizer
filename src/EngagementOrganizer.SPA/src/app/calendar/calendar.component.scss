@@ -82,10 +82,39 @@
     box-sizing: border-box;
     font-family: 'Segoe UI';
     margin: 0 auto 0 auto;
-    overflow: hidden;
+    overflow:hidden;
     cursor: pointer;
     background-color: var(--calendarDayColor);
     color:var(--calendarDayTextColor);
+}
+
+.day-container{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.day-label{
+    flex: 0 1 $day-label-height;
+    font-size: $day-label-font-size;
+    height: $day-label-height;
+    line-height: $day-label-height;
+}
+
+.event-viewer{
+    flex: 1 1 auto;
+    overflow-x: auto;
+}
+
+.event-viewer::-webkit-scrollbar
+{
+	width: 3px;
+	background-color: #F5F5F5;
+}
+
+.event-viewer::-webkit-scrollbar-thumb
+{
+	background-color: #b8b8b8;
 }
 
 .day:hover{
@@ -118,11 +147,6 @@
    justify-content: center;
 }
 
-.day-label{
-    font-size: $day-label-font-size;
-    height: $day-label-height;
-    line-height: $day-label-height;
-}
 
 .highlight-saturday{
    background-color:var(--calendarSaturdayColor);

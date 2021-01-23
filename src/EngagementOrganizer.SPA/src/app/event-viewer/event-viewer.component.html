@@ -14,7 +14,9 @@
         <div class="project-badge" [ngStyle]="getProjectBadgeStyle(app)"></div>
     </span>
 
-    <span *ngIf="selectedDisplay==calendarDisplay.Calendar" class="calendar" [ngStyle]="getCalendarStyle(app)">
+    <span *ngIf="selectedDisplay==calendarDisplay.Calendar" class="calendar"
+        [class.event-month]="currentView== calendarView.Month" [class.event-year]="currentView== calendarView.Year"
+        [ngStyle]="getCalendarStyle(app)">
         {{app.calendarName}}
     </span>
 

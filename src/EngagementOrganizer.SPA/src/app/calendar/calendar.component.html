@@ -18,9 +18,12 @@
     <div *ngFor="let currentX of getXValues(currentY.value);trackBy: trackByDayItems" class="day"
       [class.day-month]="currentView== calendarView.Month" [class.day-year]="currentView== calendarView.Year"
       [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
-      <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
-      <app-event-viewer [appointments]="getEventsByDate(currentX.date)"
-        (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView" [selectedDisplay]="selectedDisplay"></app-event-viewer>
+      <div class="day-container">
+        <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
+        <app-event-viewer class="event-viewer" [appointments]="getEventsByDate(currentX.date)"
+          (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView"
+          [selectedDisplay]="selectedDisplay"></app-event-viewer>
+      </div>
     </div>
     <div class="util-value" *ngIf="currentView== calendarView.Year">{{getMonthUtilization(currentY.value,currentYear)}}
     </div>
