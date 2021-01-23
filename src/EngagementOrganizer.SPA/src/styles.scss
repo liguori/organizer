@@ -14,9 +14,14 @@ body,html
    margin-left: 30px;
 }
 
+.box{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+} 
 
 .filters-header{
-    min-height: 50px;
+    flex: 0 1 auto;
     padding: 5px 0px;
 }
 
