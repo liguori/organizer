@@ -1,23 +1,32 @@
 .calendar-container{
     text-align: center;
-    height: 91%;
-}
-
-.header{
-    height: 6%;
-    padding: 0px 0px;
-    overflow: hidden;
+    flex: 1 1 auto;
 }
 
 .calendar-option{
     float:right;
 }
 
-.calendar-app{
-    height: 45%;
+#upstream-event-token{
+    width: 170px;
 }
 
+#calendar-select-date-filter{
+    width: 110px;    
+}
 
-.upstream-event-token{
-    width: 450px;;
+#calendar-view-filter{
+    width: 80px;
+}
+
+#calendar-view-display{
+    width: 90px;
+}
+
+#calendar-project-filter{
+    width: 80px;
+}
+
+#calendar-customer-filter{
+    width: 350px;
 }

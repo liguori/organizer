@@ -10,9 +10,9 @@
  * Do not edit the class manually.
  */
 
-export interface Calendar {
-    calendarName?: string;
-    description?: string;
-    color?: string;
-    textColor?: string;
-}
+export type CalendarDisplay = 1 | 2;
+
+export const CalendarDisplay = {
+    NUMBER_1: 1 as CalendarDisplay,
+    NUMBER_2: 2 as CalendarDisplay
+};

@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EngagementOrganizer.API.Migrations
 {
     [DbContext(typeof(EngagementOrganizerContext))]
-    [Migration("20210116112814_InitialMigration")]
+    [Migration("20210122215116_InitialMigration")]
     partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -175,6 +175,17 @@ namespace EngagementOrganizer.API.Migrations
                 {
                     b.Property<string>("CalendarName")
                         .HasColumnType("TEXT");
+
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TextColor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CalendarName");
 
                     b.ToTable("Calendars");
                 });

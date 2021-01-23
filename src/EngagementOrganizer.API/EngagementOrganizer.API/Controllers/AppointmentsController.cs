@@ -9,6 +9,7 @@ using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Transactions;
 
 namespace EngagementOrganizer.API.Controllers
 {
@@ -41,18 +42,21 @@ namespace EngagementOrganizer.API.Controllers
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, [FromHeader] string upstreamCustomTokenInput)
+        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, CalendarDisplay display, [FromHeader] string upstreamCustomTokenInput)
         {
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
-            if (!string.IsNullOrWhiteSpace(calendarName))
-                appointment = appointment.Where(x => x.CalendarName == calendarName);
-            else
-                appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
+            if (display == CalendarDisplay.Event || (display == CalendarDisplay.Calendar && !string.IsNullOrWhiteSpace(calendarName)))
+            {
+                if (!string.IsNullOrWhiteSpace(calendarName))
+                    appointment = appointment.Where(x => x.CalendarName == calendarName);
+                else
+                    appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
+            }
             var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
             _warningChecker.PerformCheck(appointmentList);
-            await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, upstreamCustomTokenInput);
+            await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, display, upstreamCustomTokenInput);
             SetProjectColor(appointmentList);
             return appointmentList;
         }
@@ -62,6 +66,20 @@ namespace EngagementOrganizer.API.Controllers
         public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars()
         {
             return await _context.Calendars.ToListAsync();
+        }
+
+        // GET: api/Appointments/calendar/calendarName
+        [HttpGet("calendar/{calendarName}")]
+        public async Task<ActionResult<Calendar>> GetAppointment(string calendarName)
+        {
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+
+            if (calendar == null)
+            {
+                return NotFound();
+            }
+
+            return calendar;
         }
 
 
@@ -81,18 +99,46 @@ namespace EngagementOrganizer.API.Controllers
             return calendar;
         }
 
-        // POST: api/calendar/{calendarname}
-        [HttpPost("calendar/{calendarName}")]
-        public async Task<IActionResult> CreateCalendar(string calendarName)
+        // POST: api/calendar/
+        [HttpPost("calendar")]
+        public async Task<IActionResult> PostCalendar(Calendar calendar)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
-            if (calendar == null)
+            var currentCalendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendar.CalendarName);
+            if (currentCalendar == null)
             {
-                calendar = new Calendar { CalendarName = calendarName };
                 _context.Calendars.Add(calendar);
                 await _context.SaveChangesAsync();
             }
             return Ok(calendar);
+        }
+
+        // PUT: api/calendar/calendarName
+        [HttpPut("calendar/{calendarName}")]
+        public async Task<IActionResult> PutCalendar(string calendarName, Calendar calendar)
+        {
+            if (calendarName != calendar.CalendarName)
+            {
+                return BadRequest();
+            }
+            _context.Entry(calendar).State = EntityState.Modified;
+
+            try
+            {
+                await _context.SaveChangesAsync();
+            }
+            catch (DbUpdateConcurrencyException)
+            {
+                if (!CalendarExists(calendarName))
+                {
+                    return NotFound();
+                }
+                else
+                {
+                    throw;
+                }
+            }
+
+            return NoContent();
         }
 
         // GET: api/Appointments/upstreamCustomToken
@@ -207,6 +253,11 @@ namespace EngagementOrganizer.API.Controllers
         private bool AppointmentExists(int id)
         {
             return _context.Appointments.Any(e => e.ID == id);
+        }
+
+        private bool CalendarExists(string name)
+        {
+            return _context.Calendars.Any(e => e.CalendarName == name);
         }
     }
 }

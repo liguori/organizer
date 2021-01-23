@@ -1,10 +1,42 @@
 import { Month } from '../models/month';
 import { Day } from '../models/day';
+import * as moment from 'moment';
 
 export class DateTimeUtils {
-    static getDaysInMonth = function (month, year) {
-        return new Date(year, month, 0).getDate();
+
+    static getDaysInMonth = function (monthBase1, year) {
+        return new Date(year, monthBase1, 0).getDate();
     };
+
+    static countDaysTo(date: Date, targetDayOfWeek: number, directionAndSteps) {
+        var count = 0;
+        var calculatedDate: Date = date;
+        while (calculatedDate.getDay() != targetDayOfWeek) {
+            calculatedDate = this.addDays(calculatedDate, directionAndSteps);
+            count++;
+        }
+        return count;
+    }
+
+    static addDays(date, days) {
+        const copy = new Date(Number(date))
+        copy.setDate(date.getDate() + days)
+        return copy
+    }
+
+    static setToUtc(dateRef: Date): Date {
+        var d = new Date();
+        var drefT = moment(dateRef).toDate();
+        d.setUTCFullYear(drefT.getFullYear());
+        d.setUTCMonth(drefT.getMonth(), drefT.getDate());
+        return d;
+    }
+
+    static getNowWithoutTime(): Date {
+        var date = new Date();
+        date.setHours(0, 0, 0, 0);
+        return date;
+    }
 
     static readonly months: Array<Month> = [
         { monthNumber: 1, monthDescription: "Jan" },

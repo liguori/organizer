@@ -12,6 +12,7 @@ import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as EngagementOrganizerApiClient, Configuration, ConfigurationParameters } from './api/EngagementOrganizerApiClient';
 import { HttpClientModule } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
+import { CalendarEditorComponent } from './calendar-editor/calendar-editor.component';
 import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -29,7 +30,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { StyleManager } from './themes/style-manager';
-import { WarningResumeComponent } from './warning-resume/warning-resume.component'
+import { WarningResumeComponent } from './warning-resume/warning-resume.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ColorPickerModule } from 'ngx-color-picker';
 
 //create our cost var with the information about the format that we want
 export const MY_FORMATS = {
@@ -69,6 +72,7 @@ export function createApiConfigFactory() {
     UtilizationComponent,
     EventViewerComponent,
     AppointmentEditorComponent,
+    CalendarEditorComponent,
     AppointmentSummaryComponent,
     CustomerViewComponent,
     WarningResumeComponent
@@ -90,11 +94,14 @@ export function createApiConfigFactory() {
     MatNativeDateModule,
     CustomDialogModule,
     MatIconModule,
-    EngagementOrganizerApiClient.forRoot(createApiConfigFactory)
+    EngagementOrganizerApiClient.forRoot(createApiConfigFactory),
+    NgxMatSelectSearchModule,
+    ColorPickerModule
   ],
   entryComponents: [
     AppointmentEditorComponent,
-    AppointmentSummaryComponent
+    AppointmentSummaryComponent,
+    CalendarEditorComponent
   ],
   providers: [
     AppConfig,

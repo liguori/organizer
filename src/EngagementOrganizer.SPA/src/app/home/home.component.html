@@ -1,55 +1,91 @@
-<div class="header">
-    <button mat-mini-fab color="primary" (click)="changeYear(selectedYear-1)">-</button>&nbsp;
-    <mat-form-field class="year-box">
-        <mat-label>Year</mat-label>
-        <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
-            (keyup.enter)="changeYear($event.target.value)">
-    </mat-form-field>
-    &nbsp;&nbsp;
-    <button mat-mini-fab color="primary" (click)="changeYear(selectedYear+1)">+</button>
-    <mat-form-field class="filter-box">
-        <mat-label>Project</mat-label>
-        <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
-            (keyup.enter)="changeFilterProject($event.target.value)">
-    </mat-form-field>
-    <mat-form-field class="filter-box">
-        <mat-label>Calendar</mat-label>
-        <mat-select [(ngModel)]="selectedCalendar" (selectionChange)="calendarSelected($event.value)">
-            <mat-option value=""> </mat-option>
-            <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
-                <div style="display:flex; justify-content: space-between;">
-                    <span>{{calendar.calendarName}}</span>
-                    <span></span>
-                    <span class="deleteYear" (click)="deleteCalendar($event,calendar.calendarName)"
-                        title="Delete calendar">
-                        <mat-icon>delete_forever</mat-icon>
-                    </span>
-                </div>
-            </mat-option>
-            <mat-select-trigger>
-                {{this.selectedCalendar}}
-            </mat-select-trigger>
-        </mat-select>
-    </mat-form-field>&nbsp;
-    <button mat-mini-fab color="primary" (click)="createCalendar()">
-        <mat-icon>create_new_folder</mat-icon>
-    </button>
-    <mat-form-field class="filter-box upstream-event-token" *ngIf="upstreamEventTokenEnabled">
-        <mat-label>Upstream Event Token</mat-label>
-        <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
-            (keyup.enter)="changeUpstreamEventToken($event.target.value)">
-    </mat-form-field>
-    <div class="calendar-option">
-        <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">
-            W
-        </button>&nbsp;
-        <button (click)="availability()" mat-raised-button color="primary">
-            AVAILABILITY
+<div class="container-box">
+    <div class="filters-header">
+        <button mat-mini-fab color="primary" (click)="changeCurrentIndex(-1)">-</button>&nbsp;
+        <mat-form-field *ngIf="selectedView == calendarView.Month" id="calendar-select-date-filter">
+            <input matInput [ngModel]="selectedDate" ng-model-options="{timezone: 'utc'}" [matDatepicker]="dateToPicker"
+                placeholder="To" (dateChange)="changeDate($event.value)">
+            <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dateToPicker></mat-datepicker>
+        </mat-form-field>
+        <mat-form-field class="year-box" *ngIf="selectedView == calendarView.Year">
+            <mat-label>Year</mat-label>
+            <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
+                (keyup.enter)="changeCurrentIndex($event.target.value)">
+        </mat-form-field>
+        &nbsp;&nbsp;
+        <button mat-mini-fab color="primary" (click)="changeCurrentIndex(+1)">+</button>
+        <mat-form-field class="filter-box" id="calendar-view-filter">
+            <mat-label>View</mat-label>
+            <mat-select [(ngModel)]="selectedView" (selectionChange)="calendarSelected($event.value)">
+                <mat-option [value]="calendarView.Year">Year</mat-option>
+                <mat-option [value]="calendarView.Month">Month</mat-option>
+            </mat-select>
+        </mat-form-field>&nbsp;
+        <mat-form-field id="calendar-project-filter" class="filter-box">
+            <mat-label>Project</mat-label>
+            <input matInput placeholder="Project" maxlength="10" [ngModel]="filterProject"
+                (keyup.enter)="changeFilterProject($event.target.value)">
+        </mat-form-field>
+        <mat-form-field class="filter-box" id="calendar-view-display">
+            <mat-label>Display</mat-label>
+            <mat-select [(ngModel)]="selectedDisplay" (selectionChange)="displaySelected($event.value)">
+                <mat-option [value]="calendarDisplay.Event">Event</mat-option>
+                <mat-option [value]="calendarDisplay.Calendar">Calendar</mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field class="filter-box">
+            <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
+                (selectionChange)="calendarSelected($event.value)">
+                <mat-option value=""> </mat-option>
+                <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
+                    <div style="display:flex; justify-content: space-between;">
+                        <span>{{calendar.description}}</span>
+                        <span *ngIf="selectedCalendar!=calendar.calendarName || calendarSelection.panelOpen">
+                            <span (click)="showCalendarEditorDialog($event,calendar.calendarName)"
+                                title="Edit calendar">
+                                <mat-icon>edit</mat-icon>
+                            </span>
+                            <span (click)="deleteCalendar($event,calendar.calendarName)" title="Delete calendar">
+                                <mat-icon>delete_forever</mat-icon>
+                            </span>
+                        </span>
+                    </div>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>&nbsp;
+        <button mat-mini-fab color="primary" (click)="createCalendar()">
+            <mat-icon>create_new_folder</mat-icon>
         </button>
+        <mat-form-field id="calendar-customer-filter" class="filter-box">
+            <mat-label>Customer</mat-label>
+            <mat-select multiple [(ngModel)]="selectedCustomers"
+                (selectionChange)="filterCustomerSelectedValueChange($event)">
+                <mat-option>
+                    <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
+                        [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
+                </mat-option>
+                <mat-option *ngFor="let customer of getAppointmentCustomers()" [value]="customer">{{customer}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+        <mat-form-field id="upstream-event-token" class="filter-box" *ngIf="upstreamEventTokenEnabled">
+            <mat-label>Upstream Event Token</mat-label>
+            <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
+                (keyup.enter)="changeUpstreamEventToken($event.target.value)">
+        </mat-form-field>
+        <div class="calendar-option">
+            <button (click)="showDialogWarning()" mat-mini-fab color="warn" *ngIf="this.getWarnings().length>0">
+                W
+            </button>&nbsp;
+            <button (click)="availability()" mat-raised-button color="primary">
+                AVAILABILITY
+            </button>
+        </div>
     </div>
-</div>
-<div class="calendar-container">
-    <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
-        [appointments]="appointments" [upstreamEventToken]="upstreamEventToken"
-        (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+    <div class="calendar-container">
+        <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
+            [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
+            [selectedDisplay]="selectedDisplay" [currentMonthStartDate]="selectedDate"
+            (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
+    </div>
 </div>

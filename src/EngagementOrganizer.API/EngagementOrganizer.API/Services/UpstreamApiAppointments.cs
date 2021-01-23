@@ -21,8 +21,8 @@ namespace EngagementOrganizer.API.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly ILogger<UpstreamApiAppointments> _logger;
-        private string[] Colors = new[] { "#7e29a3", "#273b84", "#ffa200", "#eff542", "#4287f5", "#d95255", "#4b8773", "#694226", "#52db09", "#7641f2", "#f27341" };
-        private string[] TextColors = new[] { "#FFFFFF", "#FFFFFF", "#000000", "#343e85", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF" };
+        private string[] Colors = new[] { "#7e29a3", "#273b84", "#ffa200", "#eff542", "#4287f5", "#d95255", "#4b8773", "#694226", "#52db09", "#7641f2", "#f27341", "#ffe263", "#2f756e" , "#400f3f" };
+        private string[] TextColors = new[] { "#FFFFFF", "#FFFFFF", "#000000", "#343e85", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF","#000000" ,"#ffffff","#ffffff"};
 
         public UpstreamApiAppointments(EngagementOrganizerContext context, IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<UpstreamApiAppointments> logger)
         {
@@ -32,7 +32,7 @@ namespace EngagementOrganizer.API.Services
             _logger = logger;
         }
 
-        public async Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName, string upstreamCustomTokenInput)
+        public async Task AddUpstreamAppointmentsAsync(List<AppointmentExtraInfo> appList, int? year, string calendarName, CalendarDisplay display, string upstreamCustomTokenInput)
         {
             try
             {
@@ -49,7 +49,7 @@ namespace EngagementOrganizer.API.Services
                     httpClient.DefaultRequestHeaders.Add(UpstreamApiKeyHeaderName, _configuration[ConfigurationValues.UpstreamApiKey]);
                 }
 
-                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}");
+                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}&display={display}");
 
                 var customers = await _context.Customers.ToListAsync();
                 var colorCombination = new Dictionary<string, (string color, string textColor)>();
@@ -86,7 +86,8 @@ namespace EngagementOrganizer.API.Services
                         IsFromUpstream = true,
                         TypeID = 99,
                         Type = new AppointmentType { ID = 99, Billable = ele.Billable, RequireCustomer = true },
-                        Confirmed = true
+                        Confirmed = true,
+                        CalendarName = ele.SourceCalendar
                     });
                 }
             }

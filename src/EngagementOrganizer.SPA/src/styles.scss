@@ -1,4 +1,3 @@
-
 body,html
 {
     margin: 0;
@@ -12,5 +11,21 @@ body,html
 }
 
 .filter-box{
-   margin-left: 50px;
+   margin-left: 30px;
+}
+
+.container-box{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+} 
+
+.filters-header{
+    flex: 0 1 auto;
+    padding: 5px 0px;
+}
+
+.cdk-global-scrollblock {
+    position: static;
+    overflow: hidden !important;
 }

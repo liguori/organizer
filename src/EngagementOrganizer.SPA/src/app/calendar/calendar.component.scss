@@ -24,8 +24,7 @@
    font-size: $header-font-size;
   
 }
-.month-day-header{
-    width:$day-width;
+.day-header{
     height: $row-header-height;
     display: inline-block;
     border: $cell-border-size solid var(--calendarCellBorderColor);
@@ -36,6 +35,14 @@
     line-height: 3.6vh;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: $header-font-size;
+}
+
+.day-header-month{
+    width:$day-width-month;
+}
+
+.day-header-year{
+    width:$day-width-year;
 }
 
 .util-header{
@@ -52,19 +59,22 @@
     font-size: $header-font-size;
 }
 
-.month-row{
-    height: $row-height;
+.row-year{
+    height: $row-height-year;
+}
+
+.row-month{
+    height: $row-height-month;
 }
 
 .month-selected{
     border:1px solid  var(--calendarTodayColor);
 }
 
-.month-day{
+.day{
     position: relative;
     padding: 0vw 0vw 0vw 0vw;
     vertical-align: top;
-    width:$day-width;
     height: 100%;
     display: inline-block;
     text-align: center;
@@ -72,14 +82,51 @@
     box-sizing: border-box;
     font-family: 'Segoe UI';
     margin: 0 auto 0 auto;
-    overflow: hidden;
+    overflow:hidden;
     cursor: pointer;
     background-color: var(--calendarDayColor);
     color:var(--calendarDayTextColor);
 }
 
-.month-day:hover{
+.day-container{
+    display: flex;
+    flex-flow: column;
+    height: 100%;
+}
+
+.day-label{
+    flex: 0 1 $day-label-height;
+    font-size: $day-label-font-size;
+    height: $day-label-height;
+    line-height: $day-label-height;
+}
+
+.event-viewer{
+    flex: 1 1 auto;
+    overflow-x: auto;
+}
+
+.event-viewer::-webkit-scrollbar
+{
+	width: 3px;
+	background-color: #F5F5F5;
+}
+
+.event-viewer::-webkit-scrollbar-thumb
+{
+	background-color: #b8b8b8;
+}
+
+.day:hover{
     background-color: var(--calendarDayHoverColor);
+}
+
+.day-month{
+    width:$day-width-month;
+}
+
+.day-year{
+    width:$day-width-year;
 }
 
 .month-header{
@@ -100,11 +147,6 @@
    justify-content: center;
 }
 
-.day-label{
-    font-size: $day-label-font-size;
-    height: $day-label-height;
-    line-height: $day-label-height;
-}
 
 .highlight-saturday{
    background-color:var(--calendarSaturdayColor);

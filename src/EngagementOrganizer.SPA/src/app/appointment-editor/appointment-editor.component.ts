@@ -5,6 +5,7 @@ import { AppointmentType, CustomersService, Customer, AppointmentsService, Appoi
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 
 @Component({
@@ -56,13 +57,6 @@ export class AppointmentEditorComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  setToUtc(dateRef: Date): Date {
-    var d = new Date();
-    var drefT = moment(dateRef).toDate();
-    d.setUTCFullYear(drefT.getFullYear());
-    d.setUTCMonth(drefT.getMonth(), drefT.getDate());
-    return d;
-  }
 
   validateData(appToSend: Appointment) {
     if (appToSend.endDate < appToSend.startDate) {
@@ -82,8 +76,8 @@ export class AppointmentEditorComponent implements OnInit {
     appToSend.project = this.currentAppointment.project;
     appToSend.travelBooked = this.currentAppointment.travelBooked;
     appToSend.typeID = this.currentAppointment.type;
-    appToSend.startDate = this.setToUtc(this.currentAppointment.startDate);
-    appToSend.endDate = this.setToUtc(this.currentAppointment.endDate);
+    appToSend.startDate = DateTimeUtils.setToUtc(this.currentAppointment.startDate);
+    appToSend.endDate = DateTimeUtils.setToUtc(this.currentAppointment.endDate);
     appToSend.calendarName = this.currentAppointment.calendarName;
 
     if (!this.validateData(appToSend)) return;

@@ -174,6 +174,17 @@ namespace EngagementOrganizer.API.Migrations
                     b.Property<string>("CalendarName")
                         .HasColumnType("TEXT");
 
+                    b.Property<string>("Color")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("Description")
+                        .HasColumnType("TEXT");
+
+                    b.Property<string>("TextColor")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("CalendarName");
+
                     b.ToTable("Calendars");
                 });
 

@@ -1,4 +1,4 @@
-<div class="header">
+<div class="filters-header">
   <button mat-mini-fab color="primary" (click)="changeYear(selectedYear-1)">-</button>&nbsp;
   <mat-form-field class="year-box">
     <mat-label>Year</mat-label>
@@ -24,12 +24,12 @@
       <mat-form-field class="name"><input type="text" [(ngModel)]="currentCustomer.name" maxlength="20" matInput
           placeholder="Name">
       </mat-form-field>&nbsp;
-      <mat-form-field class="color"><input type="text" [(ngModel)]="currentCustomer.color" maxlength="7" matInput
-          placeholder="Color"></mat-form-field>&nbsp;
-      <mat-form-field class="color"><input type="text" [(ngModel)]="currentCustomer.textColor" maxlength="7" matInput
-          placeholder="Text"></mat-form-field>&nbsp;
+      <mat-form-field class="color"><input type="text" [(colorPicker)]="currentCustomer.color"
+          [(ngModel)]="currentCustomer.color" maxlength="7" matInput placeholder="Color"></mat-form-field>&nbsp;
+      <mat-form-field class="color"><input type="text" [(colorPicker)]="currentCustomer.textColor"
+          [(ngModel)]="currentCustomer.textColor" maxlength="7" matInput placeholder="Text"></mat-form-field>&nbsp;
       <mat-form-field class="project-color"><input type="text" [(ngModel)]="currentCustomer.projectColors"
-          maxlength="50" matInput placeholder="Project color"></mat-form-field>&nbsp;
+          maxlength="50" matInput placeholder="Project colors"></mat-form-field>&nbsp;
       <button (click)="saveCustomer()" mat-raised-button color="primary">SAVE</button>&nbsp;
       <button (click)="cancelEditCustomer()" mat-raised-button color="primary">CANCEL</button>
     </div>
@@ -37,5 +37,6 @@
 </div>
 <div class="customer-list">
   <app-customer-view [customers]="customers" [appointments]="appointments" [selectedYear]="selectedYear"
-    [filterProject]="filterProject" [showOnlyCustomerWithAppointments]="showOnlyCustomerWithAppointments" (customerSelectedForEdit)="editCustomer($event)"></app-customer-view>
+    [filterProject]="filterProject" [showOnlyCustomerWithAppointments]="showOnlyCustomerWithAppointments"
+    (customerSelectedForEdit)="editCustomer($event)"></app-customer-view>
 </div>

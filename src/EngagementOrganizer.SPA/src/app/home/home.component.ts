@@ -3,7 +3,7 @@ import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/E
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import * as moment from 'moment';
-import { filter } from 'rxjs/operators';
+import { filter, retry } from 'rxjs/operators';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -12,6 +12,9 @@ import { AppointmentEditorComponent } from '../appointment-editor/appointment-ed
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 import { AppointmentSummaryComponent } from '../appointment-summary/appointment-summary.component';
+import { CalendarView } from '../models/calendarView';
+import { CalendarDisplay } from '../models/calendarDisplay';
+import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
 
 @Component({
   selector: 'app-home',
@@ -20,14 +23,20 @@ import { AppointmentSummaryComponent } from '../appointment-summary/appointment-
 })
 export class HomeComponent implements OnInit {
 
+  originalAppointments: Array<AppointmentExtraInfo>;
   appointments: Array<AppointmentExtraInfo>;
   upstreamEventTokenEnabled: Boolean;
   calendars: Array<Calendar>;
 
   selectedYear: number;
+  selectedDate: Date = DateTimeUtils.getNowWithoutTime();
   filterProject: string;
   upstreamEventToken: string;
   selectedCalendar: string;
+  selectedView: CalendarView = CalendarView.Year;
+  selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
+  selectedCustomers: string[];
+  filterSelectedCustomer: string;
 
   currentAppointment: AppointmentViewModel;
 
@@ -41,7 +50,9 @@ export class HomeComponent implements OnInit {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
-      this.appointments = this.route.snapshot.data.appointments;
+      this.originalAppointments = this.route.snapshot.data.appointments;
+      this.appointments = this.originalAppointments;
+      this.applyInMemoryFilters()
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
       this.calendars = this.route.snapshot.data.calendars;
     });
@@ -55,14 +66,21 @@ export class HomeComponent implements OnInit {
       yearToSet = this.route.snapshot.params["year?"];
     }
     this.selectedYear = Number.parseInt(yearToSet);
-    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
-    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    this.initializeUiFilterFromLocalStorage();
   }
 
-  changeYear(value) {
-    this.selectedYear = Number.parseInt(value);
-    this.persistUiFilterInLocalStorage();
-    this.router.navigate(['calendar/', value]);
+  changeCurrentIndex(value) {
+    if (this.selectedView == CalendarView.Year) {
+      this.selectedYear = Number.parseInt(this.selectedYear + value);
+      this.persistUiFilterInLocalStorage();
+      this.router.navigate(['calendar/', this.selectedYear]);
+    } else if (this.selectedView == CalendarView.Month) {
+      this.selectedDate = DateTimeUtils.addDays(this.selectedDate, 7 * value);
+    }
+  }
+
+  changeDate(value) {
+    this.selectedDate = value.toDate();
   }
 
   changeFilterProject(value) {
@@ -75,12 +93,25 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['calendar/', this.selectedYear]);
   }
 
+  initializeUiFilterFromLocalStorage() {
+    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
+    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    this.selectedDisplay = parseInt(localStorage.getItem('SelectedDisplay'));
+  }
+
   persistUiFilterInLocalStorage() {
     localStorage.setItem('UpstreamEventToken', this.upstreamEventToken);
     localStorage.setItem('SelectedCalendar', this.selectedCalendar);
+    localStorage.setItem('SelectedDisplay', this.selectedDisplay.toString());
   }
 
   calendarSelected(value) {
+    this.persistUiFilterInLocalStorage();
+    this.router.navigate(['calendar/', this.selectedYear]);
+  }
+
+  displaySelected(value) {
+    this.selectedCalendar = "";
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
   }
@@ -106,6 +137,27 @@ export class HomeComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
+    });
+  }
+
+  showCalendarEditorDialog(event, calendarToEdit) {
+    if (event) {
+      event.preventDefault(); //<--prevent default
+      event.stopPropagation();  //stop propagation
+    }
+    const dialogRef = this.dialog.open(CalendarEditorComponent, {
+      width: '700px',
+      height: '255px',
+      data: {
+        route: this.route,
+        currentCalendar: calendarToEdit,
+      }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.selectedCalendar = result.calendarName;
+      this.persistUiFilterInLocalStorage();
+      this.router.navigate(['calendar/', this.selectedYear]);
     });
   }
 
@@ -212,13 +264,34 @@ export class HomeComponent implements OnInit {
   }
 
   createCalendar() {
-    var calendarName = prompt("Insert the calendar name");
-    if (calendarName != null && calendarName.trim() != '') {
-      this.apiAppointments.apiAppointmentsCalendarCalendarNamePost(calendarName).subscribe(x => {
-        this.selectedCalendar = calendarName;
-        this.persistUiFilterInLocalStorage();
-        this.router.navigate(['calendar/', this.selectedYear]);
-      });
+    this.showCalendarEditorDialog(null, null);
+  }
+
+  public get calendarView(): typeof CalendarView {
+    return CalendarView;
+  }
+
+  public get calendarDisplay(): typeof CalendarDisplay {
+    return CalendarDisplay;
+  }
+
+  getAppointmentCustomers(): string[] {
+    if (this.originalAppointments && this.originalAppointments.length > 0) {
+      return [...new Set(this.originalAppointments.filter(x => x.customer != null && (!this.filterSelectedCustomer || x.customer.shortDescription.toLowerCase().includes(this.filterSelectedCustomer.toLowerCase()))).map(x => x.customer.shortDescription))].sort();
+    } else {
+      return [];
     }
+  }
+
+  applyInMemoryFilters() {
+    if (this.selectedCustomers && this.selectedCustomers.length > 0) {
+      this.appointments = this.originalAppointments.filter(x => this.selectedCustomers.filter(y => y?.toLowerCase() == x.customer?.shortDescription?.toLowerCase()).length > 0);
+    } else {
+      this.appointments = this.originalAppointments;
+    }
+  }
+
+  filterCustomerSelectedValueChange(event) {
+    this.applyInMemoryFilters()
   }
 }
