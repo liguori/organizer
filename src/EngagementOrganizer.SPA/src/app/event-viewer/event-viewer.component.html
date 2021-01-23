@@ -17,7 +17,7 @@
     <span *ngIf="selectedDisplay==calendarDisplay.Calendar" class="calendar"
         [class.event-month]="currentView== calendarView.Month" [class.event-year]="currentView== calendarView.Year"
         [ngStyle]="getCalendarStyle(app)">
-        {{app.calendarName}}
+        {{app.calendarName == '' ? '(default)': app.calendarName }}
     </span>
 
 </span>

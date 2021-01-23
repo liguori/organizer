@@ -6,7 +6,7 @@
   <div fxLayout="column" fxLayoutAlign="center stretch" class="row">
     <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
       <mat-form-field class="input-text">
-        <input matInput [(ngModel)]="editCalendar.calendarName" placeholder="Name">
+        <input matInput [disabled]="currentCalendar!= null" [(ngModel)]="editCalendar.calendarName" placeholder="Name">
       </mat-form-field>
       <mat-form-field class="input-text">
         <input matInput [(ngModel)]="editCalendar.color" placeholder="Color" [(colorPicker)]="editCalendar.color">
