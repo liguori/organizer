@@ -1,8 +1,14 @@
+<div id="loader-placeholder">
+    <mat-progress-bar *ngIf="loading" color="accent" mode="indeterminate">
+    </mat-progress-bar>
+</div>
 <div class="theme-wrapper">
     <div class="header">
         <a [routerLink]="getCalendarCurrentYearUrl()">Calendar</a> | <a
             [routerLink]="getCustomerCurrentYearUrl()">Customer</a> | <a
-            [routerLink]="getUtilizationCurrentYearUrl()">Utilization</a> |<a (click)="toggleDarkLight()">Change Theme</a> | <a [href]="apiBackupUrl">Backup</a>
+            [routerLink]="getUtilizationCurrentYearUrl()">Utilization</a> | <a (click)="toggleDarkLight()">Change
+            Theme</a> | <a [href]="apiBackupUrl">Backup</a>
     </div>
+
     <router-outlet></router-outlet>
 </div>
