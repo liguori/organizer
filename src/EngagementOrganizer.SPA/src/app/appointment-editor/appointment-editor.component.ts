@@ -6,6 +6,7 @@ import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
+import { Calendar } from '../api/EngagementOrganizerApiClient/model/calendar';
 
 
 @Component({
@@ -14,6 +15,11 @@ import { DateTimeUtils } from '../utils/dateTimeUtils';
   styleUrls: ['./appointment-editor.component.scss']
 })
 export class AppointmentEditorComponent implements OnInit {
+  route: ActivatedRoute
+  currentAppointment: AppointmentViewModel
+  appointmentsType: Array<AppointmentType>
+  customers: Array<Customer>
+  calendars: Array<Calendar>;
 
   constructor(
     private router: Router,
@@ -24,6 +30,7 @@ export class AppointmentEditorComponent implements OnInit {
     @Inject(MAT_DIALOG_DATA) public data: { route: ActivatedRoute, currentAppointment: AppointmentViewModel }) {
     this.currentAppointment = this.data.currentAppointment;
     this.route = this.data.route
+    this.calendars = this.route.snapshot.data.calendars;
   }
 
   ngOnInit() {
@@ -127,12 +134,4 @@ export class AppointmentEditorComponent implements OnInit {
     this.currentAppointment.endDate = this.currentAppointment.startDate;
   }
 
-
-  route: ActivatedRoute
-
-  currentAppointment: AppointmentViewModel
-
-  appointmentsType: Array<AppointmentType>
-
-  customers: Array<Customer>
 }

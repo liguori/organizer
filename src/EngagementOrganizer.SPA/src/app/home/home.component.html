@@ -36,7 +36,7 @@
         <mat-form-field class="filter-box">
             <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
                 (selectionChange)="calendarSelected($event.value)">
-                <mat-option value=""> </mat-option>
+                <mat-option value="">Main</mat-option>
                 <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
                     <div style="display:flex; justify-content: space-between;">
                         <span>{{calendar.description}}</span>

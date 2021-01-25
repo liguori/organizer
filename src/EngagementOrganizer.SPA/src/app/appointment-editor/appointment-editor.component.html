@@ -36,20 +36,28 @@
       <span class="warning-message">{{currentAppointment.warningMessage}}</span>
     </div>
     <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
-      <mat-form-field>
+      <mat-form-field class="form-field-date">
         <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}"
           [matDatepicker]="dateFromPicker" placeholder="From">
         <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
         <mat-datepicker #dateFromPicker></mat-datepicker>
       </mat-form-field>
       <button (click)="oneDay()" mat-mini-fab color="primary">C</button>
-      <mat-form-field>
+      <mat-form-field class="form-field-date">
         <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}"
           [matDatepicker]="dateToPicker" placeholder="To">
         <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
         <mat-datepicker #dateToPicker></mat-datepicker>
       </mat-form-field>
-      &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+      <mat-form-field class="filter-box">
+        <mat-select #calendarSelection [(ngModel)]="currentAppointment.calendarName" placeholder="Calendar">
+          <mat-option value="">Main</mat-option>
+          <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
+            <span>{{calendar.description}}</span>
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+      &nbsp;
       <mat-checkbox [(ngModel)]="currentAppointment.confirmed">Confirmed</mat-checkbox>
       <mat-checkbox [(ngModel)]="currentAppointment.requireTravel">Require travel</mat-checkbox>
       <mat-checkbox [(ngModel)]="currentAppointment.travelBooked">Booked</mat-checkbox>
