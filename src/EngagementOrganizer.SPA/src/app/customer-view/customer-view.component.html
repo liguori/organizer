@@ -2,7 +2,9 @@
     <div>
         <b>({{cus.shortDescription}}) - {{cus.name}}</b>
         <div class="action-customer"><button (click)="customerSelectedForEdit.emit(cus)" mat-raised-button
-                color="basic">EDIT</button>
+            mat-mini-fab color="accent"><mat-icon>edit</mat-icon></button>&nbsp;
+                <button (click)="deleteCustomer(cus)" mat-raised-button
+                mat-mini-fab  color="warn"><mat-icon>delete</mat-icon></button>
         </div>
     </div>
     <span [innerHTML]="getCustomerSummary(cus)"></span>

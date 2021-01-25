@@ -126,7 +126,7 @@ export class AppointmentEditorComponent implements OnInit {
         (err) => {
           alert('Error while deleting appointment' + err.message);
         }
-      );;
+      );
     }
   }
 

@@ -1,6 +1,7 @@
 import { Component, OnInit, Input, ChangeDetectionStrategy, Output, EventEmitter } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
-import { Customer, Appointment } from '../api/EngagementOrganizerApiClient';
+import { Customer, Appointment, CustomersService } from '../api/EngagementOrganizerApiClient';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 @Component({
@@ -11,7 +12,10 @@ import { DateTimeUtils } from '../utils/dateTimeUtils';
 })
 export class CustomerViewComponent implements OnInit {
 
-  constructor() { }
+  constructor(
+    private customerService: CustomersService,
+    private router: Router,
+    private route: ActivatedRoute,) { }
 
   @Input()
   customers: Array<Customer>;
@@ -95,4 +99,16 @@ export class CustomerViewComponent implements OnInit {
   };
 
 
+  deleteCustomer(cus: Customer) {
+    if (confirm('Do you want to delete the customer ' + cus.name + '?')) {
+      this.customerService.apiCustomersIdDelete(cus.id).subscribe(
+        data => {
+          this.router.navigate(['customer/', this.route.snapshot.params["year?"]]);
+        },
+        (err) => {
+          alert('Error while deleting customer' + err.message + '\nMake sure you have deleted all the appointments for the customer');
+        }
+      );
+    }
+  }
 }
