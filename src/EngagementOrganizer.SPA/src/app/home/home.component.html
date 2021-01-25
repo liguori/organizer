@@ -58,7 +58,7 @@
         </button>
         <mat-form-field id="calendar-customer-filter" class="filter-box">
             <mat-label>Customer</mat-label>
-            <mat-select multiple [(ngModel)]="selectedCustomers"
+            <mat-select #filterCustomer multiple [(ngModel)]="selectedCustomers"
                 (selectionChange)="filterCustomerSelectedValueChange($event)">
                 <mat-option>
                     <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
@@ -68,6 +68,9 @@
                 </mat-option>
             </mat-select>
         </mat-form-field>
+        <button mat-icon-button color="primary" aria-label="Clear customer filter" (click)="unselectAllCustomer(filterCustomer)">
+            <mat-icon>clear</mat-icon>
+        </button>
         <mat-form-field id="upstream-event-token" class="filter-box" *ngIf="upstreamEventTokenEnabled">
             <mat-label>Upstream Event Token</mat-label>
             <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"

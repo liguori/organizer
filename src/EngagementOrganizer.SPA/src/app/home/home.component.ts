@@ -15,6 +15,8 @@ import { AppointmentSummaryComponent } from '../appointment-summary/appointment-
 import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 
 @Component({
   selector: 'app-home',
@@ -296,5 +298,9 @@ export class HomeComponent implements OnInit {
 
   filterCustomerSelectedValueChange(event) {
     this.applyInMemoryFilters()
+  }
+
+  unselectAllCustomer(filterCustomer: MatSelect){
+    filterCustomer.options.forEach( (item : MatOption) => {item.deselect()})
   }
 }
