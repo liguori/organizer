@@ -41,10 +41,10 @@ jobs:
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
-          app-name:    ${{ secrets[APP_SERVICE_NAME_VARIABLE] }}
+          app-name:    ${{ secrets[env.APP_SERVICE_NAME_VARIABLE] }}
           package: ./artifacts/engagement-organizer-backend
         env:
-          App.ApiKeys: ${{ secrets[API_KEY_VARIABLE] }}
+          App.ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
           App.DatabasePath: 'EngagementOrganizer.db'
 
    
