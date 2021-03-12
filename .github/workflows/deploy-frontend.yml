@@ -2,7 +2,12 @@ name: Deploy Frontend
 
 on:
   workflow_dispatch:
-
+   inputs:
+        appservice_suffix:
+          description: "AppService Suffix"
+          required: true
+          default: "DEFAULT"
+          
 jobs:
   Deploy-Frontend:
     runs-on: ubuntu-latest
