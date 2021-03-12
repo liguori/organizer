@@ -10,10 +10,34 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - uses: azure/login@v1
+        with:
+          creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
-      - name: Run a multi-line script
+      - name: Download Frontend Artifact
+        uses: dawidd6/action-download-artifact@v2.11.0
+        with:
+          workflow: build-backend.yml
+          name: engagement-organizer-frontend
+          branch: master
+          path: ./deploy
+
+      - name: Calculate dynamic secret name with suffix
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          echo "APP_SERVICE_NAME_VARIABLE=APPSERVICENAME_FE_${{github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
+          echo "API_URL_VARIABLE=APPSERVICE_FE_CONFIG_APIURL_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
+          echo "API_KEY_VARIABLE=APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
+      - name: Config Settings Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'deploy/assets/config/config.production.json'
+        env:
+          api.key: ${{ secrets[env.API_KEY_VARIABLE] }}
+          api.url: ${{ secrets[env.API_URL_VARIABLE] }}
+
+      - name: Deploy Backend
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name:    ${{ secrets[env.APP_SERVICE_NAME_VARIABLE] }}
+          package: ./deploy
+        
