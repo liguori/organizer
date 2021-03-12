@@ -33,13 +33,18 @@ jobs:
           files: appsettings.json,appsettings.Development.json,appsettings.Production.json
           working-directory: ./artifacts/engagement-organizer-backend
 
+      - name: Set env variable
+        run: |
+          echo ::set-env name=APP_SERVICE_NAME_VARIABLE::APPSERVICENAME_${{github.event.inputs.appservice_suffix }}
+          echo ::set-env name=API_KEY_VARIABLE::APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}
+
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
-          app-name:    ${{ secrets['APPSERVICENAME_'+github.event.inputs.appservice_suffix] }}
+          app-name:    ${{ secrets[$APP_SERVICE_NAME_VARIABLE] }}
           package: ./artifacts/engagement-organizer-backend
         env:
-          App.ApiKeys: ${{ secrets['APPSERVICE_CONFIG_APIKEY_'+github.event.inputs.appservice_suffix] }}
+          App.ApiKeys: ${{ secrets[$API_KEY_VARIABLE] }}
           App.DatabasePath: 'EngagementOrganizer.db'
 
    
