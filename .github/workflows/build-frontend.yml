@@ -15,22 +15,26 @@ on:
 
 # A workflow run is made up of one or more jobs that can run sequentially or in parallel
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  Build-Frontend:
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v2
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
+      - name: Set up Node.js version
+        uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
 
-      # Runs a set of commands using the runners shell
-      - name: Run a multi-line script
+      - name: Angular Build
         run: |
-          echo Add other actions to build,
-          echo test, and deploy your project.
+          npm install
+          npm run build -- --prod --base-href ./ --outputPath=dist --configuration='production'
+        working-directory: ./src/EngagementOrganizer.SPA/
+
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.2.2
+        with:
+          name: engagement-organizer-frontend
+          path: ./src/EngagementOrganizer.SPA/dist/*
+          if-no-files-found: error
+          retention-days: 90
