@@ -27,10 +27,19 @@ jobs:
           branch: master
           path: ./artifacts/engagement-organizer-backend
 
+      - name: Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: appsettings.json,appsettings.Development.json,appsettings.Production.json
+          working-directory: ./artifacts/engagement-organizer-backend
+
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
           app-name:    ${{ secrets['APPSERVICENAME_'+github.event.inputs.appservice_suffix] }}
           package: ./artifacts/engagement-organizer-backend
+        env:
+          App.ApiKeys: ${{ secrets['APPSERVICE_CONFIG_APIKEY_'+github.event.inputs.appservice_suffix] }}
+          App.DatabasePath: 'EngagementOrganizer.db'
 
    
