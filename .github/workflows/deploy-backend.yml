@@ -1,14 +1,12 @@
-# This is a basic workflow to help you get started with Actions
-
 name: Deploy Backend
 
 on:
-  push:
-    branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
   workflow_dispatch:
+   inputs:
+        appservice_suffix:
+          description: "AppService Suffix"
+          required: true
+          default: "DEFAULT"
 
 jobs:
   Deploy-Backend:
@@ -20,3 +18,19 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+
+      - name: Download Backend Artifact
+        uses: dawidd6/action-download-artifact@v2.11.0
+        with:
+          workflow: build-backend.yml
+          name: engagement-organizer-backend
+          branch: master
+          path: ./artifacts/engagement-organizer-backend
+
+      - name: Deploy Backend
+        uses: azure/webapps-deploy@v2
+        with:
+          app-name:    ${{ secrets['APPSERVICENAME_'+github.event.inputs.appservice_suffix] }}
+          package: ./artifacts/engagement-organizer-backend
+
+   
