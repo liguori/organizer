@@ -17,7 +17,7 @@ jobs:
       - name: Download Frontend Artifact
         uses: dawidd6/action-download-artifact@v2.11.0
         with:
-          workflow: build-backend.yml
+          workflow: build-frontend.yml
           name: engagement-organizer-frontend
           branch: master
           path: ./deploy
