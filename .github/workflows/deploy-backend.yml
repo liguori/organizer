@@ -32,6 +32,11 @@ jobs:
           echo "APP_SERVICE_NAME_VARIABLE=APPSERVICENAME_${{github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
           echo "API_KEY_VARIABLE=APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
 
+      - name: Read exported variable
+        run: |
+          echo "${{ env.APP_SERVICE_NAME_VARIABLE }}"
+          echo "${{ env.API_KEY_VARIABLE }}"
+
       - name: Variable Substitution
         uses: microsoft/variable-substitution@v1
         with:
