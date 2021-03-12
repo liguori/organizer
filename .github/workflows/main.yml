@@ -1,4 +1,4 @@
-name: CI
+name: Build Electron
 
 on:
   pull_request:
