@@ -3,9 +3,9 @@ name: Build Backend
 on:
   push:
     branches: [ master ]
-  pull_request:
-    branches: [ master ]
-
+    paths:
+    - 'src/EngagementOrganizer.API/**'
+    
 jobs:
   Build-Backend:
 
