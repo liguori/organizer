@@ -29,8 +29,8 @@ jobs:
 
       - name: Calculate dynamic secret name with suffix
         run: |
-          echo ::set-env name=APP_SERVICE_NAME_VARIABLE::APPSERVICENAME_${{github.event.inputs.appservice_suffix }}
-          echo ::set-env name=API_KEY_VARIABLE::APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}
+          echo "APP_SERVICE_NAME_VARIABLE=APPSERVICENAME_${{github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
+          echo "API_KEY_VARIABLE=APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
 
       - name: Variable Substitution
         uses: microsoft/variable-substitution@v1
