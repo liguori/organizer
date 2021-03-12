@@ -25,13 +25,12 @@ jobs:
           workflow: build-backend.yml
           name: engagement-organizer-backend
           branch: master
-          path: ./artifacts/engagement-organizer-backend
+          path: ./deploy
 
       - name: Variable Substitution
         uses: microsoft/variable-substitution@v1
         with:
-          files: appsettings.json,appsettings.Development.json,appsettings.Production.json
-          working-directory: ./artifacts/engagement-organizer-backend
+          files: deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json
 
       - name: Set env variable
         run: |
@@ -42,7 +41,7 @@ jobs:
         uses: azure/webapps-deploy@v2
         with:
           app-name:    ${{ secrets[env.APP_SERVICE_NAME_VARIABLE] }}
-          package: ./artifacts/engagement-organizer-backend
+          package: ./deploy
         env:
           App.ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
           App.DatabasePath: 'EngagementOrganizer.db'
