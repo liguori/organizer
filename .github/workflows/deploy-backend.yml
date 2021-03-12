@@ -32,12 +32,7 @@ jobs:
           echo "APP_SERVICE_NAME_VARIABLE=APPSERVICENAME_${{github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
           echo "API_KEY_VARIABLE=APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
 
-      - name: Read exported variable
-        run: |
-          echo "${{ env.APP_SERVICE_NAME_VARIABLE }}"
-          echo "${{ env.API_KEY_VARIABLE }}"
-
-      - name: Variable Substitution
+      - name: Config Settings Substitution
         uses: microsoft/variable-substitution@v1
         with:
           files: 'deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json'
@@ -45,7 +40,6 @@ jobs:
           ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
           DatabasePath: 'EngagementOrganizer.db'
 
-    
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
