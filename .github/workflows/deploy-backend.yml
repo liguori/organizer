@@ -27,23 +27,25 @@ jobs:
           branch: master
           path: ./deploy
 
-      - name: Variable Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: 'deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json'
-
-      - name: Set env variable
+      - name: Calculate dynamic secret name with suffix
         run: |
           echo ::set-env name=APP_SERVICE_NAME_VARIABLE::APPSERVICENAME_${{github.event.inputs.appservice_suffix }}
           echo ::set-env name=API_KEY_VARIABLE::APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}
 
+      - name: Variable Substitution
+        uses: microsoft/variable-substitution@v1
+        with:
+          files: 'deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json'
+        env:
+          ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
+          DatabasePath: 'EngagementOrganizer.db'
+
+    
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
           app-name:    ${{ secrets[env.APP_SERVICE_NAME_VARIABLE] }}
           package: ./deploy
-        env:
-          App.ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
-          App.DatabasePath: 'EngagementOrganizer.db'
+        
 
    
