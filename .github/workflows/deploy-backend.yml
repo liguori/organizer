@@ -3,13 +3,16 @@ name: Deploy Backend on Azure
 on:
   workflow_dispatch:
    inputs:
-        appservice_suffix:
-          description: "AppService Suffix"
+        environment_name:
+          description: "Environment Name"
           required: true
-          default: "DEFAULT"
+          default: ""
 
 jobs:
   Deploy-Backend:
+    environment:
+      name: ${{ github.event.inputs.environment_name }}
+      
     runs-on: ubuntu-latest
 
     steps:
@@ -27,23 +30,18 @@ jobs:
           branch: master
           path: ./deploy
 
-      - name: Calculate dynamic secret name with suffix
-        run: |
-          echo "APP_SERVICE_NAME_VARIABLE=APPSERVICENAME_${{github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
-          echo "API_KEY_VARIABLE=APPSERVICE_CONFIG_APIKEY_${{ github.event.inputs.appservice_suffix }}" >> $GITHUB_ENV
-
       - name: Config Settings Substitution
         uses: microsoft/variable-substitution@v1
         with:
           files: 'deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json'
         env:
-          ApiKeys: ${{ secrets[env.API_KEY_VARIABLE] }}
+          ApiKeys: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
           DatabasePath: 'EngagementOrganizer.db'
 
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
-          app-name:    ${{ secrets[env.APP_SERVICE_NAME_VARIABLE] }}
+          app-name:    ${{ secrets.APPSERVICENAME }}
           package: ./deploy
         
 
