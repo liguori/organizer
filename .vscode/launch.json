@@ -5,12 +5,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Engagement.API .NET Core Launch (web)",
+            "name": "Engagement.API .NET Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/bin/Debug/netcoreapp3.1/EngagementOrganizer.API.dll",
+            "program": "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/bin/Debug/net5.0/EngagementOrganizer.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API",
             "stopAtEntry": false,
@@ -27,7 +27,7 @@
             }
         },
         {
-            "name": "Engagement.API .NET Core Attach",
+            "name": "Engagement.API .NET  Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
