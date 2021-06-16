@@ -21,13 +21,18 @@ jobs:
       - uses: azure/login@v1
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
+          
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
 
       - name: Download Backend Artifact
         uses: dawidd6/action-download-artifact@v2.11.0
         with:
           workflow: build-backend.yml
           name: engagement-organizer-backend
-          branch: master
+          branch: ${{ steps.extract_branch.outputs.branch }}
           path: ./deploy
 
       - name: Config Settings Substitution
