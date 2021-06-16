@@ -22,12 +22,17 @@ jobs:
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
+      - name: Extract branch name
+        shell: bash
+        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        id: extract_branch
+
       - name: Download Frontend Artifact
         uses: dawidd6/action-download-artifact@v2.11.0
         with:
           workflow: build-frontend.yml
           name: engagement-organizer-frontend
-          branch: master
+          branch: ${{ steps.extract_branch.outputs.branch }}
           path: ./deploy
 
     
