@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   selectedDate: Date = DateTimeUtils.getNowWithoutTime();
   filterProject: string;
   upstreamEventToken: string;
-  selectedCalendar: string;
+  selectedCalendar: string = "";
   selectedView: CalendarView = CalendarView.Year;
   selectedDisplay: CalendarDisplay = CalendarDisplay.Event;
   selectedCustomers: string[];
@@ -97,7 +97,9 @@ export class HomeComponent implements OnInit {
 
   initializeUiFilterFromLocalStorage() {
     this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
-    this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    if (localStorage.getItem('SelectedCalendar')) {
+      this.selectedCalendar = localStorage.getItem('SelectedCalendar');
+    }
     if (localStorage.getItem('SelectedDisplay')) {
       this.selectedDisplay = parseInt(localStorage.getItem('SelectedDisplay'));
     } else {
@@ -107,7 +109,9 @@ export class HomeComponent implements OnInit {
 
   persistUiFilterInLocalStorage() {
     localStorage.setItem('UpstreamEventToken', this.upstreamEventToken);
-    localStorage.setItem('SelectedCalendar', this.selectedCalendar);
+    if (this.selectedCalendar != null) {
+      localStorage.setItem('SelectedCalendar', this.selectedCalendar);
+    }
     localStorage.setItem('SelectedDisplay', this.selectedDisplay.toString());
   }
 
@@ -300,7 +304,7 @@ export class HomeComponent implements OnInit {
     this.applyInMemoryFilters()
   }
 
-  unselectAllCustomer(filterCustomer: MatSelect){
-    filterCustomer.options.forEach( (item : MatOption) => {item.deselect()})
+  unselectAllCustomer(filterCustomer: MatSelect) {
+    filterCustomer.options.forEach((item: MatOption) => { item.deselect() })
   }
 }
