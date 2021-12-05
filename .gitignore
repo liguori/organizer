@@ -10,3 +10,5 @@
 
 # IDE - VS
 .vs/**
+/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.db-shm
+/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.db-wal
