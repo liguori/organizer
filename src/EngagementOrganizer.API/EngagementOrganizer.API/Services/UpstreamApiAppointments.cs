@@ -21,8 +21,8 @@ namespace EngagementOrganizer.API.Services
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly ILogger<UpstreamApiAppointments> _logger;
-        private string[] Colors = new[] { "#7e29a3", "#273b84", "#ffa200", "#eff542", "#4287f5", "#d95255", "#4b8773", "#694226", "#52db09", "#7641f2", "#f27341", "#ffe263", "#2f756e" , "#400f3f" };
-        private string[] TextColors = new[] { "#FFFFFF", "#FFFFFF", "#000000", "#343e85", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF","#000000" ,"#ffffff","#ffffff"};
+        private string[] Colors = new[] { "#7e29a3", "#273b84", "#ffa200", "#eff542", "#4287f5", "#d95255", "#4b8773", "#694226", "#52db09", "#7641f2", "#f27341", "#ffe263", "#2f756e", "#400f3f" };
+        private string[] TextColors = new[] { "#FFFFFF", "#FFFFFF", "#000000", "#343e85", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#FFFFFF", "#000000", "#ffffff", "#ffffff" };
 
         public UpstreamApiAppointments(EngagementOrganizerContext context, IHttpClientFactory httpClientFactory, IConfiguration configuration, ILogger<UpstreamApiAppointments> logger)
         {
@@ -87,7 +87,8 @@ namespace EngagementOrganizer.API.Services
                         TypeID = 99,
                         Type = new AppointmentType { ID = 99, Billable = ele.Billable, RequireCustomer = true },
                         Confirmed = true,
-                        CalendarName = ele.SourceCalendar
+                        CalendarName = ele.SourceCalendar,
+                        RequireTravel = ele.HasWarning
                     });
                 }
             }
