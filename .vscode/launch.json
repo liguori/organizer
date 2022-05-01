@@ -5,14 +5,14 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Engagement.API .NET Launch (web)",
+            "name": "Organizer.API .NET Launch (web)",
             "type": "coreclr",
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/bin/Debug/net5.0/EngagementOrganizer.API.dll",
+            "program": "${workspaceFolder}/src/Organizer.API/Organizer.API/bin/Debug/net6.0/Organizer.API.dll",
             "args": [],
-            "cwd": "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API",
+            "cwd": "${workspaceFolder}/src/Organizer.API/Organizer.API",
             "stopAtEntry": false,
             // Enable launching a web browser when ASP.NET Core starts. For more information: https://aka.ms/VSCode-CS-LaunchJson-WebBrowser
             "serverReadyAction": {
@@ -27,18 +27,18 @@
             }
         },
         {
-            "name": "Engagement.API .NET  Attach",
+            "name": "Organizer.API .NET  Attach",
             "type": "coreclr",
             "request": "attach",
             "processId": "${command:pickProcess}"
         },
         {
-            "name": "Engagement.SPA Launch (web)",
+            "name": "Organizer.SPA Launch (web)",
             "type": "edge",
             "request": "launch",
             "url": "http://localhost:4200",
             "preLaunchTask": "npm_start",
-            "webRoot": "${workspaceRoot}/src/EngagementOrganizer.SPA"
+            "webRoot": "${workspaceRoot}/src/Organizer.SPA"
         }
     ]
 }

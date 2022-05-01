@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.API.csproj",
+                "${workspaceFolder}/src/Organizer.API/Organizer.API/Organizer.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.API.csproj",
+                "${workspaceFolder}/src/Organizer.API/Organizer.API/Organizer.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -32,7 +32,7 @@
             "args": [
                 "watch",
                 "run",
-                "${workspaceFolder}/src/EngagementOrganizer.API/EngagementOrganizer.API/EngagementOrganizer.API.csproj",
+                "${workspaceFolder}/src/Organizer.API/Organizer.API/Organizer.API.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -44,7 +44,7 @@
             "script": "start",
             "isBackground": true,
             "options": {
-              "cwd": "${workspaceFolder}/src/EngagementOrganizer.SPA/"
+              "cwd": "${workspaceFolder}/src/Organizer.SPA/"
             },
             "presentation": {
               "focus": true,

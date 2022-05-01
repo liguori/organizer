@@ -31,7 +31,7 @@ jobs:
         uses: dawidd6/action-download-artifact@v2.11.0
         with:
           workflow: build-backend.yml
-          name: engagement-organizer-backend
+          name: organizer-backend
           branch: ${{ steps.extract_branch.outputs.branch }}
           path: ./deploy
 
@@ -41,7 +41,7 @@ jobs:
           files: 'deploy/appsettings.json,deploy/appsettings.Development.json,deploy/appsettings.Production.json'
         env:
           ApiKeys: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
-          DatabasePath: 'EngagementOrganizer.db'
+          DatabasePath: 'Organizer.db'
 
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2

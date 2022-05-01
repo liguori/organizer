@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
     paths:
-    - 'src/EngagementOrganizer.API/**'
+    - 'src/Organizer.API/**'
   workflow_dispatch:
     
 jobs:
@@ -20,13 +20,13 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Build .NET Backend
-      run: dotnet publish EngagementOrganizer.API.csproj -o "output" -c "Release"
-      working-directory: ./src/EngagementOrganizer.API/EngagementOrganizer.API
+      run: dotnet publish Organizer.API.csproj -o "output" -c "Release"
+      working-directory: ./src/Organizer.API/Organizer.API
 
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v2.2.2
       with:
-        name: engagement-organizer-backend
-        path: ./src/EngagementOrganizer.API/EngagementOrganizer.API/output/*
+        name: organizer-backend
+        path: ./src/Organizer.API/Organizer.API/output/*
         if-no-files-found: error
         retention-days: 90

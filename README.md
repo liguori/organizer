@@ -1,7 +1,7 @@
-# Engagement-Organizer
-![CI](https://github.com/liguori/Engagement-Organizer/workflows/CI/badge.svg)
+# Organizer
+![CI](https://github.com/liguori/organizer/workflows/CI/badge.svg)
 
-Engagement management tool. 
+Appointment management tool. 
 
  ## Technologies
 
@@ -55,9 +55,9 @@ Dark Theme
 **Architecture**
 
 The app is composed of 3 layerd:
-- API: The REST api that wraps all the business logic and data access (./src/EngagementOrganizer.API)
-- SPA: The Single Page Application that represents the user interface (./src/EngagementOrganizer.SPA)
-- Electron: Can host the API and SPA for a standalone usage (./src/EngagementOrganizer.App)
+- API: The REST api that wraps all the business logic and data access (./src/Organizer.API)
+- SPA: The Single Page Application that represents the user interface (./src/Organizer.SPA)
+- Electron: Can host the API and SPA for a standalone usage (./src/Organizer.App)
 
 **Web Application**
 

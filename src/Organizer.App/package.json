@@ -1,0 +1,29 @@
+{
+  "name": "organizer-app",
+  "version": "1.7.2",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder"
+  },
+  "build": {
+    "asar": false,
+    "appId": "organizer",
+    "directories": {
+      "output": "../dist"
+    },
+    "win": {
+      "icon": "engament.ico"
+    }
+  },
+  "private": true,
+  "devDependencies": {
+    "electron": "^11.1.0",
+    "electron-builder": "^22.9.1",
+    "gulp": "^4.0.2",
+    "gulp-replace": "^1.0.0"
+  },
+  "dependencies": {
+    "custom-electron-titlebar": "^3.2.5"
+  }
+}

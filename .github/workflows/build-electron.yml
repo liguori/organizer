@@ -3,9 +3,9 @@ name: Build Electron
 on:
   pull_request:
     paths: 
-      - './src/EngagementOrganizer.API/*'
-      - './src/EngagementOrganizer.SPA/*'
-      - './src/EngagementOrganizer.App/*'
+      - './src/Organizer.API/*'
+      - './src/Organizer.SPA/*'
+      - './src/Organizer.App/*'
     branches: [ master ]
 
 jobs:
@@ -15,20 +15,20 @@ jobs:
         - name: Checkout code
           uses: actions/checkout@v2
           
-        - name: Get EngagementOrganizer.App version - Win
+        - name: Get Organizer.App version - Win
           uses: culshaw/read-package-node-version-actions@v1
           with: 
-            path: "./src/EngagementOrganizer.App"
+            path: "./src/Organizer.App"
           id: package-version
       
-        - name: Run Engagement Organizer Build - Win
-          run: ./MakeBuild.ps1
-          working-directory: ./src/
+        - name: Run Organizer Build - Win
+          run: ./Build.ps1
+          working-directory: ./
           shell: pwsh
 
         - name: Zip the artifact - Win
           run: |
-            Compress-Archive -Path .\src\dist\win-unpacked -DestinationPath .\EngagementOrganizer_win.zip
+            Compress-Archive -Path .\src\dist\win-unpacked -DestinationPath .\Organizer_win.zip
           shell: pwsh
           
         - name: Create Release - Win
@@ -51,8 +51,8 @@ jobs:
             GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           with:
             upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-            asset_path: ./EngagementOrganizer_win.zip
-            asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.version }}_win.zip
+            asset_path: ./Organizer_win.zip
+            asset_name: Organizer_v${{ steps.package-version.outputs.version }}_win.zip
             asset_content_type: application/zip
  
   LinuxBuild:
@@ -62,19 +62,19 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Engagement Organizer Build
-        run: ./MakeBuild.ps1
-        working-directory: ./src/
+      - name: Run Organizer Build
+        run: ./Build.ps1
+        working-directory: ./
         shell: pwsh
       
       - name: Zip the artifact
         run: |
-          zip -r EngagementOrganizer_linux.zip folder ./src/dist/linux-unpacked
+          zip -r Organizer_linux.zip folder ./src/dist/linux-unpacked
           
-      - name: Get EngagementOrganizer.App version - Win
+      - name: Get Organizer.App version - Win
         uses: culshaw/read-package-node-version-actions@v1
         with: 
-          path: "./src/EngagementOrganizer.App"
+          path: "./src/Organizer.App"
         id: package-version
      
       - name: Get the latest release
@@ -101,6 +101,6 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           upload_url: ${{ steps.get_upload_url.outputs.url }} # This pulls from the GET RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-          asset_path: ./EngagementOrganizer_linux.zip
-          asset_name: EngagementOrganizer_v${{ steps.package-version.outputs.version }}_linux.zip
+          asset_path: ./Organizer_linux.zip
+          asset_name: Organizer_v${{ steps.package-version.outputs.version }}_linux.zip
           asset_content_type: application/zip

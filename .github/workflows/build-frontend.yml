@@ -4,7 +4,7 @@ on:
   push:
     branches: [ master ]
     paths:
-    - 'src/EngagementOrganizer.SPA/**'
+    - 'src/Organizer.SPA/**'
 
   workflow_dispatch:
 
@@ -23,12 +23,12 @@ jobs:
         run: |
           npm install
           npm run build -- --prod --base-href ./ --outputPath=dist --configuration='production'
-        working-directory: ./src/EngagementOrganizer.SPA/
+        working-directory: ./src/Organizer.SPA/
 
       - name: Upload a Build Artifact
         uses: actions/upload-artifact@v2.2.2
         with:
-          name: engagement-organizer-frontend
-          path: ./src/EngagementOrganizer.SPA/dist/*
+          name: organizer-frontend
+          path: ./src/Organizer.SPA/dist/*
           if-no-files-found: error
           retention-days: 90
