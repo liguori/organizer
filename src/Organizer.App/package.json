@@ -20,7 +20,7 @@
   "devDependencies": {
     "electron": "^18.2.0",
     "electron-builder": "^22.14.13",
-    "gulp": "^3.9.1",
+    "gulp": "^4.0.2",
     "gulp-replace": "^1.1.3"
   },
   "dependencies": {
