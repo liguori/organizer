@@ -24,7 +24,7 @@
     "@angular/platform-browser-dynamic": "^13.3.5",
     "@angular/router": "^13.3.5",
     "core-js": "^3.22.3",
-    "moment": "^2.29.3",
+    "moment": "^2.29.4",
     "ngx-color-picker": "^11.0.0",
     "ngx-mat-select-search": "^3.3.3",
     "rxjs": "^6.6.3",
