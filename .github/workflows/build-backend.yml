@@ -18,7 +18,7 @@ jobs:
       
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 6.0.x
+        dotnet-version: 7.0.x
     - name: Build .NET Backend
       run: dotnet publish Organizer.API.csproj -o "output" -c "Release"
       working-directory: ./src/Organizer.API/Organizer.API
