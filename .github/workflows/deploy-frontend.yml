@@ -42,11 +42,11 @@ jobs:
           files: 'deploy/assets/config/config.production.json'
         env:
           api.key: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
-          api.url: ${{ secrets.APPSERVICE_FE_CONFIG_APIURL }}
+          api.url: ${{ vars.APPSERVICE_FE_CONFIG_APIURL }}
 
       - name: Deploy Backend
         uses: azure/webapps-deploy@v2
         with:
-          app-name:    ${{ secrets.APPSERVICENAME_FE }}
+          app-name:    ${{ vars.APPSERVICENAME_FE }}
           package: ./deploy
         
