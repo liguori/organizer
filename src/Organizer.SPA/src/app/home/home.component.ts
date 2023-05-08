@@ -310,8 +310,11 @@ export class HomeComponent implements OnInit {
 
   withTravelOrOther(){
     var res = '';
-    this.appointments.filter(a=>a.requireTravel).forEach(appointment => {
-      res+='<b>'+appointment.note+'</b><br/>'     
+    this.appointments.filter(a=>a.requireTravel)
+    .sort((a,b)=>a.startDate <= b.startDate ? -1 : 1)
+    .forEach(appointment => {
+      res+='<b>'+moment(appointment.startDate).format('DD/MM/YYYY')+'</b><br/>'
+      res+=appointment.note+'<br/>'     
     });
 
     this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
