@@ -307,4 +307,13 @@ export class HomeComponent implements OnInit {
   unselectAllCustomer(filterCustomer: MatSelect) {
     filterCustomer.options.forEach((item: MatOption) => { item.deselect() })
   }
+
+  withTravelOrOther(){
+    var res = '';
+    this.appointments.filter(a=>a.requireTravel).forEach(appointment => {
+      res+='<b>'+appointment.note+'</b><br/>'     
+    });
+
+    this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
+  }
 }
