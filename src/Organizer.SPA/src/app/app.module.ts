@@ -16,7 +16,6 @@ import { CalendarEditorComponent } from './calendar-editor/calendar-editor.compo
 import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
 import { AppConfig } from './app.config';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { MomentDateModule, MomentDateAdapter, MAT_MOMENT_DATE_ADAPTER_OPTIONS } from '@angular/material-moment-adapter';
 import { CustomDialogModule } from './custom-dialog/custom-dialog.module';
 import { CustomerViewComponent } from './customer-view/customer-view.component';
@@ -84,7 +83,6 @@ export function createApiConfigFactory() {
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FlexLayoutModule,
     MatInputModule,
     MatFormFieldModule,
     MatButtonModule,
