@@ -12,10 +12,10 @@ jobs:
   Build-Frontend:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v4
 
       - name: Set up Node.js version
-        uses: actions/setup-node@v1
+        uses: actions/setup-node@v4
         with:
           node-version: '20.x'
 
@@ -26,7 +26,7 @@ jobs:
         working-directory: ./src/Organizer.SPA/
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@v2.2.2
+        uses: actions/upload-artifact@3
         with:
           name: organizer-frontend
           path: ./src/Organizer.SPA/dist/*
