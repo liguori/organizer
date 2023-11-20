@@ -34,6 +34,7 @@
             </mat-select>
         </mat-form-field>
         <mat-form-field class="filter-box">
+          <mat-label>Calendar</mat-label>
             <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
                 (selectionChange)="calendarSelected($event.value)">
                 <mat-option value="">Main</mat-option>

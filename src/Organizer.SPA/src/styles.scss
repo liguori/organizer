@@ -7,18 +7,18 @@ body,html
 }
 
 .year-box{
-    width:40px;
+    width:80px;
 }
 
 .filter-box{
-   margin-left: 30px;
+   margin-left: 15px;
 }
 
 .container-box{
     display: flex;
     flex-flow: column;
     height: 100%;
-} 
+}
 
 .filters-header{
     flex: 0 1 auto;
@@ -31,5 +31,5 @@ body,html
 }
 
 .form-field-date{
-    width: 110px;    
+    width: 160px;
 }
