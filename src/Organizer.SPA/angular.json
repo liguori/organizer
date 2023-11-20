@@ -78,10 +78,10 @@
           "options": {},
           "configurations": {
             "production": {
-              "browserTarget": "Organizer.SPA:build:production"
+              "buildTarget": "Organizer.SPA:build:production"
             },
             "development": {
-              "browserTarget": "Organizer.SPA:build:development"
+              "buildTarget": "Organizer.SPA:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -89,7 +89,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "Organizer.SPA:build"
+            "buildTarget": "Organizer.SPA:build"
           }
         },
         "test": {
@@ -157,6 +157,5 @@
         }
       }
     }
-  },
-  "defaultProject": "Organizer.SPA"
+  }
 }

@@ -155,8 +155,8 @@ export class HomeComponent implements OnInit {
       event.stopPropagation();  //stop propagation
     }
     const dialogRef = this.dialog.open(CalendarEditorComponent, {
-      width: '700px',
-      height: '255px',
+      width: '50vw',
+      height: '50vh',
       data: {
         route: this.route,
         currentCalendar: calendarToEdit,
@@ -172,8 +172,8 @@ export class HomeComponent implements OnInit {
 
   showAppointmentEditorDialog() {
     const dialogRef = this.dialog.open(AppointmentEditorComponent, {
-      width: '1100px',
-      height: '400px',
+      width: '65vw',
+      height: '55vh',
       data: {
         route: this.route,
         currentAppointment: this.currentAppointment,
@@ -314,7 +314,7 @@ export class HomeComponent implements OnInit {
     .sort((a,b)=>a.startDate <= b.startDate ? -1 : 1)
     .forEach(appointment => {
       res+='<b>'+moment(appointment.startDate).format('DD/MM/YYYY')+'</b><br/>'
-      res+=appointment.note+'<br/>'     
+      res+=appointment.note+'<br/>'
     });
 
     this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });

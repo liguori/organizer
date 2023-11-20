@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppointmentsService } from '../api/OrganizerApiClient/api/appointments.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CalendarResolver implements Resolve<any> {
+export class CalendarResolver  {
   constructor(private appointmentService: AppointmentsService) {
   }
   resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {

@@ -1,10 +1,12 @@
-<div class="new-appointment-edit" *ngIf="currentAppointment!= null && !currentAppointment.isEditing">NEW APPOINTMENT
+<div mat-dialog-title class="new-appointment-edit" *ngIf="currentAppointment!= null && !currentAppointment.isEditing">
+  NEW APPOINTMENT
   CREATION</div>
-<div class="existent-appointment-edit" *ngIf="currentAppointment!= null && currentAppointment.isEditing">EXISTENT
+<div mat-dialog-title class="existent-appointment-edit"
+  *ngIf="currentAppointment!= null && currentAppointment.isEditing">EXISTENT
   APPOINTMENT EDIT ({{currentAppointment.id}})</div>
-<div *ngIf="currentAppointment!=null">
-  <div fxLayout="column" fxLayoutAlign="center stretch" class="row">
-    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+<div mat-dialog-content *ngIf="currentAppointment!=null">
+  <div>
+    <div>
       <mat-form-field>
         <mat-label>Type</mat-label>
         <mat-select [(ngModel)]="currentAppointment.type">
@@ -22,6 +24,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)">
+        <mat-label>Project</mat-label>
         <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
       </mat-form-field>
       <mat-form-field>
@@ -33,9 +36,8 @@
           <mat-option [value]="2">Pre delivered</mat-option>
         </mat-select>
       </mat-form-field>
-      <span class="warning-message">{{currentAppointment.warningMessage}}</span>
     </div>
-    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+    <div>
       <mat-form-field class="form-field-date">
         <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}"
           [matDatepicker]="dateFromPicker" placeholder="From">
@@ -62,16 +64,19 @@
       <mat-checkbox [(ngModel)]="currentAppointment.requireTravel">Travel/Other</mat-checkbox>
       <mat-checkbox [(ngModel)]="currentAppointment.travelBooked">Booked</mat-checkbox>
     </div>
-    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
+    <div>
       <mat-form-field class="full-width">
         <textarea matInput placeholder="Note" [(ngModel)]="currentAppointment.note" rows="6" cols="100"></textarea>
       </mat-form-field>
     </div>
-    <div fxLayout="row" fxLayoutGap="40px" fxLayoutAlign="start center">
-      <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
-      <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
-      <button (click)="delete()" *ngIf="currentAppointment.isEditing" class="button delete-button" mat-raised-button
-        color="warn">DELETE</button>
-    </div>
+  </div>
+  @if(currentAppointment.warningMessage){
+    <div class="warning-message">{{currentAppointment.warningMessage}}</div>
+  }
+  <div mat-dialog-actions>
+    <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
+    <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
+    <button (click)="delete()" *ngIf="currentAppointment.isEditing" class="button delete-button" mat-raised-button
+      color="warn">DELETE</button>
   </div>
 </div>

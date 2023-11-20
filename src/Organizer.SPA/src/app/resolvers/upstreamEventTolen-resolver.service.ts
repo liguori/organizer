@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
-import { Resolve, ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
+import { ActivatedRouteSnapshot, RouterStateSnapshot } from '@angular/router';
 import { AppointmentsService } from '../api/OrganizerApiClient/api/appointments.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class UpstreamEventTokenResolver implements Resolve<any> {
+export class UpstreamEventTokenResolver  {
   requested: Boolean = false;
   constructor(private appointmentService: AppointmentsService) {
   }
