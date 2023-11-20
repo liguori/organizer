@@ -4,7 +4,7 @@ import { AppointmentTypesService } from '../api/OrganizerApiClient/api/appointme
 import { AppointmentType, CustomersService, Customer, AppointmentsService, Appointment } from '../api/OrganizerApiClient';
 import * as moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 

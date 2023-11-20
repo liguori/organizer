@@ -7,7 +7,7 @@ import { filter, retry } from 'rxjs/operators';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
-import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatLegacyDialog as MatDialog, MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
@@ -15,8 +15,8 @@ import { AppointmentSummaryComponent } from '../appointment-summary/appointment-
 import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
-import { MatOption } from '@angular/material/core';
-import { MatSelect } from '@angular/material/select';
+import { MatLegacyOption as MatOption } from '@angular/material/legacy-core';
+import { MatLegacySelect as MatSelect } from '@angular/material/legacy-select';
 
 @Component({
   selector: 'app-home',
