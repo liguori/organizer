@@ -26,7 +26,7 @@ jobs:
         working-directory: ./src/Organizer.SPA/
 
       - name: Upload a Build Artifact
-        uses: actions/upload-artifact@3
+        uses: actions/upload-artifact@v3
         with:
           name: organizer-frontend
           path: ./src/Organizer.SPA/dist/*
