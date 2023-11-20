@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import { AppointmentType, CustomersService, Customer, AppointmentsService, Appointment } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute } from '@angular/router';
-import { MatLegacyDialogRef as MatDialogRef, MAT_LEGACY_DIALOG_DATA as MAT_DIALOG_DATA } from '@angular/material/legacy-dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
