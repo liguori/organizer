@@ -24,7 +24,7 @@
     "@angular/router": "^16.2.12",
     "core-js": "^3.22.3",
     "moment": "^2.29.3",
-    "ngx-color-picker": "^11.0.0",
+    "ngx-color-picker": "^15.0.0",
     "ngx-mat-select-search": "^7.0.5",
     "rxjs": "^6.6.3",
     "rxjs-compat": "^6.6.7",
