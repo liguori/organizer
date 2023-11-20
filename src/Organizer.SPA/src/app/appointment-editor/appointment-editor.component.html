@@ -24,6 +24,7 @@
         </mat-select>
       </mat-form-field>
       <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)">
+        <mat-label>Project</mat-label>
         <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
       </mat-form-field>
       <mat-form-field>
@@ -35,7 +36,6 @@
           <mat-option [value]="2">Pre delivered</mat-option>
         </mat-select>
       </mat-form-field>
-      <span class="warning-message">{{currentAppointment.warningMessage}}</span>
     </div>
     <div>
       <mat-form-field class="form-field-date">
@@ -70,6 +70,9 @@
       </mat-form-field>
     </div>
   </div>
+  @if(currentAppointment.warningMessage){
+    <div class="warning-message">{{currentAppointment.warningMessage}}</div>
+  }
   <div mat-dialog-actions>
     <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
     <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>

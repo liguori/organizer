@@ -39,7 +39,7 @@
                 (selectionChange)="calendarSelected($event.value)">
                 <mat-option value="">Main</mat-option>
                 <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
-                    <div style="display:flex; justify-content: space-between;">
+                    <div>
                         <span>{{calendar.description}}</span>
                         <span *ngIf="selectedCalendar!=calendar.calendarName || calendarSelection.panelOpen">
                             <span (click)="showCalendarEditorDialog($event,calendar.calendarName)"
@@ -83,7 +83,7 @@
             </button>&nbsp;
             <button (click)="availability()" mat-raised-button color="primary">
                 AVAILABILITY
-            </button>
+            </button>&nbsp;
             <button (click)="withTravelOrOther()" mat-raised-button color="primary">
                 TRAVEL/OTHER
             </button>

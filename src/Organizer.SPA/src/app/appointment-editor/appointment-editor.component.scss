@@ -23,7 +23,6 @@
 .warning-message{
     color:#ff0000;
     font-weight: bold;
-    margin-left:50px;
     font-size: 13px;
 }
 
@@ -33,4 +32,9 @@
 
 #calendar-select-date-filter{
     width: 150px;
+}
+
+
+mat-form-field + mat-form-field {
+  margin-left: 12px;
 }
