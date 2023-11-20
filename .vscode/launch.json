@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Organizer.API/Organizer.API/bin/Debug/net6.0/Organizer.API.dll",
+            "program": "${workspaceFolder}/src/Organizer.API/Organizer.API/bin/Debug/net8.0/Organizer.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Organizer.API/Organizer.API",
             "stopAtEntry": false,
@@ -34,7 +34,7 @@
         },
         {
             "name": "Organizer.SPA Launch (web)",
-            "type": "edge",
+            "type": "msedge",
             "request": "launch",
             "url": "http://localhost:4200",
             "preLaunchTask": "npm_start",
