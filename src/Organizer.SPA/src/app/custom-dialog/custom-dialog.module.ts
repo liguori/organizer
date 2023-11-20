@@ -7,23 +7,20 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
-  imports: [
-    BrowserModule,
-    CommonModule,
-    MatButtonModule,
-    MatDialogModule
-  ],
-  providers: [
-    CustomDialogService
-  ],
-  declarations: [
-    CustomDialogComponent
-  ],
-  exports: [
-    CustomDialogComponent
-  ],
-  entryComponents: [
-    CustomDialogComponent
-  ]
+    imports: [
+        BrowserModule,
+        CommonModule,
+        MatButtonModule,
+        MatDialogModule
+    ],
+    providers: [
+        CustomDialogService
+    ],
+    declarations: [
+        CustomDialogComponent
+    ],
+    exports: [
+        CustomDialogComponent
+    ]
 })
 export class CustomDialogModule {}

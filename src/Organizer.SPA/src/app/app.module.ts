@@ -64,57 +64,52 @@ export function createApiConfigFactory() {
 }
 
 @NgModule({
-  declarations: [
-    AppComponent,
-    CalendarComponent,
-    HomeComponent,
-    CustomerComponent,
-    UtilizationComponent,
-    EventViewerComponent,
-    AppointmentEditorComponent,
-    CalendarEditorComponent,
-    AppointmentSummaryComponent,
-    CustomerViewComponent,
-    WarningResumeComponent
-  ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    FormsModule,
-    HttpClientModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatCheckboxModule,
-    MatDialogModule,
-    MatSelectModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    CustomDialogModule,
-    MatIconModule,
-    OrganizerApiClient.forRoot(createApiConfigFactory),
-    NgxMatSelectSearchModule,
-    ColorPickerModule,
-    MatProgressBarModule
-  ],
-  entryComponents: [
-    AppointmentEditorComponent,
-    AppointmentSummaryComponent,
-    CalendarEditorComponent
-  ],
-  providers: [
-    AppConfig,
-    {
-      provide: APP_INITIALIZER,
-      useFactory: initializeApp,
-      deps: [AppConfig], multi: true
-    },
-    MatDatepickerModule,
-    { provide: DateAdapter, useClass: MomentDateAdapter },
-    { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-    StyleManager
-  ],
-  bootstrap: [AppComponent]
+    declarations: [
+        AppComponent,
+        CalendarComponent,
+        HomeComponent,
+        CustomerComponent,
+        UtilizationComponent,
+        EventViewerComponent,
+        AppointmentEditorComponent,
+        CalendarEditorComponent,
+        AppointmentSummaryComponent,
+        CustomerViewComponent,
+        WarningResumeComponent
+    ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        FormsModule,
+        HttpClientModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        MatFormFieldModule,
+        MatButtonModule,
+        MatCheckboxModule,
+        MatDialogModule,
+        MatSelectModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        CustomDialogModule,
+        MatIconModule,
+        OrganizerApiClient.forRoot(createApiConfigFactory),
+        NgxMatSelectSearchModule,
+        ColorPickerModule,
+        MatProgressBarModule
+    ],
+    providers: [
+        AppConfig,
+        {
+            provide: APP_INITIALIZER,
+            useFactory: initializeApp,
+            deps: [AppConfig], multi: true
+        },
+        MatDatepickerModule,
+        { provide: DateAdapter, useClass: MomentDateAdapter },
+        { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
+        StyleManager
+    ],
+    bootstrap: [AppComponent]
 })
 export class AppModule { }
