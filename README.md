@@ -1,5 +1,6 @@
 # Organizer
-![CI](https://github.com/liguori/organizer/workflows/CI/badge.svg)
+[![Build Frontend](https://github.com/liguori/organizer/actions/workflows/build-frontend.yml/badge.svg)](https://github.com/liguori/organizer/actions/workflows/build-frontend.yml)
+[![Build Backend](https://github.com/liguori/organizer/actions/workflows/build-backend.yml/badge.svg)](https://github.com/liguori/organizer/actions/workflows/build-backend.yml)
 
 Appointment management tool. 
 
