@@ -34,10 +34,18 @@
         },
         {
             "name": "Organizer.SPA Launch (web)",
-            "type": "msedge",
+            "type": "chrome",
             "request": "launch",
-            "url": "http://localhost:4200",
-            "preLaunchTask": "npm_start",
+            "preLaunchTask": "npm: start",
+            "url": "http://localhost:4200/",
+            "webRoot": "${workspaceRoot}/src/Organizer.SPA"
+        },
+        {
+            "name": "Organizer.SPA Test (web)",
+            "type": "chrome",
+            "request": "launch",
+            "preLaunchTask": "npm: test",
+            "url": "http://localhost:9876/debug.html",
             "webRoot": "${workspaceRoot}/src/Organizer.SPA"
         }
     ]
