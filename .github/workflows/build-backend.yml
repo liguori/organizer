@@ -24,7 +24,7 @@ jobs:
       working-directory: ./src/Organizer.API/Organizer.API
 
     - name: Upload a Build Artifact
-      uses: actions/upload-artifact@v2.2.2
+      uses: actions/upload-artifact@v4.3.1
       with:
         name: organizer-backend
         path: ./src/Organizer.API/Organizer.API/output/*
