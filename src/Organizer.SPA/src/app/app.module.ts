@@ -10,7 +10,7 @@ import { CustomerComponent } from './customer/customer.component';
 import { UtilizationComponent } from './utilization/utilization.component';
 import { EventViewerComponent } from './event-viewer/event-viewer.component';
 import { ApiModule as OrganizerApiClient, Configuration, ConfigurationParameters } from './api/OrganizerApiClient';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { AppointmentEditorComponent } from './appointment-editor/appointment-editor.component';
 import { CalendarEditorComponent } from './calendar-editor/calendar-editor.component';
 import { AppointmentSummaryComponent } from './appointment-summary/appointment-summary.component';
@@ -63,8 +63,7 @@ export function createApiConfigFactory() {
   return apiConfigFactory();
 }
 
-@NgModule({
-    declarations: [
+@NgModule({ declarations: [
         AppComponent,
         CalendarComponent,
         HomeComponent,
@@ -77,11 +76,9 @@ export function createApiConfigFactory() {
         CustomerViewComponent,
         WarningResumeComponent
     ],
-    imports: [
-        BrowserModule,
+    bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
         FormsModule,
-        HttpClientModule,
         BrowserAnimationsModule,
         MatInputModule,
         MatFormFieldModule,
@@ -96,9 +93,7 @@ export function createApiConfigFactory() {
         OrganizerApiClient.forRoot(createApiConfigFactory),
         NgxMatSelectSearchModule,
         ColorPickerModule,
-        MatProgressBarModule
-    ],
-    providers: [
+        MatProgressBarModule], providers: [
         AppConfig,
         {
             provide: APP_INITIALIZER,
@@ -108,8 +103,7 @@ export function createApiConfigFactory() {
         MatDatepickerModule,
         { provide: DateAdapter, useClass: MomentDateAdapter },
         { provide: MAT_DATE_FORMATS, useValue: MY_FORMATS },
-        StyleManager
-    ],
-    bootstrap: [AppComponent]
-})
+        StyleManager,
+        provideHttpClient(withInterceptorsFromDi())
+    ] })
 export class AppModule { }
