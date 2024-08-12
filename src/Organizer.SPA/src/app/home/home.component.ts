@@ -90,13 +90,13 @@ export class HomeComponent implements OnInit {
   }
 
   changeUpstreamEventToken(value) {
-    this.upstreamEventToken = value;
+    this.upstreamEventToken = value ?? '';
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
   }
 
   initializeUiFilterFromLocalStorage() {
-    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken');
+    this.upstreamEventToken = localStorage.getItem('UpstreamEventToken') ?? '';
     if (localStorage.getItem('SelectedCalendar')) {
       this.selectedCalendar = localStorage.getItem('SelectedCalendar');
     }
