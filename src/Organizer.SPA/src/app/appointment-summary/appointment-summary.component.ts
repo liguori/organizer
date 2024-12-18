@@ -4,9 +4,10 @@ import { ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 
 @Component({
-  selector: 'app-appointment-summary',
-  templateUrl: './appointment-summary.component.html',
-  styleUrls: ['./appointment-summary.component.scss']
+    selector: 'app-appointment-summary',
+    templateUrl: './appointment-summary.component.html',
+    styleUrls: ['./appointment-summary.component.scss'],
+    standalone: false
 })
 export class AppointmentSummaryComponent implements OnInit {
 

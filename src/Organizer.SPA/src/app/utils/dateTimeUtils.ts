@@ -1,6 +1,6 @@
 import { Month } from '../models/month';
 import { Day } from '../models/day';
-import * as moment from 'moment';
+import moment from 'moment';
 
 export class DateTimeUtils {
 

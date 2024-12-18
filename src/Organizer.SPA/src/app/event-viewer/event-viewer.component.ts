@@ -7,9 +7,10 @@ import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarView } from '../models/calendarView';
 
 @Component({
-  selector: 'app-event-viewer',
-  templateUrl: './event-viewer.component.html',
-  styleUrls: ['./event-viewer.component.scss']
+    selector: 'app-event-viewer',
+    templateUrl: './event-viewer.component.html',
+    styleUrls: ['./event-viewer.component.scss'],
+    standalone: false
 })
 export class EventViewerComponent implements OnInit {
   calendars: Array<Calendar>;

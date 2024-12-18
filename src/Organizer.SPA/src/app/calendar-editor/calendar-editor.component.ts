@@ -8,9 +8,10 @@ import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
 
 @Component({
-  selector: 'app-calendar-editor',
-  templateUrl: './calendar-editor.component.html',
-  styleUrls: ['./calendar-editor.component.scss']
+    selector: 'app-calendar-editor',
+    templateUrl: './calendar-editor.component.html',
+    styleUrls: ['./calendar-editor.component.scss'],
+    standalone: false
 })
 export class CalendarEditorComponent implements OnInit {
 

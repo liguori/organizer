@@ -4,9 +4,10 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppointmentExtraInfo } from '../api/OrganizerApiClient/model/models';
 
 @Component({
-  selector: 'app-warning-resume',
-  templateUrl: './warning-resume.component.html',
-  styleUrls: ['./warning-resume.component.scss']
+    selector: 'app-warning-resume',
+    templateUrl: './warning-resume.component.html',
+    styleUrls: ['./warning-resume.component.scss'],
+    standalone: false
 })
 export class WarningResumeComponent implements OnInit {
 

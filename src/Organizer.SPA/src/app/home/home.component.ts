@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
-import * as moment from 'moment';
+import moment from 'moment';
 import { filter, retry } from 'rxjs/operators';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
@@ -19,9 +19,10 @@ import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+    selector: 'app-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    standalone: false
 })
 export class HomeComponent implements OnInit {
 

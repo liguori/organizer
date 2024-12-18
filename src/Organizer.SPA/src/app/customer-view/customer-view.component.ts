@@ -5,10 +5,11 @@ import { Customer, Appointment, CustomersService } from '../api/OrganizerApiClie
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 @Component({
-  selector: 'app-customer-view',
-  templateUrl: './customer-view.component.html',
-  styleUrls: ['./customer-view.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'app-customer-view',
+    templateUrl: './customer-view.component.html',
+    styleUrls: ['./customer-view.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class CustomerViewComponent implements OnInit {
 

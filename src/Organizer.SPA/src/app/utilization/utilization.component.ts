@@ -12,9 +12,10 @@ import {
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 
 @Component({
-  selector: "app-utilization",
-  templateUrl: "./utilization.component.html",
-  styleUrls: ["./utilization.component.scss"]
+    selector: "app-utilization",
+    templateUrl: "./utilization.component.html",
+    styleUrls: ["./utilization.component.scss"],
+    standalone: false
 })
 export class UtilizationComponent implements OnInit {
   @Input()

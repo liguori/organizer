@@ -2,7 +2,7 @@ import { Component, OnInit, Input, Inject } from '@angular/core';
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import { AppointmentTypesService } from '../api/OrganizerApiClient/api/appointmentTypes.service';
 import { AppointmentType, CustomersService, Customer, AppointmentsService, Appointment } from '../api/OrganizerApiClient';
-import * as moment from 'moment';
+import moment from 'moment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
@@ -10,9 +10,10 @@ import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
 
 @Component({
-  selector: 'app-appointment-editor',
-  templateUrl: './appointment-editor.component.html',
-  styleUrls: ['./appointment-editor.component.scss']
+    selector: 'app-appointment-editor',
+    templateUrl: './appointment-editor.component.html',
+    styleUrls: ['./appointment-editor.component.scss'],
+    standalone: false
 })
 export class AppointmentEditorComponent implements OnInit {
   route: ActivatedRoute
