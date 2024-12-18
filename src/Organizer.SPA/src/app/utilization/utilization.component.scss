@@ -1,4 +1,4 @@
-@import "../variable";
+@use "../variable" as *;
 
 .header{
     height: $row-header-height;

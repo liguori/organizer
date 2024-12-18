@@ -1,4 +1,4 @@
-@import "./variable";
+@use "./variable" as *;
 
 #loader-placeholder{
     height: 5px;
