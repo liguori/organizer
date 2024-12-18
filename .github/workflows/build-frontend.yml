@@ -29,6 +29,6 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: organizer-frontend
-          path: ./src/Organizer.SPA/dist/*
+          path: ./src/Organizer.SPA/dist/browser/*
           if-no-files-found: error
           retention-days: 90
