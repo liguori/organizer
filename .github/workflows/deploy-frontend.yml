@@ -18,7 +18,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - uses: azure/login@v1
+      - uses: azure/login@v2
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
@@ -28,7 +28,7 @@ jobs:
         id: extract_branch
 
       - name: Download Frontend Artifact
-        uses: dawidd6/action-download-artifact@v2.11.0
+        uses: dawidd6/action-download-artifact@v6
         with:
           workflow: build-frontend.yml
           name: organizer-frontend
