@@ -4,8 +4,8 @@ using Organizer.API.Infrastructure;
 using Organizer.API.Services;
 using Organizer.API.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.OpenApi.Models;
 using System.Reflection;
+using Organizer.API.OpenApi;
 
 const string ApiKeys = "ApiKeys";
 
@@ -16,34 +16,11 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(c =>
+
+builder.Services.AddOpenApi(options =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "Organizer", Version = "v1" });
-    //Add API Key Informations
-    c.AddSecurityDefinition(ApiKeyAuthOptions.ApiKeySchemaName, new OpenApiSecurityScheme
-    {
-        Description = "Api key needed to access the endpoints. " + ApiKeyAuthOptions.HeaderName + ": My_API_Key",
-        In = ParameterLocation.Header,
-        Name = ApiKeyAuthOptions.HeaderName,
-        Type = SecuritySchemeType.ApiKey
-    });
-    c.AddSecurityRequirement(new OpenApiSecurityRequirement
-                {
-                    {
-                        new OpenApiSecurityScheme
-                        {
-                            Name = ApiKeyAuthOptions.HeaderName,
-                            Type = SecuritySchemeType.ApiKey,
-                            In = ParameterLocation.Header,
-                            Reference = new OpenApiReference
-                            {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = ApiKeyAuthOptions.ApiKeySchemaName
-                            },
-                         },
-                         new string[] {}
-                     }
-                });
+    options.AddDocumentTransformer<DocumentSecuritySchemeTransformer>();
+    options.AddOperationTransformer<OperationSecurityTransformer>();
 });
 
 // Add the ApiKey Authentication
@@ -84,8 +61,10 @@ var app = builder.Build();
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.MapOpenApi();
+
+    app.UseSwaggerUI(c => c.SwaggerEndpoint("/openapi/v1.json", "Organizer API"));
+    app.UseDeveloperExceptionPage();
 }
 
 using (var scope = app.Services.CreateScope())
