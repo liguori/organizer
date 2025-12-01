@@ -1,82 +1,100 @@
-<div mat-dialog-title class="new-appointment-edit" *ngIf="currentAppointment!= null && !currentAppointment.isEditing">
-  NEW APPOINTMENT
+@if (currentAppointment!= null && !currentAppointment.isEditing) {
+  <div mat-dialog-title class="new-appointment-edit">
+    NEW APPOINTMENT
   CREATION</div>
-<div mat-dialog-title class="existent-appointment-edit"
-  *ngIf="currentAppointment!= null && currentAppointment.isEditing">EXISTENT
+}
+@if (currentAppointment!= null && currentAppointment.isEditing) {
+  <div mat-dialog-title class="existent-appointment-edit"
+    >EXISTENT
   APPOINTMENT EDIT ({{currentAppointment.id}})</div>
-<div mat-dialog-content *ngIf="currentAppointment!=null">
-  <div>
+}
+@if (currentAppointment!=null) {
+  <div mat-dialog-content>
     <div>
-      <mat-form-field>
-        <mat-label>Type</mat-label>
-        <mat-select [(ngModel)]="currentAppointment.type">
-          <mat-option *ngFor="let appType of appointmentsType" [value]="appType.id">
-            {{appType.description}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)" class="customer">
-        <mat-label>Customer</mat-label>
-        <mat-select [(ngModel)]="currentAppointment.customer">
-          <mat-option *ngFor="let cust of customers" [value]="cust.id">
-            {{cust.name}}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      <mat-form-field *ngIf="canSelectCustomer(currentAppointment.type)">
-        <mat-label>Project</mat-label>
-        <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
-      </mat-form-field>
-      <mat-form-field>
-        <mat-label>Availability</mat-label>
-        <mat-select [(ngModel)]="currentAppointment.availabilityID">
-          <mat-option [value]=""> </mat-option>
-          <mat-option [value]="0">Free</mat-option>
-          <mat-option [value]="1">Busy</mat-option>
-          <mat-option [value]="2">Pre delivered</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-    <div>
-      <mat-form-field class="form-field-date">
-        <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}"
-          [matDatepicker]="dateFromPicker" placeholder="From">
-        <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
-        <mat-datepicker #dateFromPicker></mat-datepicker>
-      </mat-form-field>
-      <button (click)="oneDay()" mat-mini-fab color="primary">C</button>
-      <mat-form-field class="form-field-date">
-        <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}"
-          [matDatepicker]="dateToPicker" placeholder="To">
-        <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
-        <mat-datepicker #dateToPicker></mat-datepicker>
-      </mat-form-field>
-      <mat-form-field class="filter-box">
-        <mat-select #calendarSelection [(ngModel)]="currentAppointment.calendarName" placeholder="Calendar">
-          <mat-option value="">Main</mat-option>
-          <mat-option *ngFor="let calendar of calendars" [value]="calendar.calendarName">
-            <span>{{calendar.description}}</span>
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-      &nbsp;
-      <mat-checkbox [(ngModel)]="currentAppointment.confirmed">Confirmed</mat-checkbox>
-      <mat-checkbox [(ngModel)]="currentAppointment.requireTravel">Travel/Other</mat-checkbox>
-      <mat-checkbox [(ngModel)]="currentAppointment.travelBooked">Booked</mat-checkbox>
-    </div>
-    <div>
-      <mat-form-field class="full-width">
-        <textarea matInput placeholder="Note" [(ngModel)]="currentAppointment.note" rows="6" cols="100"></textarea>
-      </mat-form-field>
-    </div>
-  </div>
-  @if(currentAppointment.warningMessage){
-    <div class="warning-message">{{currentAppointment.warningMessage}}</div>
-  }
-  <div mat-dialog-actions>
-    <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
-    <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
-    <button (click)="delete()" *ngIf="currentAppointment.isEditing" class="button delete-button" mat-raised-button
-      color="warn">DELETE</button>
-  </div>
-</div>
+      <div>
+        <mat-form-field>
+          <mat-label>Type</mat-label>
+          <mat-select [(ngModel)]="currentAppointment.type">
+            @for (appType of appointmentsType; track appType) {
+              <mat-option [value]="appType.id">
+                {{appType.description}}
+              </mat-option>
+            }
+          </mat-select>
+        </mat-form-field>
+        @if (canSelectCustomer(currentAppointment.type)) {
+          <mat-form-field class="customer">
+            <mat-label>Customer</mat-label>
+            <mat-select [(ngModel)]="currentAppointment.customer">
+              @for (cust of customers; track cust) {
+                <mat-option [value]="cust.id">
+                  {{cust.name}}
+                </mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        }
+        @if (canSelectCustomer(currentAppointment.type)) {
+          <mat-form-field>
+            <mat-label>Project</mat-label>
+            <input matInput [(ngModel)]="currentAppointment.project" placeholder="Project">
+          </mat-form-field>
+        }
+        <mat-form-field>
+          <mat-label>Availability</mat-label>
+          <mat-select [(ngModel)]="currentAppointment.availabilityID">
+            <mat-option [value]=""> </mat-option>
+            <mat-option [value]="0">Free</mat-option>
+            <mat-option [value]="1">Busy</mat-option>
+            <mat-option [value]="2">Pre delivered</mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+      <div>
+        <mat-form-field class="form-field-date">
+          <input matInput [(ngModel)]="currentAppointment.startDate" ng-model-options="{timezone: 'utc'}"
+            [matDatepicker]="dateFromPicker" placeholder="From">
+            <mat-datepicker-toggle matSuffix [for]="dateFromPicker"></mat-datepicker-toggle>
+            <mat-datepicker #dateFromPicker></mat-datepicker>
+          </mat-form-field>
+          <button (click)="oneDay()" mat-mini-fab color="primary">C</button>
+          <mat-form-field class="form-field-date">
+            <input matInput [(ngModel)]="currentAppointment.endDate" ng-model-options="{timezone: 'utc'}"
+              [matDatepicker]="dateToPicker" placeholder="To">
+              <mat-datepicker-toggle matSuffix [for]="dateToPicker"></mat-datepicker-toggle>
+              <mat-datepicker #dateToPicker></mat-datepicker>
+            </mat-form-field>
+            <mat-form-field class="filter-box">
+              <mat-select #calendarSelection [(ngModel)]="currentAppointment.calendarName" placeholder="Calendar">
+                <mat-option value="">Main</mat-option>
+                @for (calendar of calendars; track calendar) {
+                  <mat-option [value]="calendar.calendarName">
+                    <span>{{calendar.description}}</span>
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            &nbsp;
+            <mat-checkbox [(ngModel)]="currentAppointment.confirmed">Confirmed</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentAppointment.requireTravel">Travel/Other</mat-checkbox>
+            <mat-checkbox [(ngModel)]="currentAppointment.travelBooked">Booked</mat-checkbox>
+          </div>
+          <div>
+            <mat-form-field class="full-width">
+              <textarea matInput placeholder="Note" [(ngModel)]="currentAppointment.note" rows="6" cols="100"></textarea>
+            </mat-form-field>
+          </div>
+        </div>
+        @if(currentAppointment.warningMessage){
+          <div class="warning-message">{{currentAppointment.warningMessage}}</div>
+        }
+        <div mat-dialog-actions>
+          <button (click)="save()" class="button" mat-raised-button color="primary">SAVE</button>&nbsp;&nbsp;&nbsp;
+          <button (click)="cancel()" class="button" mat-raised-button color="basic">CANCEL</button>
+          @if (currentAppointment.isEditing) {
+            <button (click)="delete()" class="button delete-button" mat-raised-button
+            color="warn">DELETE</button>
+          }
+        </div>
+      </div>
+    }

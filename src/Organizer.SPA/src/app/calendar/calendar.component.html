@@ -1,31 +1,45 @@
 <div class="calendar-box">
   <div class="header">
-    <div class="year-header" *ngIf="currentView== calendarView.Year">
-      {{currentYear}}
-    </div>
-    <div *ngFor="let currentDayHeader of getXHeaders()" class="day-header"
-      [class.day-header-month]="currentView== calendarView.Month"
-      [class.day-header-year]="currentView== calendarView.Year">
-      {{currentDayHeader.dayDescription}}
-    </div>
-    <div class="util-header" *ngIf="currentView== calendarView.Year">Ut %</div>
-  </div>
-  <div *ngFor="let currentY of getYValues()" [class.row-month]="currentView== calendarView.Month"
-    [class.row-year]="currentView== calendarView.Year" [ngClass]="{'month-selected' : isCurrentMonth(currentY) }">
-    <div class="month-header" *ngIf="currentView== calendarView.Year">
-      {{currentY.description}}
-    </div>
-    <div *ngFor="let currentX of getXValues(currentY.value);trackBy: trackByDayItems" class="day"
-      [class.day-month]="currentView== calendarView.Month" [class.day-year]="currentView== calendarView.Year"
-      [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
-      <div class="day-container">
-        <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
-        <app-event-viewer class="event-viewer" [appointments]="getEventsByDate(currentX.date)"
-          (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView"
-          [selectedDisplay]="selectedDisplay"></app-event-viewer>
+    @if (currentView== calendarView.Year) {
+      <div class="year-header">
+        {{currentYear}}
       </div>
-    </div>
-    <div class="util-value" *ngIf="currentView== calendarView.Year">{{getMonthUtilization(currentY.value,currentYear)}}
-    </div>
+    }
+    @for (currentDayHeader of getXHeaders(); track currentDayHeader) {
+      <div class="day-header"
+        [class.day-header-month]="currentView== calendarView.Month"
+        [class.day-header-year]="currentView== calendarView.Year">
+        {{currentDayHeader.dayDescription}}
+      </div>
+    }
+    @if (currentView== calendarView.Year) {
+      <div class="util-header">Ut %</div>
+    }
   </div>
+  @for (currentY of getYValues(); track currentY) {
+    <div [class.row-month]="currentView== calendarView.Month"
+      [class.row-year]="currentView== calendarView.Year" [ngClass]="{'month-selected' : isCurrentMonth(currentY) }">
+      @if (currentView== calendarView.Year) {
+        <div class="month-header">
+          {{currentY.description}}
+        </div>
+      }
+      @for (currentX of getXValues(currentY.value); track trackByDayItems($index, currentX)) {
+        <div class="day"
+          [class.day-month]="currentView== calendarView.Month" [class.day-year]="currentView== calendarView.Year"
+          [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
+          <div class="day-container">
+            <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
+            <app-event-viewer class="event-viewer" [appointments]="getEventsByDate(currentX.date)"
+              (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView"
+            [selectedDisplay]="selectedDisplay"></app-event-viewer>
+          </div>
+        </div>
+      }
+      @if (currentView== calendarView.Year) {
+        <div class="util-value">{{getMonthUtilization(currentY.value,currentYear)}}
+        </div>
+      }
+    </div>
+  }
 </div>
