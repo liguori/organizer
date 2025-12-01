@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Organizer.API.Authentication;
 
 namespace Organizer.API.OpenApi
@@ -11,6 +11,7 @@ namespace Organizer.API.OpenApi
             document.Info = new OpenApiInfo { Title = "Organizer", Version = "v1" };
 
             document.Components = new OpenApiComponents();
+            document.Components.SecuritySchemes ??= new Dictionary<string, IOpenApiSecurityScheme>();
             document.Components.SecuritySchemes.Add(ApiKeyAuthOptions.ApiKeySchemaName, new OpenApiSecurityScheme
             {
                 Description = "Api key needed to access the endpoints. " + ApiKeyAuthOptions.HeaderName + ": My_API_Key",

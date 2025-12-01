@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.OpenApi;
-using Microsoft.OpenApi.Models;
+using Microsoft.OpenApi;
 using Organizer.API.Authentication;
 
 namespace Organizer.API.OpenApi
@@ -8,23 +8,15 @@ namespace Organizer.API.OpenApi
     {
         public Task TransformAsync(OpenApiOperation operation, OpenApiOperationTransformerContext context, CancellationToken cancellationToken)
         {
-
-            operation.Security = [new OpenApiSecurityRequirement {
-                    {
-                        new OpenApiSecurityScheme
+            operation.Security = [
+                     new OpenApiSecurityRequirement
                         {
-                            Name = ApiKeyAuthOptions.HeaderName,
-                            Type = SecuritySchemeType.ApiKey,
-                            In = ParameterLocation.Header,
-                            Reference = new OpenApiReference
                             {
-                                Type = ReferenceType.SecurityScheme,
-                                Id = ApiKeyAuthOptions.ApiKeySchemaName
-                            },
-                         },
-                         new string[] {}
-                     }
-                }];
+                                new OpenApiSecuritySchemeReference(ApiKeyAuthOptions.ApiKeySchemaName,context.Document),
+                                [ ]
+                            }
+                        }
+                 ];
 
             return Task.CompletedTask;
         }
