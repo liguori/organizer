@@ -44,13 +44,7 @@ builder.Services.AddCors(options =>
     builder => builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 });
 
-// Auto Mapper Configurations
-var mappingConfig = new MapperConfiguration(mc =>
-{
-    mc.AddProfile(new MappingProfile());
-});
-IMapper mapper = mappingConfig.CreateMapper();
-builder.Services.AddSingleton(mapper);
+builder.Services.AddAutoMapper(cfg => cfg.AddProfile<MappingProfile>());
 
 builder.Services.AddTransient<IWarningChecker, WarningChecker>();
 builder.Services.AddTransient<IUpstreamApiAppointments, UpstreamApiAppointments>();
