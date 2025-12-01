@@ -10,7 +10,7 @@
             "request": "launch",
             "preLaunchTask": "build",
             // If you have changed target frameworks, make sure to update the program path.
-            "program": "${workspaceFolder}/src/Organizer.API/Organizer.API/bin/Debug/net9.0/Organizer.API.dll",
+            "program": "${workspaceFolder}/src/Organizer.API/Organizer.API/bin/Debug/net10.0/Organizer.API.dll",
             "args": [],
             "cwd": "${workspaceFolder}/src/Organizer.API/Organizer.API",
             "stopAtEntry": false,

@@ -31,7 +31,7 @@ import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/mat
 import { StyleManager } from './themes/style-manager';
 import { WarningResumeComponent } from './warning-resume/warning-resume.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
-import { ColorPickerModule } from 'ngx-color-picker';
+import { ColorPickerDirective } from 'ngx-color-picker';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 //create our cost var with the information about the format that we want
@@ -92,7 +92,7 @@ export function createApiConfigFactory() {
         MatIconModule,
         OrganizerApiClient.forRoot(createApiConfigFactory),
         NgxMatSelectSearchModule,
-        ColorPickerModule,
+        ColorPickerDirective,
         MatProgressBarModule], providers: [
         AppConfig,
         {
