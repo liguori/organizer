@@ -18,7 +18,7 @@ jobs:
       
       uses: actions/setup-dotnet@v4
       with:
-        dotnet-version: 9.x
+        dotnet-version: 10.x
     - name: Build .NET Backend
       run: dotnet publish Organizer.API.csproj -o "output" -c "Release"
       working-directory: ./src/Organizer.API/Organizer.API
