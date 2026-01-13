@@ -7,6 +7,7 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
+import { firstValueFrom } from 'rxjs';
 
 
 @Component({
@@ -98,7 +99,7 @@ export class AppointmentEditorComponent implements OnInit {
           const appForDate: Appointment = { ...appToSend };
           appForDate.startDate = DateTimeUtils.setToUtc(date);
           appForDate.endDate = DateTimeUtils.setToUtc(date);
-          return this.appServ.apiAppointmentsPost(appForDate).toPromise();
+          return firstValueFrom(this.appServ.apiAppointmentsPost(appForDate));
         });
 
         Promise.all(createPromises).then(() => {

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import moment from 'moment';
 import { filter, retry } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -212,7 +213,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  calendarEventSelcted(app: AppointmentExtraInfo) {
+  calendarEventSelected(app: AppointmentExtraInfo) {
     if (this.isSelectionMode) {
       this.toggleAppointmentSelection(app.id);
     } else {
@@ -403,7 +404,7 @@ export class HomeComponent implements OnInit {
 
     if (confirm(`Are you sure you want to delete ${this.selectedAppointments.size} appointment(s)?`)) {
       const deletePromises = Array.from(this.selectedAppointments).map(id => 
-        this.apiAppointments.apiAppointmentsIdDelete(id).toPromise()
+        firstValueFrom(this.apiAppointments.apiAppointmentsIdDelete(id))
       );
 
       Promise.all(deletePromises).then(() => {
