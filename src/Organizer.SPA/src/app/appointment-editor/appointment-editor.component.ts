@@ -90,8 +90,27 @@ export class AppointmentEditorComponent implements OnInit {
 
     if (!this.validateData(appToSend)) return;
 
-    if (confirm("Are you sure you want to save the appointment?")) {
-      if (this.currentAppointment.isEditing) {
+    if (this.currentAppointment.bulkCreateMode && this.currentAppointment.selectedDates && this.currentAppointment.selectedDates.length > 0) {
+      // Bulk create mode - create an appointment for each selected date
+      const confirmMsg = `Are you sure you want to create ${this.currentAppointment.selectedDates.length} appointment(s)?`;
+      if (confirm(confirmMsg)) {
+        const createPromises = this.currentAppointment.selectedDates.map(date => {
+          const appForDate: Appointment = { ...appToSend };
+          appForDate.startDate = DateTimeUtils.setToUtc(date);
+          appForDate.endDate = DateTimeUtils.setToUtc(date);
+          return this.appServ.apiAppointmentsPost(appForDate).toPromise();
+        });
+
+        Promise.all(createPromises).then(() => {
+          this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);
+          this.dialogRef.close();
+        }).catch(err => {
+          alert('Error while creating appointments: ' + err.message);
+        });
+      }
+    } else if (this.currentAppointment.isEditing) {
+      // Update existing appointment
+      if (confirm("Are you sure you want to save the appointment?")) {
         appToSend.id = this.currentAppointment.id;
         this.appServ.apiAppointmentsIdPut(this.currentAppointment.id, appToSend).subscribe(
           data => {
@@ -102,7 +121,10 @@ export class AppointmentEditorComponent implements OnInit {
             alert('Error while updating appointment' + err.message);
           }
         );;
-      } else {
+      }
+    } else {
+      // Create single appointment
+      if (confirm("Are you sure you want to save the appointment?")) {
         this.appServ.apiAppointmentsPost(appToSend).subscribe(
           data => {
             this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);

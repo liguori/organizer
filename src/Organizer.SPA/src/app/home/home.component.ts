@@ -192,6 +192,10 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.currentAppointment = result;
+      if (this.isSelectionMode) {
+        this.clearSelection();
+        this.toggleSelectionMode();
+      }
     });
   }
 
@@ -384,7 +388,9 @@ export class HomeComponent implements OnInit {
       isEditing: false,
       startDate: dates[0],
       endDate: dates[dates.length - 1],
-      calendarName: this.selectedCalendar
+      calendarName: this.selectedCalendar,
+      bulkCreateMode: true,
+      selectedDates: dates
     };
     this.showAppointmentEditorDialog();
   }

@@ -14,4 +14,6 @@ export interface AppointmentViewModel {
     warning?:boolean;
     warningMessage?:string;
     calendarName?: string;
+    bulkCreateMode?: boolean;
+    selectedDates?: Date[];
 }
