@@ -33,11 +33,21 @@ export class EventViewerComponent implements OnInit {
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
+  @Input()
+  isSelectionMode: boolean = false;
+
+  @Input()
+  selectedAppointments: Set<number> = new Set<number>();
+
   @Output()
   eventSelected = new EventEmitter<AppointmentExtraInfo>();
 
   eventClick(app: AppointmentExtraInfo) {
     this.eventSelected.emit(app);
+  }
+
+  isAppointmentSelected(appointmentId: number): boolean {
+    return this.selectedAppointments && this.selectedAppointments.has(appointmentId);
   }
 
   getEventStyle(app: AppointmentExtraInfo) {

@@ -168,6 +168,12 @@
     color: var(--calendarTodayTextColor);
 }
 
+.selected-day{
+    background-color: #b3e5fc !important;
+    border: 2px solid #0288d1 !important;
+    font-weight: bold;
+}
+
 .util-value{
     vertical-align: top;
     padding: 0;

@@ -41,6 +41,15 @@ export class CalendarComponent implements OnInit {
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
+  @Input()
+  isSelectionMode: boolean = false;
+
+  @Input()
+  selectedDates: Set<string> = new Set<string>();
+
+  @Input()
+  selectedAppointments: Set<number> = new Set<number>();
+
   constructor(private route: ActivatedRoute, private router: Router) {
   }
 
@@ -97,6 +106,9 @@ export class CalendarComponent implements OnInit {
 
   getDayHighlightingClass(day: CalendarDay): String {
     if (day.date != null) {
+      if (this.isDateSelected(day.date)) {
+        return 'selected-day';
+      }
       if (this.isToday(day.date)) {
         return 'today';
       }
@@ -108,6 +120,12 @@ export class CalendarComponent implements OnInit {
     } else {
       return 'no-day';
     }
+  }
+
+  isDateSelected(date: Date): boolean {
+    if (!date || !this.selectedDates) return false;
+    const dateKey = date.toISOString().split('T')[0];
+    return this.selectedDates.has(dateKey);
   }
 
   getMonthUtilization(month, year) {

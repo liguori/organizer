@@ -43,6 +43,11 @@ export class HomeComponent implements OnInit {
 
   currentAppointment: AppointmentViewModel;
 
+  // Multiselection mode
+  isSelectionMode: boolean = false;
+  selectedDates: Set<string> = new Set<string>();
+  selectedAppointments: Set<number> = new Set<number>();
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -127,13 +132,17 @@ export class HomeComponent implements OnInit {
   }
 
   calendarDaySelected(date: Date) {
-    this.currentAppointment = {
-      isEditing: false,
-      startDate: date,
-      endDate: date,
-      calendarName: this.selectedCalendar
+    if (this.isSelectionMode) {
+      this.toggleDateSelection(date);
+    } else {
+      this.currentAppointment = {
+        isEditing: false,
+        startDate: date,
+        endDate: date,
+        calendarName: this.selectedCalendar
+      }
+      this.showAppointmentEditorDialog();
     }
-    this.showAppointmentEditorDialog();
   }
 
   showAppointmentSummaryDialog(app: AppointmentExtraInfo) {
@@ -200,27 +209,31 @@ export class HomeComponent implements OnInit {
   }
 
   calendarEventSelcted(app: AppointmentExtraInfo) {
-    if (app.isFromUpstream) {
-      this.showAppointmentSummaryDialog(app);
+    if (this.isSelectionMode) {
+      this.toggleAppointmentSelection(app.id);
     } else {
-      this.currentAppointment = {
-        isEditing: true,
-        startDate: new Date(app.startDate.toString()),
-        endDate: new Date(app.endDate.toString()),
-        confirmed: app.confirmed,
-        customer: app.customerID,
-        requireTravel: app.requireTravel,
-        travelBooked: app.travelBooked,
-        id: app.id,
-        availabilityID: app.availabilityID,
-        note: app.note,
-        project: app.project,
-        type: app.type.id,
-        warning: app.warning,
-        warningMessage: app.warningDescription,
-        calendarName: this.selectedCalendar
+      if (app.isFromUpstream) {
+        this.showAppointmentSummaryDialog(app);
+      } else {
+        this.currentAppointment = {
+          isEditing: true,
+          startDate: new Date(app.startDate.toString()),
+          endDate: new Date(app.endDate.toString()),
+          confirmed: app.confirmed,
+          customer: app.customerID,
+          requireTravel: app.requireTravel,
+          travelBooked: app.travelBooked,
+          id: app.id,
+          availabilityID: app.availabilityID,
+          note: app.note,
+          project: app.project,
+          type: app.type.id,
+          warning: app.warning,
+          warningMessage: app.warningDescription,
+          calendarName: this.selectedCalendar
+        }
+        this.showAppointmentEditorDialog();
       }
-      this.showAppointmentEditorDialog();
     }
   }
 
@@ -319,5 +332,81 @@ export class HomeComponent implements OnInit {
     });
 
     this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
+  }
+
+  toggleSelectionMode() {
+    this.isSelectionMode = !this.isSelectionMode;
+    if (!this.isSelectionMode) {
+      this.clearSelection();
+    }
+  }
+
+  toggleDateSelection(date: Date) {
+    const dateKey = date.toISOString().split('T')[0];
+    if (this.selectedDates.has(dateKey)) {
+      this.selectedDates.delete(dateKey);
+    } else {
+      this.selectedDates.add(dateKey);
+    }
+  }
+
+  toggleAppointmentSelection(appointmentId: number) {
+    if (this.selectedAppointments.has(appointmentId)) {
+      this.selectedAppointments.delete(appointmentId);
+    } else {
+      this.selectedAppointments.add(appointmentId);
+    }
+  }
+
+  clearSelection() {
+    this.selectedDates.clear();
+    this.selectedAppointments.clear();
+  }
+
+  isDateSelected(date: Date): boolean {
+    if (!date) return false;
+    const dateKey = date.toISOString().split('T')[0];
+    return this.selectedDates.has(dateKey);
+  }
+
+  isAppointmentSelected(appointmentId: number): boolean {
+    return this.selectedAppointments.has(appointmentId);
+  }
+
+  bulkCreateAppointment() {
+    if (this.selectedDates.size === 0) {
+      alert('Please select at least one day to create appointments');
+      return;
+    }
+
+    const dates = Array.from(this.selectedDates).map(d => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
+    this.currentAppointment = {
+      isEditing: false,
+      startDate: dates[0],
+      endDate: dates[dates.length - 1],
+      calendarName: this.selectedCalendar
+    };
+    this.showAppointmentEditorDialog();
+  }
+
+  bulkDeleteAppointments() {
+    if (this.selectedAppointments.size === 0) {
+      alert('Please select at least one appointment to delete');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${this.selectedAppointments.size} appointment(s)?`)) {
+      const deletePromises = Array.from(this.selectedAppointments).map(id => 
+        this.apiAppointments.apiAppointmentsIdDelete(id).toPromise()
+      );
+
+      Promise.all(deletePromises).then(() => {
+        this.clearSelection();
+        this.toggleSelectionMode();
+        this.router.navigate(['calendar/', this.selectedYear]);
+      }).catch(err => {
+        alert('Error while deleting appointments: ' + err.message);
+      });
+    }
   }
 }

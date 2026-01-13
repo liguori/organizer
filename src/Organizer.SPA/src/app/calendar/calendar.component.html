@@ -32,7 +32,8 @@
             <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
             <app-event-viewer class="event-viewer" [appointments]="getEventsByDate(currentX.date)"
               (eventSelected)="eventViewerEventSelected($event)" [currentView]="currentView"
-            [selectedDisplay]="selectedDisplay"></app-event-viewer>
+              [selectedDisplay]="selectedDisplay" [isSelectionMode]="isSelectionMode" 
+              [selectedAppointments]="selectedAppointments"></app-event-viewer>
           </div>
         </div>
       }

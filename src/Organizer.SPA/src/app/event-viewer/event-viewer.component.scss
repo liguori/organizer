@@ -84,6 +84,12 @@
     text-decoration: underline;
 }
 
+.selected-appointment{
+    border: 2px solid #0288d1 !important;
+    box-shadow: 0 0 5px rgba(2, 136, 209, 0.5);
+    opacity: 0.85;
+}
+
 
 .calendar{
     position: relative;

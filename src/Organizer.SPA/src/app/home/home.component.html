@@ -100,13 +100,31 @@
                 </button>&nbsp;
                 <button (click)="withTravelOrOther()" mat-raised-button color="primary">
                   TRAVEL/OTHER
+                </button>&nbsp;
+                <button (click)="toggleSelectionMode()" mat-raised-button [color]="isSelectionMode ? 'accent' : 'primary'">
+                  {{isSelectionMode ? 'EXIT SELECTION' : 'MULTI-SELECT'}}
                 </button>
+                @if (isSelectionMode) {
+                  &nbsp;
+                  <button (click)="bulkCreateAppointment()" mat-raised-button color="primary" 
+                    [disabled]="selectedDates.size === 0">
+                    CREATE ({{selectedDates.size}})
+                  </button>&nbsp;
+                  <button (click)="bulkDeleteAppointments()" mat-raised-button color="warn" 
+                    [disabled]="selectedAppointments.size === 0">
+                    DELETE ({{selectedAppointments.size}})
+                  </button>&nbsp;
+                  <button (click)="clearSelection()" mat-icon-button color="primary">
+                    <mat-icon>clear</mat-icon>
+                  </button>
+                }
               </div>
             </div>
             <div class="calendar-container">
               <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
                 [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
                 [selectedDisplay]="selectedDisplay" [currentMonthStartDate]="selectedDate"
+                [isSelectionMode]="isSelectionMode" [selectedDates]="selectedDates" [selectedAppointments]="selectedAppointments"
               (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelcted($event)"></app-calendar>
             </div>
           </div>
