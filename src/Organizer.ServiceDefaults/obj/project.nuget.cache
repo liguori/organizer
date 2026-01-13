@@ -1,0 +1,63 @@
+{
+  "version": 2,
+  "dgSpecHash": "Ltv7B1HfsBE=",
+  "success": true,
+  "projectFilePath": "/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/Organizer.ServiceDefaults.csproj",
+  "expectedPackageFiles": [
+    "/home/runner/.nuget/packages/microsoft.extensions.ambientmetadata.application/10.0.0/microsoft.extensions.ambientmetadata.application.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.compliance.abstractions/10.0.0/microsoft.extensions.compliance.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.configuration/10.0.0/microsoft.extensions.configuration.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.configuration.abstractions/10.0.0/microsoft.extensions.configuration.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.configuration.binder/10.0.0/microsoft.extensions.configuration.binder.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.dependencyinjection/10.0.0/microsoft.extensions.dependencyinjection.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.dependencyinjection.abstractions/10.0.0/microsoft.extensions.dependencyinjection.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.dependencyinjection.autoactivation/10.0.0/microsoft.extensions.dependencyinjection.autoactivation.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.diagnostics/10.0.0/microsoft.extensions.diagnostics.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.diagnostics.abstractions/10.0.0/microsoft.extensions.diagnostics.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.diagnostics.exceptionsummarization/10.0.0/microsoft.extensions.diagnostics.exceptionsummarization.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.features/10.0.0/microsoft.extensions.features.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.fileproviders.abstractions/10.0.0/microsoft.extensions.fileproviders.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.hosting.abstractions/10.0.0/microsoft.extensions.hosting.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.http/10.0.0/microsoft.extensions.http.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.http.diagnostics/10.0.0/microsoft.extensions.http.diagnostics.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.http.resilience/10.0.0/microsoft.extensions.http.resilience.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.logging/10.0.0/microsoft.extensions.logging.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.logging.abstractions/10.0.0/microsoft.extensions.logging.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.logging.configuration/10.0.0/microsoft.extensions.logging.configuration.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.objectpool/10.0.0/microsoft.extensions.objectpool.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.options/10.0.0/microsoft.extensions.options.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.options.configurationextensions/10.0.0/microsoft.extensions.options.configurationextensions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.primitives/10.0.0/microsoft.extensions.primitives.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.resilience/10.0.0/microsoft.extensions.resilience.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.servicediscovery/10.0.0/microsoft.extensions.servicediscovery.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.servicediscovery.abstractions/10.0.0/microsoft.extensions.servicediscovery.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.telemetry/10.0.0/microsoft.extensions.telemetry.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/microsoft.extensions.telemetry.abstractions/10.0.0/microsoft.extensions.telemetry.abstractions.10.0.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry/1.11.0/opentelemetry.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.api/1.11.1/opentelemetry.api.1.11.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.api.providerbuilderextensions/1.11.1/opentelemetry.api.providerbuilderextensions.1.11.1.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.exporter.opentelemetryprotocol/1.11.0/opentelemetry.exporter.opentelemetryprotocol.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.extensions.hosting/1.11.0/opentelemetry.extensions.hosting.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.instrumentation.aspnetcore/1.11.0/opentelemetry.instrumentation.aspnetcore.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.instrumentation.http/1.11.0/opentelemetry.instrumentation.http.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/opentelemetry.instrumentation.runtime/1.11.0/opentelemetry.instrumentation.runtime.1.11.0.nupkg.sha512",
+    "/home/runner/.nuget/packages/polly.core/8.4.2/polly.core.8.4.2.nupkg.sha512",
+    "/home/runner/.nuget/packages/polly.extensions/8.4.2/polly.extensions.8.4.2.nupkg.sha512",
+    "/home/runner/.nuget/packages/polly.ratelimiting/8.4.2/polly.ratelimiting.8.4.2.nupkg.sha512",
+    "/home/runner/.nuget/packages/system.threading.ratelimiting/8.0.0/system.threading.ratelimiting.8.0.0.nupkg.sha512"
+  ],
+  "logs": [
+    {
+      "code": "NU1902",
+      "level": "Warning",
+      "message": "Package 'OpenTelemetry.Api' 1.11.1 has a known moderate severity vulnerability, https://github.com/advisories/GHSA-8785-wc3w-h8q6",
+      "projectPath": "/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/Organizer.ServiceDefaults.csproj",
+      "warningLevel": 1,
+      "filePath": "/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/Organizer.ServiceDefaults.csproj",
+      "libraryId": "OpenTelemetry.Api",
+      "targetGraphs": [
+        "net10.0"
+      ]
+    }
+  ]
+}

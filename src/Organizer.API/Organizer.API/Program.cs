@@ -11,6 +11,9 @@ const string ApiKeys = "ApiKeys";
 
 var builder = WebApplication.CreateBuilder(args);
 
+// Add service defaults & Aspire client integrations.
+builder.AddServiceDefaults();
+
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -67,6 +70,8 @@ using (var scope = app.Services.CreateScope())
 }
 
 app.UseCors("AllowAllOrigin");
+
+app.MapDefaultEndpoints();
 
 app.UseHttpsRedirection();
 

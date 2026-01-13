@@ -1,0 +1,13 @@
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/bin/Debug/net10.0/Organizer.ServiceDefaults.deps.json
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/bin/Debug/net10.0/Organizer.ServiceDefaults.dll
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/bin/Debug/net10.0/Organizer.ServiceDefaults.pdb
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.csproj.AssemblyReference.cache
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.GeneratedMSBuildEditorConfig.editorconfig
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.AssemblyInfoInputs.cache
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.AssemblyInfo.cs
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.csproj.CoreCompileInputs.cache
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.sourcelink.json
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.dll
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/refint/Organizer.ServiceDefaults.dll
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/Organizer.ServiceDefaults.pdb
+/home/runner/work/organizer/organizer/src/Organizer.ServiceDefaults/obj/Debug/net10.0/ref/Organizer.ServiceDefaults.dll
