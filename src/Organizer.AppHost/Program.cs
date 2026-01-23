@@ -6,7 +6,8 @@ var api = builder.AddProject<Projects.Organizer_API>("api")
 
 // Add the SPA project as a JavaScript app
 var spa = builder.AddJavaScriptApp("spa", "../Organizer.SPA", "start")
-    .WithHttpEndpoint(port: 4200, env: "PORT")
+    .WithHttpEndpoint(targetPort: 4200)
+    .WithReference(api)
     .WithNpm(install: true)
     .WithExternalHttpEndpoints()
     .PublishAsDockerFile();
