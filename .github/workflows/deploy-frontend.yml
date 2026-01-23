@@ -3,10 +3,10 @@ name: Deploy Frontend on Azure
 on:
   workflow_dispatch:
    inputs:
-       environment:
-        description: 'Environment to deploy to (dev, staging, prod)'
-        required: true
-        type: environment
+     environment:
+       description: 'Environment to deploy to (dev, staging, prod)'
+       required: true
+       type: environment
           
 jobs:
   Deploy-Frontend:
