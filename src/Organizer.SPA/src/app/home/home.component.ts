@@ -358,8 +358,8 @@ export class HomeComponent implements OnInit {
   }
 
   clearSelection() {
-    this.selectedDates.clear();
-    this.selectedAppointments.clear();
+    this.selectedDates = new Set<string>();
+    this.selectedAppointments = new Set<number>();
   }
 
   isDateSelected(date: Date): boolean {
