@@ -3,15 +3,15 @@ name: Deploy Backend on Azure
 on:
   workflow_dispatch:
    inputs:
-        environment_name:
-          description: "Environment Name"
-          required: true
-          default: ""
+     environment:
+        description: 'Environment to deploy to (dev, staging, prod)'
+        required: true
+        type: environment
 
 jobs:
   Deploy-Backend:
     environment:
-      name: ${{ github.event.inputs.environment_name }}
+      name: ${{ github.event.inputs.environment }}
       
     runs-on: ubuntu-latest
 
