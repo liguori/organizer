@@ -95,14 +95,17 @@ export class AppointmentEditorComponent implements OnInit {
       // Bulk create mode - create an appointment for each selected date
       const confirmMsg = `Are you sure you want to create ${this.currentAppointment.selectedDates.length} appointment(s)?`;
       if (confirm(confirmMsg)) {
-        const createPromises = this.currentAppointment.selectedDates.map(date => {
-          const appForDate: Appointment = { ...appToSend };
-          appForDate.startDate = DateTimeUtils.setToUtc(date);
-          appForDate.endDate = DateTimeUtils.setToUtc(date);
-          return firstValueFrom(this.appServ.apiAppointmentsPost(appForDate));
-        });
+        // Execute sequentially to avoid SQLite database locking
+        const createAppointmentsSequentially = async () => {
+          for (const date of this.currentAppointment.selectedDates!) {
+            const appForDate: Appointment = { ...appToSend };
+            appForDate.startDate = DateTimeUtils.setToUtc(date);
+            appForDate.endDate = DateTimeUtils.setToUtc(date);
+            await firstValueFrom(this.appServ.apiAppointmentsPost(appForDate));
+          }
+        };
 
-        Promise.all(createPromises).then(() => {
+        createAppointmentsSequentially().then(() => {
           this.router.navigate(['calendar/', this.route.snapshot.params["year?"]]);
           this.dialogRef.close();
         }).catch(err => {

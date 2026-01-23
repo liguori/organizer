@@ -151,7 +151,8 @@ export class CalendarComponent implements OnInit {
 
   isDateSelected(date: Date): boolean {
     if (!date || !this.selectedDates) return false;
-    const dateKey = date.toISOString().split('T')[0];
+    // Use local date components to avoid timezone conversion issues
+    const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     return this.selectedDates.has(dateKey);
   }
 

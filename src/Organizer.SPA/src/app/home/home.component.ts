@@ -360,7 +360,8 @@ export class HomeComponent implements OnInit {
   }
 
   toggleDateSelection(date: Date) {
-    const dateKey = date.toISOString().split('T')[0];
+    // Use local date components to avoid timezone conversion issues
+    const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     if (this.selectedDates.has(dateKey)) {
       this.selectedDates.delete(dateKey);
     } else {
@@ -383,7 +384,8 @@ export class HomeComponent implements OnInit {
 
   isDateSelected(date: Date): boolean {
     if (!date) return false;
-    const dateKey = date.toISOString().split('T')[0];
+    // Use local date components to avoid timezone conversion issues
+    const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
     return this.selectedDates.has(dateKey);
   }
 
@@ -397,7 +399,11 @@ export class HomeComponent implements OnInit {
       return;
     }
 
-    const dates = Array.from(this.selectedDates).map(d => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
+    // Parse ISO date strings as local dates to avoid timezone issues
+    const dates = Array.from(this.selectedDates).map(d => {
+      const [year, month, day] = d.split('-').map(Number);
+      return new Date(year, month - 1, day);
+    }).sort((a, b) => a.getTime() - b.getTime());
     this.currentAppointment = {
       isEditing: false,
       startDate: dates[0],
@@ -416,11 +422,14 @@ export class HomeComponent implements OnInit {
     }
 
     if (confirm(`Are you sure you want to delete ${this.selectedAppointments.size} appointment(s)?`)) {
-      const deletePromises = Array.from(this.selectedAppointments).map(id => 
-        firstValueFrom(this.apiAppointments.apiAppointmentsIdDelete(id))
-      );
+      // Execute sequentially to avoid SQLite database locking
+      const deleteAppointmentsSequentially = async () => {
+        for (const id of Array.from(this.selectedAppointments)) {
+          await firstValueFrom(this.apiAppointments.apiAppointmentsIdDelete(id));
+        }
+      };
 
-      Promise.all(deletePromises).then(() => {
+      deleteAppointmentsSequentially().then(() => {
         this.clearSelection();
         this.router.navigate(['calendar/', this.selectedYear]);
       }).catch(err => {

@@ -25,11 +25,10 @@ export class DateTimeUtils {
     }
 
     static setToUtc(dateRef: Date): Date {
-        var d = new Date();
+        // Create a UTC date with the same year, month, day as the local date
+        // Date.UTC returns milliseconds, new Date() interprets it as UTC
         var drefT = moment(dateRef).toDate();
-        d.setUTCFullYear(drefT.getFullYear());
-        d.setUTCMonth(drefT.getMonth(), drefT.getDate());
-        return d;
+        return new Date(Date.UTC(drefT.getFullYear(), drefT.getMonth(), drefT.getDate(), 0, 0, 0, 0));
     }
 
     static getNowWithoutTime(): Date {
