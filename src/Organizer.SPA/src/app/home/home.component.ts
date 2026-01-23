@@ -16,6 +16,7 @@ import { AppointmentSummaryComponent } from '../appointment-summary/appointment-
 import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
+import { InputDialogComponent, InputDialogData } from '../input-dialog/input-dialog.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -99,6 +100,24 @@ export class HomeComponent implements OnInit {
     this.upstreamEventToken = value ?? '';
     this.persistUiFilterInLocalStorage();
     this.router.navigate(['calendar/', this.selectedYear]);
+  }
+
+  showUpstreamEventTokenDialog() {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: '500px',
+      data: {
+        title: 'Upstream Event Token',
+        label: 'Token',
+        value: this.upstreamEventToken,
+        placeholder: 'Paste your upstream event token here...'
+      } as InputDialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.changeUpstreamEventToken(result);
+      }
+    });
   }
 
   initializeUiFilterFromLocalStorage() {

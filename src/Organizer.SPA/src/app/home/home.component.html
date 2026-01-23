@@ -83,12 +83,11 @@
             <mat-icon>clear</mat-icon>
           </button>
           @if (upstreamEventTokenEnabled) {
-            <mat-form-field id="upstream-event-token" class="filter-box">
-              <mat-label>Upstream Event Token</mat-label>
-              <input matInput placeholder="Upstream Event Token" [ngModel]="upstreamEventToken"
-                (keyup.enter)="changeUpstreamEventToken($event.target.value)">
-              </mat-form-field>
-            }
+            <button mat-mini-fab [color]="upstreamEventToken ? 'accent' : 'primary'" 
+              (click)="showUpstreamEventTokenDialog()" title="Upstream Event Token">
+              <mat-icon>vpn_key</mat-icon>
+            </button>
+          }
             <div class="calendar-option">
               @if (this.getWarnings().length>0) {
                 <button (click)="showDialogWarning()" mat-mini-fab color="warn">
