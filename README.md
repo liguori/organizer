@@ -17,17 +17,6 @@ Appointment management tool.
 
 This tool represents a proof of concept. The quality of the code whose completion times were in the order of a few days in my spare time is proof of that (minimum valuable product).
 
-## Features
-
-- Calendar view with year and month modes
-- Appointment creation, editing, and deletion
-- Customer and project management
-- **Multiselection mode**: Select multiple days to create appointments or multiple appointments to delete them at once. [Learn more](docs/MULTISELECTION_FEATURE.md)
-- Multiple calendar support
-- Availability tracking
-- Dark/Light theme support
-
-
 ## Build
 
 Requirements: You need to install NodeJS 20 and .NET Core 8 SDK.

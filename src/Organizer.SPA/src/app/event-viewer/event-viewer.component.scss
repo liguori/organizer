@@ -51,6 +51,11 @@
     box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
 }
 
+.selected-appointment.not-confirmed {
+    border: none;
+    box-shadow: none;
+}
+
 .billable{
     font-weight: bold;
 }
@@ -59,6 +64,11 @@
     border:1.3px solid red;
     box-sizing: border-box;
     box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
+}
+
+.selected-appointment.warning {
+    border: none;
+    box-shadow: none;
 }
 
 .availability{
