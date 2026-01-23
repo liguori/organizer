@@ -27,7 +27,11 @@
       @for (currentX of getXValues(currentY.value); track trackByDayItems($index, currentX)) {
         <div class="day"
           [class.day-month]="currentView== calendarView.Month" [class.day-year]="currentView== calendarView.Year"
-          [ngClass]="getDayHighlightingClass(currentX)" (click)="dayClicked(currentX)">
+          [ngClass]="getDayHighlightingClass(currentX)" 
+          (click)="dayClicked(currentX, $event)"
+          (touchstart)="onTouchStart(currentX, $event)"
+          (touchend)="onTouchEnd($event)"
+          (touchmove)="onTouchMove($event)">
           <div class="day-container">
             <div class="day-label">{{currentX.date | date : (currentView== calendarView.Year)? 'dd':'dd/MM'}}&nbsp;</div>
             <app-event-viewer class="event-viewer" [appointments]="getEventsByDate(currentX.date)"

@@ -132,8 +132,9 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['calendar/', this.selectedYear]);
   }
 
-  calendarDaySelected(date: Date) {
-    if (this.isSelectionMode) {
+  calendarDaySelected(date: Date, event?: MouseEvent) {
+    const isCtrlClick = event && (event.ctrlKey || event.metaKey);
+    if (isCtrlClick) {
       this.toggleDateSelection(date);
     } else {
       this.currentAppointment = {
@@ -193,9 +194,9 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.currentAppointment = result;
-      if (this.isSelectionMode) {
+      // Clear selection after bulk operations
+      if (this.selectedDates.size > 0 || this.selectedAppointments.size > 0) {
         this.clearSelection();
-        this.toggleSelectionMode();
       }
     });
   }
@@ -213,8 +214,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  calendarEventSelected(app: AppointmentExtraInfo) {
-    if (this.isSelectionMode) {
+  calendarEventSelected(app: AppointmentExtraInfo, event?: MouseEvent) {
+    const isCtrlClick = event && (event.ctrlKey || event.metaKey);
+    if (isCtrlClick) {
       this.toggleAppointmentSelection(app.id);
     } else {
       if (app.isFromUpstream) {
@@ -339,13 +341,6 @@ export class HomeComponent implements OnInit {
     this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
   }
 
-  toggleSelectionMode() {
-    this.isSelectionMode = !this.isSelectionMode;
-    if (!this.isSelectionMode) {
-      this.clearSelection();
-    }
-  }
-
   toggleDateSelection(date: Date) {
     const dateKey = date.toISOString().split('T')[0];
     if (this.selectedDates.has(dateKey)) {
@@ -409,7 +404,6 @@ export class HomeComponent implements OnInit {
 
       Promise.all(deletePromises).then(() => {
         this.clearSelection();
-        this.toggleSelectionMode();
         this.router.navigate(['calendar/', this.selectedYear]);
       }).catch(err => {
         alert('Error while deleting appointments: ' + err.message);

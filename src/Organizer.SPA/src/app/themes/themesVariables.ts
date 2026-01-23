@@ -17,6 +17,7 @@ export class ThemeVariables {
         calendarTodayTextColor: "#ffffff",
         calendarUtilsColor: "#e3ffdd",
         calendarUtilsTextColor: "#000000",
+        selectionColor: "#0288d1",
     }
 
     static darkTheme = {
@@ -36,5 +37,6 @@ export class ThemeVariables {
         calendarTodayTextColor: "#ffffff",
         calendarUtilsColor: "#2d2e2d",
         calendarUtilsTextColor: "#ffffff",
+        selectionColor: "#ff9800",
     }
 }

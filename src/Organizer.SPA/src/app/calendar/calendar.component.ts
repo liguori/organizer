@@ -18,6 +18,9 @@ import { CalendarDisplay } from '../models/calendarDisplay';
 export class CalendarComponent implements OnInit {
   readonly MaxTileYearView: number = 37;
   readonly MaxTileMonthView: number = 7;
+  
+  private longPressTimer: any;
+  private readonly longPressDuration = 500; // milliseconds
 
   @Input()
   currentView: CalendarView = CalendarView.Year;
@@ -56,17 +59,42 @@ export class CalendarComponent implements OnInit {
   ngOnInit() {
   }
 
-  @Output() daySelected = new EventEmitter<Date>();
+  @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();
 
-  @Output() eventSelected = new EventEmitter<Appointment>();
+  @Output() eventSelected = new EventEmitter<{appointment: Appointment, event: MouseEvent}>();
 
-  eventViewerEventSelected(app: Appointment) {
-    this.eventSelected.emit(app);
+  eventViewerEventSelected(data: {appointment: Appointment, event: MouseEvent}) {
+    this.eventSelected.emit(data);
   }
 
-  dayClicked(currentDay: CalendarDay) {
+  dayClicked(currentDay: CalendarDay, event: MouseEvent) {
     if (currentDay.date != null) {
-      this.daySelected.emit(currentDay.date);
+      this.daySelected.emit({date: currentDay.date, event: event});
+    }
+  }
+
+  onTouchStart(currentDay: CalendarDay, event: TouchEvent) {
+    this.longPressTimer = setTimeout(() => {
+      if (currentDay.date != null) {
+        // Simulate CTRL+Click for long press
+        const mouseEvent = new MouseEvent('click', {
+          ctrlKey: true,
+          bubbles: true
+        });
+        this.daySelected.emit({date: currentDay.date, event: mouseEvent});
+      }
+    }, this.longPressDuration);
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+    }
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
     }
   }
 

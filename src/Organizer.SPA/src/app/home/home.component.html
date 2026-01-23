@@ -100,21 +100,22 @@
                 </button>&nbsp;
                 <button (click)="withTravelOrOther()" mat-raised-button color="primary">
                   TRAVEL/OTHER
-                </button>&nbsp;
-                <button (click)="toggleSelectionMode()" mat-raised-button [color]="isSelectionMode ? 'accent' : 'primary'">
-                  {{isSelectionMode ? 'EXIT SELECTION' : 'MULTI-SELECT'}}
                 </button>
-                @if (isSelectionMode) {
+                @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
                   &nbsp;
-                  <button (click)="bulkCreateAppointment()" mat-raised-button color="primary" 
-                    [disabled]="selectedDates.size === 0">
-                    CREATE ({{selectedDates.size}})
-                  </button>&nbsp;
-                  <button (click)="bulkDeleteAppointments()" mat-raised-button color="warn" 
-                    [disabled]="selectedAppointments.size === 0">
-                    DELETE ({{selectedAppointments.size}})
-                  </button>&nbsp;
-                  <button (click)="clearSelection()" mat-icon-button color="primary">
+                  <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" 
+                    [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
+                    <mat-icon>add</mat-icon>
+                  </button>
+                  <span class="selection-count">{{selectedDates.size}}</span>
+                  &nbsp;
+                  <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" 
+                    [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <span class="selection-count">{{selectedAppointments.size}}</span>
+                  &nbsp;
+                  <button (click)="clearSelection()" mat-icon-button color="primary" title="Clear selection">
                     <mat-icon>clear</mat-icon>
                   </button>
                 }
@@ -125,6 +126,6 @@
                 [appointments]="appointments" [upstreamEventToken]="upstreamEventToken" [currentView]="selectedView"
                 [selectedDisplay]="selectedDisplay" [currentMonthStartDate]="selectedDate"
                 [isSelectionMode]="isSelectionMode" [selectedDates]="selectedDates" [selectedAppointments]="selectedAppointments"
-              (daySelected)="calendarDaySelected($event)" (eventSelected)="calendarEventSelected($event)"></app-calendar>
+              (daySelected)="calendarDaySelected($event.date, $event.event)" (eventSelected)="calendarEventSelected($event.appointment, $event.event)"></app-calendar>
             </div>
           </div>
