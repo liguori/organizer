@@ -45,7 +45,6 @@ export class HomeComponent implements OnInit {
   currentAppointment: AppointmentViewModel;
 
   // Multiselection mode
-  isSelectionMode: boolean = false;
   selectedDates: Set<string> = new Set<string>();
   selectedAppointments: Set<number> = new Set<number>();
 

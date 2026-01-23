@@ -15,7 +15,7 @@ import { CalendarView } from '../models/calendarView';
 export class EventViewerComponent implements OnInit {
   calendars: Array<Calendar>;
   
-  private longPressTimer: any;
+  private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly longPressDuration = 500; // milliseconds
 
   constructor(
@@ -35,9 +35,6 @@ export class EventViewerComponent implements OnInit {
 
   @Input()
   appointments: Array<AppointmentExtraInfo>;
-
-  @Input()
-  isSelectionMode: boolean = false;
 
   @Input()
   selectedAppointments: Set<number> = new Set<number>();
@@ -66,6 +63,7 @@ export class EventViewerComponent implements OnInit {
     event.stopPropagation();
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
     }
   }
 
@@ -73,6 +71,7 @@ export class EventViewerComponent implements OnInit {
     event.stopPropagation();
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
     }
   }
 

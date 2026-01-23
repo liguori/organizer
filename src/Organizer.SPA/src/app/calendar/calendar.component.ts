@@ -19,7 +19,7 @@ export class CalendarComponent implements OnInit {
   readonly MaxTileYearView: number = 37;
   readonly MaxTileMonthView: number = 7;
   
-  private longPressTimer: any;
+  private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly longPressDuration = 500; // milliseconds
 
   @Input()
@@ -43,9 +43,6 @@ export class CalendarComponent implements OnInit {
 
   @Input()
   appointments: Array<AppointmentExtraInfo>;
-
-  @Input()
-  isSelectionMode: boolean = false;
 
   @Input()
   selectedDates: Set<string> = new Set<string>();
@@ -89,12 +86,14 @@ export class CalendarComponent implements OnInit {
   onTouchEnd(event: TouchEvent) {
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
     }
   }
 
   onTouchMove(event: TouchEvent) {
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
     }
   }
 
