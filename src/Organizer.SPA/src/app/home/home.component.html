@@ -102,20 +102,17 @@
                   TRAVEL/OTHER
                 </button>
                 @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
-                  &nbsp;
-                  <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" 
+                  <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"
                     [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
                     <mat-icon>add</mat-icon>
+                    <span class="selection-badge">{{selectedDates.size}}</span>
                   </button>
-                  <span class="selection-count">{{selectedDates.size}}</span>
-                  &nbsp;
-                  <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" 
+                  <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" class="selection-button"
                     [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
                     <mat-icon>delete</mat-icon>
+                    <span class="selection-badge">{{selectedAppointments.size}}</span>
                   </button>
-                  <span class="selection-count">{{selectedAppointments.size}}</span>
-                  &nbsp;
-                  <button (click)="clearSelection()" mat-icon-button color="primary" title="Clear selection">
+                  <button (click)="clearSelection()" mat-icon-button color="primary" class="selection-button" title="Clear selection">
                     <mat-icon>clear</mat-icon>
                   </button>
                 }

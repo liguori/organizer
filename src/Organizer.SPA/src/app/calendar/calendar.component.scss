@@ -175,11 +175,11 @@
 .selected-day::after {
     content: '';
     position: absolute;
-    top: 2px;
-    left: 2px;
-    right: 2px;
-    bottom: 2px;
-    border: 2px solid var(--selection-color, #0288d1);
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border: 3px solid var(--selection-color, #0288d1);
     pointer-events: none;
     box-sizing: border-box;
 }
