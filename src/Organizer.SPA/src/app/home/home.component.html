@@ -95,11 +95,11 @@
                   W
                 </button>
                 }&nbsp;
-                <button (click)="availability()" mat-raised-button color="primary">
-                  AVAILABILITY
+                <button (click)="availability()" mat-mini-fab color="primary" title="Availability">
+                  <mat-icon>event_available</mat-icon>
                 </button>&nbsp;
-                <button (click)="withTravelOrOther()" mat-raised-button color="primary">
-                  TRAVEL/OTHER
+                <button (click)="withTravelOrOther()" mat-mini-fab color="primary" title="Travel/Other">
+                  <mat-icon>flight_takeoff</mat-icon>
                 </button>
                 @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
                   <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"

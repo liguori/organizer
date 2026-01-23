@@ -98,6 +98,7 @@
     border: 3px solid var(--selection-color, #0288d1);
     pointer-events: none;
     box-sizing: border-box;
+    z-index: 1;
 }
 
 
