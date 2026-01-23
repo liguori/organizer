@@ -9,6 +9,10 @@
 
 
 # IDE - VS
-.vs/**
+**/.vs/
 /src/Organizer.API/Organizer.API/Organizer.db-shm
 /src/Organizer.API/Organizer.API/Organizer.db-wal
+
+# .NET Build artifacts
+**/bin/
+**/obj/

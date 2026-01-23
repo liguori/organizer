@@ -12,6 +12,7 @@ Appointment management tool.
 - Entity Framework Core
 - SQLite
 - Electron
+- .NET Aspire (for orchestration)
 
 ## Introduction
 
@@ -19,11 +20,20 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 ## Build
 
-Requirements: You need to install NodeJS 20 and .NET Core 8 SDK.
+Requirements: You need to install NodeJS 20 and .NET 10 SDK.
 
 Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
 
 Once the build is completed, you can run the self-contained electron application from the './src/dist' folder.
+
+### Build with .NET Aspire
+
+To build and run using .NET Aspire orchestration:
+
+```bash
+cd src
+dotnet build Organizer.Aspire.sln
+```
 
 ## Areas for improvement
 
@@ -55,10 +65,33 @@ Dark Theme
 ## Hosting Models
 **Architecture**
 
-The app is composed of 3 layerd:
+The app is composed of 3 layers:
 - API: The REST api that wraps all the business logic and data access (./src/Organizer.API)
 - SPA: The Single Page Application that represents the user interface (./src/Organizer.SPA)
 - Electron: Can host the API and SPA for a standalone usage (./src/Organizer.App)
+
+### .NET Aspire Orchestration (Recommended for Development)
+
+The application includes .NET Aspire 13.1.0 orchestration for simplified development and deployment. Aspire provides:
+- Unified orchestration of the API and SPA
+- Built-in service discovery
+- Observability with OpenTelemetry
+- Health checks and resilience
+- Dashboard for monitoring
+
+To run with Aspire:
+
+```bash
+cd src/Organizer.AppHost
+dotnet run
+```
+
+This will start:
+- The Organizer.API (ASP.NET Core Web API)
+- The Organizer.SPA (Angular application)
+- The Aspire Dashboard for monitoring and observability
+
+Access the Aspire Dashboard at the URL shown in the console output (typically https://localhost:17256).
 
 **Web Application**
 
@@ -68,4 +101,4 @@ The application can be hosted as a web application, you just need to build and d
 
 **Electron Application**
 
-The GitHub Release or the output of the MakeBuild.ps1 command will produce a standalone Electon Application that can be directly executed 
+The GitHub Release or the output of the MakeBuild.ps1 command will produce a standalone Electron Application that can be directly executed 
