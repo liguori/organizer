@@ -30,6 +30,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
 import { StyleManager } from './themes/style-manager';
 import { WarningResumeComponent } from './warning-resume/warning-resume.component';
+import { InputDialogComponent } from './input-dialog/input-dialog.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ColorPickerDirective } from 'ngx-color-picker';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -74,7 +75,8 @@ export function createApiConfigFactory() {
         CalendarEditorComponent,
         AppointmentSummaryComponent,
         CustomerViewComponent,
-        WarningResumeComponent
+        WarningResumeComponent,
+        InputDialogComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,

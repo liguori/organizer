@@ -18,6 +18,9 @@ import { CalendarDisplay } from '../models/calendarDisplay';
 export class CalendarComponent implements OnInit {
   readonly MaxTileYearView: number = 37;
   readonly MaxTileMonthView: number = 7;
+  
+  private longPressTimer: ReturnType<typeof setTimeout> | undefined;
+  private readonly longPressDuration = 500; // milliseconds
 
   @Input()
   currentView: CalendarView = CalendarView.Year;
@@ -41,23 +44,56 @@ export class CalendarComponent implements OnInit {
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
+  @Input()
+  selectedDates: Set<string> = new Set<string>();
+
+  @Input()
+  selectedAppointments: Set<number> = new Set<number>();
+
   constructor(private route: ActivatedRoute, private router: Router) {
   }
 
   ngOnInit() {
   }
 
-  @Output() daySelected = new EventEmitter<Date>();
+  @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();
 
-  @Output() eventSelected = new EventEmitter<Appointment>();
+  @Output() eventSelected = new EventEmitter<{appointment: Appointment, event: MouseEvent}>();
 
-  eventViewerEventSelected(app: Appointment) {
-    this.eventSelected.emit(app);
+  eventViewerEventSelected(data: {appointment: Appointment, event: MouseEvent}) {
+    this.eventSelected.emit(data);
   }
 
-  dayClicked(currentDay: CalendarDay) {
+  dayClicked(currentDay: CalendarDay, event: MouseEvent) {
     if (currentDay.date != null) {
-      this.daySelected.emit(currentDay.date);
+      this.daySelected.emit({date: currentDay.date, event: event});
+    }
+  }
+
+  onTouchStart(currentDay: CalendarDay, event: TouchEvent) {
+    this.longPressTimer = setTimeout(() => {
+      if (currentDay.date != null) {
+        // Simulate CTRL+Click for long press
+        const mouseEvent = new MouseEvent('click', {
+          ctrlKey: true,
+          bubbles: true
+        });
+        this.daySelected.emit({date: currentDay.date, event: mouseEvent});
+      }
+    }, this.longPressDuration);
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
+    }
+  }
+
+  onTouchMove(event: TouchEvent) {
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
     }
   }
 
@@ -97,6 +133,9 @@ export class CalendarComponent implements OnInit {
 
   getDayHighlightingClass(day: CalendarDay): String {
     if (day.date != null) {
+      if (this.isDateSelected(day.date)) {
+        return 'selected-day';
+      }
       if (this.isToday(day.date)) {
         return 'today';
       }
@@ -108,6 +147,12 @@ export class CalendarComponent implements OnInit {
     } else {
       return 'no-day';
     }
+  }
+
+  isDateSelected(date: Date): boolean {
+    if (!date || !this.selectedDates) return false;
+    const dateKey = date.toISOString().split('T')[0];
+    return this.selectedDates.has(dateKey);
   }
 
   getMonthUtilization(month, year) {

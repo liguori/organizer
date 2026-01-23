@@ -1,7 +1,11 @@
 @if (currentAppointment!= null && !currentAppointment.isEditing) {
   <div mat-dialog-title class="new-appointment-edit">
-    NEW APPOINTMENT
-  CREATION</div>
+    @if (currentAppointment.bulkCreateMode && currentAppointment.selectedDates) {
+      BULK APPOINTMENT CREATION ({{currentAppointment.selectedDates.length}} days)
+    } @else {
+      NEW APPOINTMENT CREATION
+    }
+  </div>
 }
 @if (currentAppointment!= null && currentAppointment.isEditing) {
   <div mat-dialog-title class="existent-appointment-edit"

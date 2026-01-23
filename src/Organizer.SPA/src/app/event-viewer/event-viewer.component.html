@@ -3,7 +3,12 @@
     @if (selectedDisplay==calendarDisplay.Event) {
       <span class="event"
         [class.event-month]="currentView== calendarView.Month" [class.event-year]="currentView== calendarView.Year"
-        (click)="eventClick(app)" [ngStyle]="getEventStyle(app)" [ngClass]="{
+        [class.selected-appointment]="isAppointmentSelected(app.id)"
+        (click)="eventClick(app, $event)" 
+        (touchstart)="onTouchStart(app, $event)"
+        (touchend)="onTouchEnd($event)"
+        (touchmove)="onTouchMove($event)"
+        [ngStyle]="getEventStyle(app)" [ngClass]="{
     'upstream-month':(app.isFromUpstream && app.customer.id==0 && currentView== calendarView.Month),
     'upstream-year':(app.isFromUpstream && app.customer.id==0&& currentView== calendarView.Year),
     'upstream-matched':(app.isFromUpstream &&

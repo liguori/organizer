@@ -7,6 +7,28 @@
     float:right;
 }
 
+.selection-button {
+    margin-left: 4px !important;
+    position: relative;
+}
+
+.selection-badge {
+    position: absolute;
+    bottom: -25px;
+    right: -10px;
+    background-color: #f44336;
+    color: white;
+    border-radius: 50%;
+    width: 18px;
+    height: 18px;
+    font-size: 10px;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    line-height: 1;
+}
+
 #upstream-event-token{
     width: 170px;
 }

@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import moment from 'moment';
 import { filter, retry } from 'rxjs/operators';
+import { firstValueFrom } from 'rxjs';
 import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
@@ -15,6 +16,7 @@ import { AppointmentSummaryComponent } from '../appointment-summary/appointment-
 import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
+import { InputDialogComponent, InputDialogData } from '../input-dialog/input-dialog.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -42,6 +44,10 @@ export class HomeComponent implements OnInit {
   filterSelectedCustomer: string;
 
   currentAppointment: AppointmentViewModel;
+
+  // Multiselection mode
+  selectedDates: Set<string> = new Set<string>();
+  selectedAppointments: Set<number> = new Set<number>();
 
   constructor(
     private router: Router,
@@ -96,6 +102,24 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['calendar/', this.selectedYear]);
   }
 
+  showUpstreamEventTokenDialog() {
+    const dialogRef = this.dialog.open(InputDialogComponent, {
+      width: '500px',
+      data: {
+        title: 'Upstream Event Token',
+        label: 'Token',
+        value: this.upstreamEventToken,
+        placeholder: 'Paste your upstream event token here...'
+      } as InputDialogData
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.changeUpstreamEventToken(result);
+      }
+    });
+  }
+
   initializeUiFilterFromLocalStorage() {
     this.upstreamEventToken = localStorage.getItem('UpstreamEventToken') ?? '';
     if (localStorage.getItem('SelectedCalendar')) {
@@ -126,14 +150,19 @@ export class HomeComponent implements OnInit {
     this.router.navigate(['calendar/', this.selectedYear]);
   }
 
-  calendarDaySelected(date: Date) {
-    this.currentAppointment = {
-      isEditing: false,
-      startDate: date,
-      endDate: date,
-      calendarName: this.selectedCalendar
+  calendarDaySelected(date: Date, event?: MouseEvent) {
+    const isCtrlClick = event && (event.ctrlKey || event.metaKey);
+    if (isCtrlClick) {
+      this.toggleDateSelection(date);
+    } else {
+      this.currentAppointment = {
+        isEditing: false,
+        startDate: date,
+        endDate: date,
+        calendarName: this.selectedCalendar
+      }
+      this.showAppointmentEditorDialog();
     }
-    this.showAppointmentEditorDialog();
   }
 
   showAppointmentSummaryDialog(app: AppointmentExtraInfo) {
@@ -183,6 +212,10 @@ export class HomeComponent implements OnInit {
 
     dialogRef.afterClosed().subscribe(result => {
       this.currentAppointment = result;
+      // Clear selection after bulk operations
+      if (this.selectedDates.size > 0 || this.selectedAppointments.size > 0) {
+        this.clearSelection();
+      }
     });
   }
 
@@ -199,28 +232,33 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  calendarEventSelcted(app: AppointmentExtraInfo) {
-    if (app.isFromUpstream) {
-      this.showAppointmentSummaryDialog(app);
+  calendarEventSelected(app: AppointmentExtraInfo, event?: MouseEvent) {
+    const isCtrlClick = event && (event.ctrlKey || event.metaKey);
+    if (isCtrlClick) {
+      this.toggleAppointmentSelection(app.id);
     } else {
-      this.currentAppointment = {
-        isEditing: true,
-        startDate: new Date(app.startDate.toString()),
-        endDate: new Date(app.endDate.toString()),
-        confirmed: app.confirmed,
-        customer: app.customerID,
-        requireTravel: app.requireTravel,
-        travelBooked: app.travelBooked,
-        id: app.id,
-        availabilityID: app.availabilityID,
-        note: app.note,
-        project: app.project,
-        type: app.type.id,
-        warning: app.warning,
-        warningMessage: app.warningDescription,
-        calendarName: this.selectedCalendar
+      if (app.isFromUpstream) {
+        this.showAppointmentSummaryDialog(app);
+      } else {
+        this.currentAppointment = {
+          isEditing: true,
+          startDate: new Date(app.startDate.toString()),
+          endDate: new Date(app.endDate.toString()),
+          confirmed: app.confirmed,
+          customer: app.customerID,
+          requireTravel: app.requireTravel,
+          travelBooked: app.travelBooked,
+          id: app.id,
+          availabilityID: app.availabilityID,
+          note: app.note,
+          project: app.project,
+          type: app.type.id,
+          warning: app.warning,
+          warningMessage: app.warningDescription,
+          calendarName: this.selectedCalendar
+        }
+        this.showAppointmentEditorDialog();
       }
-      this.showAppointmentEditorDialog();
     }
   }
 
@@ -319,5 +357,75 @@ export class HomeComponent implements OnInit {
     });
 
     this.customDialog.openAlertDialog({ dialogTitle: "Warnings", dialogMsg: this.sanitized.bypassSecurityTrustHtml(res) });
+  }
+
+  toggleDateSelection(date: Date) {
+    const dateKey = date.toISOString().split('T')[0];
+    if (this.selectedDates.has(dateKey)) {
+      this.selectedDates.delete(dateKey);
+    } else {
+      this.selectedDates.add(dateKey);
+    }
+  }
+
+  toggleAppointmentSelection(appointmentId: number) {
+    if (this.selectedAppointments.has(appointmentId)) {
+      this.selectedAppointments.delete(appointmentId);
+    } else {
+      this.selectedAppointments.add(appointmentId);
+    }
+  }
+
+  clearSelection() {
+    this.selectedDates = new Set<string>();
+    this.selectedAppointments = new Set<number>();
+  }
+
+  isDateSelected(date: Date): boolean {
+    if (!date) return false;
+    const dateKey = date.toISOString().split('T')[0];
+    return this.selectedDates.has(dateKey);
+  }
+
+  isAppointmentSelected(appointmentId: number): boolean {
+    return this.selectedAppointments.has(appointmentId);
+  }
+
+  bulkCreateAppointment() {
+    if (this.selectedDates.size === 0) {
+      alert('Please select at least one day to create appointments');
+      return;
+    }
+
+    const dates = Array.from(this.selectedDates).map(d => new Date(d)).sort((a, b) => a.getTime() - b.getTime());
+    this.currentAppointment = {
+      isEditing: false,
+      startDate: dates[0],
+      endDate: dates[dates.length - 1],
+      calendarName: this.selectedCalendar,
+      bulkCreateMode: true,
+      selectedDates: dates
+    };
+    this.showAppointmentEditorDialog();
+  }
+
+  bulkDeleteAppointments() {
+    if (this.selectedAppointments.size === 0) {
+      alert('Please select at least one appointment to delete');
+      return;
+    }
+
+    if (confirm(`Are you sure you want to delete ${this.selectedAppointments.size} appointment(s)?`)) {
+      const deletePromises = Array.from(this.selectedAppointments).map(id => 
+        firstValueFrom(this.apiAppointments.apiAppointmentsIdDelete(id))
+      );
+
+      Promise.all(deletePromises).then(() => {
+        this.clearSelection();
+        this.router.navigate(['calendar/', this.selectedYear]);
+      }).catch(err => {
+        alert('Error while deleting appointments: ' + err.message);
+      });
+    }
   }
 }

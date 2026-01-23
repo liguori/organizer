@@ -14,6 +14,9 @@ import { CalendarView } from '../models/calendarView';
 })
 export class EventViewerComponent implements OnInit {
   calendars: Array<Calendar>;
+  
+  private longPressTimer: ReturnType<typeof setTimeout> | undefined;
+  private readonly longPressDuration = 500; // milliseconds
 
   constructor(
     private route: ActivatedRoute
@@ -33,11 +36,47 @@ export class EventViewerComponent implements OnInit {
   @Input()
   appointments: Array<AppointmentExtraInfo>;
 
-  @Output()
-  eventSelected = new EventEmitter<AppointmentExtraInfo>();
+  @Input()
+  selectedAppointments: Set<number> = new Set<number>();
 
-  eventClick(app: AppointmentExtraInfo) {
-    this.eventSelected.emit(app);
+  @Output()
+  eventSelected = new EventEmitter<{appointment: AppointmentExtraInfo, event: MouseEvent}>();
+
+  eventClick(app: AppointmentExtraInfo, event: MouseEvent) {
+    event.stopPropagation(); // Prevent day click event
+    this.eventSelected.emit({appointment: app, event: event});
+  }
+
+  onTouchStart(app: AppointmentExtraInfo, event: TouchEvent) {
+    event.stopPropagation();
+    this.longPressTimer = setTimeout(() => {
+      // Simulate CTRL+Click for long press
+      const mouseEvent = new MouseEvent('click', {
+        ctrlKey: true,
+        bubbles: true
+      });
+      this.eventSelected.emit({appointment: app, event: mouseEvent});
+    }, this.longPressDuration);
+  }
+
+  onTouchEnd(event: TouchEvent) {
+    event.stopPropagation();
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
+    }
+  }
+
+  onTouchMove(event: TouchEvent) {
+    event.stopPropagation();
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
+    }
+  }
+
+  isAppointmentSelected(appointmentId: number): boolean {
+    return this.selectedAppointments && this.selectedAppointments.has(appointmentId);
   }
 
   getEventStyle(app: AppointmentExtraInfo) {
