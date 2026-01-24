@@ -1,6 +1,12 @@
 {
   "name": "organizer-app",
   "version": "1.7.3",
+  "description": "Organizer desktop application",
+  "homepage": "https://liguori.github.io",
+  "author": {
+    "name": "Organizer Team",
+    "email": "gianluigiliguori@live.it"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
