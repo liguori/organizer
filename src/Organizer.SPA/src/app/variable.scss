@@ -1,22 +1,38 @@
 @use 'sass:math';
 
-$event-font-size-year:1.4vh;
-$event-font-size-month:1.2vh;
+// Mobile-first responsive variables
+// Base mobile values (for screens < 768px)
+$event-font-size-year-mobile: 10px;
+$event-font-size-month-mobile: 10px;
 $event-height-year:50%;
 $event-height-month:20%;
+$header-font-size-mobile: 11px;
+$month-font-size-mobile: 12px;
+$day-label-font-size-mobile: 11px;
+$day-label-height-mobile: 18px;
+$row-header-height-mobile: 32px;
+$row-height-year-mobile: 80px;
+$row-height-month: 18%;
+$util-width-mobile: 50px;
+$util-font-size-mobile: 12px;
+$cell-border-size: 0.5px;
+$year-month-col-width-mobile: 50px;
+$day-width-year-mobile: 32px;
+$day-width-month: calc(100% / 7);
+$utilization-table:100%;
+$utilization-width: calc(#{$utilization-table} / 7);
+$utilization-row-height:((100&)/20);
+
+// Desktop values (for screens >= 768px) - original values
+$event-font-size-year:1.4vh;
+$event-font-size-month:1.2vh;
 $header-font-size:1.0vw;
 $month-font-size:1.05vw;
 $day-label-font-size:1.6vh;
 $day-label-height:1.7vh;
 $row-header-height:4vh;
 $row-height-year:7.6%;
-$row-height-month:18%;
 $util-width: 3%;
 $util-font-size:1.1vw;
-$cell-border-size:0.5px;
 $year-month-col-width:3%;
 $day-width-year: calc((100% - #{$year-month-col-width} - #{$util-width}) / 37);
-$day-width-month: calc(100% / 7);
-$utilization-table:100%;
-$utilization-width: calc(#{$utilization-table} / 7);
-$utilization-row-height:((100&)/20);

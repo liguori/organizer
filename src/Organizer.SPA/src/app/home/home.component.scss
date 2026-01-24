@@ -1,12 +1,16 @@
 .calendar-container{
     text-align: center;
     flex: 1 1 auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
 }
 
 .calendar-option {
     margin-left: auto;
     display: flex;
     align-items: center;
+    flex-wrap: wrap;
+    gap: 4px;
 }
 
 .warning-button {
@@ -58,4 +62,11 @@
 
 #calendar-customer-filter{
     width: 200px;
+}
+
+// Tablet and larger screens (>= 768px)
+@media (min-width: 768px) {
+    .calendar-container{
+        overflow-x: visible;
+    }
 }
