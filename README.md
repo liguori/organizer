@@ -39,15 +39,6 @@ cd src
 dotnet build Organizer.Aspire.sln
 ```
 
-## Areas for improvement
-
-- Unit testing
-- CI / CD
-- Globalization and i18n
-- Bug fix
-- Transform hard-coded HTML in Angular Component using tamplates
-
-
 ## Screenshots
 
 **Calendar view**
