@@ -17,11 +17,11 @@ $util-width-mobile: 50px;
 $util-font-size-mobile: 12px;
 $cell-border-size: 0.5px;
 $year-month-col-width-mobile: 50px;
-$day-width-year-mobile: 32px;
+$day-width-year-mobile: 44px;
 $day-width-month: calc(100% / 7);
 $utilization-table:100%;
 $utilization-width: calc(#{$utilization-table} / 7);
-$utilization-row-height:((100&)/20);
+$utilization-row-height: calc(100% / 20);
 
 // Desktop values (for screens >= 768px) - original values
 $event-font-size-year:1.4vh;

@@ -131,8 +131,8 @@
     cursor: pointer;
     background-color: var(--calendarDayColor);
     color:var(--calendarDayTextColor);
-    // Ensure touch targets are at least 44x44 on mobile
-    min-width: 32px;
+    // Ensure touch targets meet accessibility guidelines (44x44px minimum)
+    min-width: 44px;
     min-height: 44px;
 }
 
