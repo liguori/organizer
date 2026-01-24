@@ -1,10 +1,10 @@
-const electron = require('electron')
-// Module to control application life.
-const app = electron.app
-// Module to create native browser window.
-const BrowserWindow = electron.BrowserWindow
+const { app, BrowserWindow } = require('electron')
 const path = require('path')
 const url = require('url')
+const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main')
+
+// Setup the titlebar main process
+setupTitlebar()
 
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
@@ -16,10 +16,12 @@ function createWindow() {
     show: false,
     icon: path.join(__dirname, 'engament.ico'),
     transparent: false,
-    frame: false,
+    titleBarStyle: 'hidden',
+    titleBarOverlay: false,
     webPreferences: {
       nodeIntegration: true,
-      enableRemoteModule: true,
+      contextIsolation: false,
+      sandbox: false,
       preload: path.join(__dirname, 'preload.js')
     }
   });
@@ -27,7 +29,7 @@ function createWindow() {
 
   // and load the index.html of the app.
   mainWindow.loadURL(url.format({
-    pathname: path.join(__dirname, 'UI/index.html'),
+    pathname: path.join(__dirname, 'UI/browser/index.html'),
     protocol: 'file:',
     slashes: true
   }));
@@ -36,6 +38,9 @@ function createWindow() {
     mainWindow.maximize();
     mainWindow.show();
   })
+
+  // Attach titlebar listeners for fullscreen and focus
+  attachTitlebarToWindow(mainWindow);
 
   // Emitted when the window is closed.
   mainWindow.on('closed', function () {

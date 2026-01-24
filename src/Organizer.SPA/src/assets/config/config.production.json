@@ -3,7 +3,7 @@
         "name": "PRODUCTION"
     },
     "api": {
-        "url": "",
-        "key": ""
+        "url": "http://localhost:5541",
+        "key": "dfneringersssjgeorjfweoejrfinej89r43jfjdscfju3j4iugjsiczncnncnvc"
     }
 }

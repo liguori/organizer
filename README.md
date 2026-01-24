@@ -20,11 +20,15 @@ This tool represents a proof of concept. The quality of the code whose completio
 
 ## Build
 
-Requirements: You need to install NodeJS 20 and .NET 10 SDK.
+Requirements: You need to install NodeJS 22+ and .NET 10 SDK.
 
-Execute the 'src/MakeBuild.ps1' PowerShell script. (PS Core for Linux/Max or execute the .ps1 commands in your favourite console)
+Execute the `Build.ps1` PowerShell script from the repository root. (PS Core for Linux/Mac or execute the .ps1 commands in your favourite console)
 
-Once the build is completed, you can run the self-contained electron application from the './src/dist' folder.
+```bash
+./Build.ps1
+```
+
+Once the build is completed, you can run the self-contained Electron application from the `./src/dist` folder.
 
 ### Build with .NET Aspire
 
@@ -101,4 +105,4 @@ The application can be hosted as a web application, you just need to build and d
 
 **Electron Application**
 
-The GitHub Release or the output of the MakeBuild.ps1 command will produce a standalone Electron Application that can be directly executed 
+The GitHub Release or the output of the `Build.ps1` command will produce a standalone Electron application (v40.x) that can be directly executed. 
