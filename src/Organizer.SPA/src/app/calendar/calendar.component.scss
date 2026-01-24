@@ -220,7 +220,7 @@
 // Tablet and larger screens (>= 768px)
 @media (min-width: 768px) {
     .month-header{
-        font-size: 0.95vw;
+        font-size: $month-font-size;
         width: $year-month-col-width;
     }
 }
