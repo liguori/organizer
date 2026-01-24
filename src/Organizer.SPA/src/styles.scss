@@ -21,6 +21,9 @@ body,html
 }
 
 .filters-header{
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
     flex: 0 1 auto;
     padding: 5px 0px;
 }
