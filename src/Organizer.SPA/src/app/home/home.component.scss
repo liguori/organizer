@@ -75,27 +75,27 @@
 // Mobile: smaller widths for filters
 @media (max-width: 767px) {
     #upstream-event-token{
-        width: 100px;
+        width: 110px; // Increased for better rendering
     }
 
     #calendar-select-date-filter{
-        width: 100px;
+        width: 110px;
     }
 
     #calendar-view-filter{
-        width: 85px;
+        width: 90px; // Increased from 85px
     }
 
     #calendar-view-display{
-        width: 95px;
+        width: 100px; // Increased from 95px
     }
 
     #calendar-project-filter{
-        width: 75px;
+        width: 80px; // Increased from 75px
     }
 
     #calendar-customer-filter{
-        width: 120px;
+        width: 130px; // Increased from 120px
     }
 }
 

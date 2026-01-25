@@ -20,12 +20,12 @@ body,html
         margin-left: 2px;
         margin-right: 2px;
         font-size: 13px;
-        min-width: 80px;
+        min-width: 90px; // Increased from 80px to ensure better rendering
     }
     
     .year-box {
-        width: 70px;
-        min-width: 70px;
+        width: 75px; // Slightly larger for better display
+        min-width: 75px;
     }
 }
 

@@ -10,7 +10,7 @@
 .mobile-day-headers {
     display: flex;
     width: 100%;
-    margin-bottom: 5px;
+    margin-bottom: 0; // No spacing, align directly with day cells
 }
 
 .mobile-day-header {
@@ -306,8 +306,24 @@
 }
 
 .util-value{
-    // Hide on mobile - the utilization number doesn't make sense without context
-    display: none;
+    // Show on mobile with label
+    display: block;
+    width: 100%;
+    padding: 4px;
+    margin-top: 5px;
+    font-size: $util-font-size-mobile;
+    border: $cell-border-size solid var(--calendarCellBorderColor);
+    box-sizing: border-box;
+    text-align: center;
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: var(--calendarUtilsColor);
+    color: var(--calendarUtilsTextColor);
+}
+
+// Add "Ut %" label before the number on mobile
+.util-value::before {
+    content: "Ut % ";
+    font-weight: bold;
 }
 
 // Tablet and larger screens (>= 768px)
@@ -328,5 +344,10 @@
         font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
         background-color: var(--calendarUtilsColor);
         color: var(--calendarUtilsTextColor);
+    }
+    
+    // Remove label on desktop (it's in the header)
+    .util-value::before {
+        content: "";
     }
 }
