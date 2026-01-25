@@ -3,24 +3,30 @@
 [![Build Frontend](https://github.com/liguori/organizer/actions/workflows/build-frontend.yml/badge.svg)](https://github.com/liguori/organizer/actions/workflows/build-frontend.yml)
 [![Build Backend](https://github.com/liguori/organizer/actions/workflows/build-backend.yml/badge.svg)](https://github.com/liguori/organizer/actions/workflows/build-backend.yml)
 
-Appointment management tool.
+A flexible appointment management system with support for multiple deployment modes: desktop application, web application, or full-stack development with .NET Aspire orchestration.
 
-## Overview
+## Features
 
-This tool represents a proof of concept for an appointment management system. It supports multiple execution modes: run as a standalone Electron desktop app, deploy as a web application, or use .NET Aspire for orchestrated development with full observability.
+- 📅 **Calendar Management** - Year, month, and week views with color-coded appointments
+- 👥 **Customer Management** - Track appointments by customer with visual color coding
+- 📊 **Utilization Tracking** - Monitor billable hours and availability
+- 🎨 **Theme Support** - Light and dark themes for comfortable viewing
+- 🖥️ **Multiple Deployment Options** - Desktop app, web app, or development with Aspire
 
-### Quick Start
+## Getting Started
+
+### Quick Start Commands
 
 | Goal | Command |
 |------|---------|
-| **Full-stack dev with dashboard** | `cd src/Organizer.AppHost && dotnet run` |
-| **Debug API in VS Code** | F5 → "Organizer.API .NET Launch (web)" |
-| **Debug SPA in VS Code** | F5 → "Organizer.SPA Launch (web)" |
-| **Run API standalone** | `cd src/Organizer.API/Organizer.API && dotnet run` |
-| **Run SPA standalone** | `cd src/Organizer.SPA && npm start` |
+| **Full-stack development** | `cd src/Organizer.AppHost && dotnet run` |
+| **Run API only** | `cd src/Organizer.API/Organizer.API && dotnet run` |
+| **Run SPA only** | `cd src/Organizer.SPA && npm install && npm start` |
 | **Build desktop app** | `./Build.ps1` |
+| **Debug API in VS Code** | Press F5 → "Organizer.API .NET Launch (web)" |
+| **Debug SPA in VS Code** | Press F5 → "Organizer.SPA Launch (web)" |
 
-### Tech Stack
+---## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
@@ -34,7 +40,7 @@ This tool represents a proof of concept for an appointment management system. It
 
 ## Architecture
 
-The application is composed of 3 layers:
+The application has a modular architecture with three main components:
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
@@ -55,17 +61,17 @@ The application is composed of 3 layers:
 
 | Component | Path | Description |
 |-----------|------|-------------|
-| **API** | `./src/Organizer.API` | REST API with business logic and data access |
-| **SPA** | `./src/Organizer.SPA` | Single Page Application (user interface) |
-| **Electron** | `./src/Organizer.App` | Desktop shell hosting API + SPA |
-| **AppHost** | `./src/Organizer.AppHost` | .NET Aspire orchestration project |
+| **SPA** | `./src/Organizer.SPA` | Angular-based user interface |
+| **API** | `./src/Organizer.API` | ASP.NET Core REST API with business logic |
+| **Electron** | `./src/Organizer.App` | Desktop shell that hosts both API and SPA |
+| **AppHost** | `./src/Organizer.AppHost` | .NET Aspire orchestration for development |
 
 ---
 
 ## Prerequisites
 
-- **Node.js** 22+
 - **.NET SDK** 10
+- **Node.js** 22+ (v20+ also works)
 
 ---
 
@@ -218,12 +224,32 @@ npm run build -- --configuration production
 
 ### Calendar View
 
-| Light Theme | Dark Theme |
-|-------------|------------|
-| ![Calendar Light](docs/CalendarView.png) | ![Calendar Dark](docs/CalendarView_Dark.png) |
+Year view with color-coded appointments for different customers:
 
-### Features
+**Light Theme**
+![Calendar Light Theme](docs/CalendarView_Light_New.png)
 
-| Appointment Editing | Available Days | Customer Summary |
-|---------------------|----------------|------------------|
-| ![Appointment](docs/AppointmentEditing.png) | ![Available](docs/AvailableDays.png) | ![Customer](docs/CustomerSummary.png) | 
+**Dark Theme**
+![Calendar Dark Theme](docs/CalendarView_Dark_New.png)
+
+### Additional Views
+
+<details>
+<summary>Click to expand more screenshots</summary>
+
+#### Appointment Editing
+![Appointment Editing](docs/AppointmentEditing.png)
+
+#### Available Days
+![Available Days](docs/AvailableDays.png)
+
+#### Customer Summary
+![Customer Summary](docs/CustomerSummary.png)
+
+#### Calendar Monthly View
+![Calendar Monthly View](docs/CalendarMonthlyView.png)
+
+#### Multiple Customer Filter
+![Multiple Customer Filter](docs/CalendarMultiCustomerFilter.png)
+
+</details>
