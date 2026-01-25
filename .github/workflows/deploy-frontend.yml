@@ -44,7 +44,7 @@ jobs:
           api.key: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
           api.url: ${{ vars.APPSERVICE_FE_CONFIG_APIURL }}
 
-      - name: Deploy Backend
+      - name: Deploy Frontend
         uses: azure/webapps-deploy@v2
         with:
           app-name:    ${{ vars.APPSERVICENAME_FE }}
