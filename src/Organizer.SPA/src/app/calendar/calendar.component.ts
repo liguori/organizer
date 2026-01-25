@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Day } from '../models/day';
 import { CalendarDay } from '../models/calendarDay';
 import { Appointment, AppointmentExtraInfo } from '../api/OrganizerApiClient';
@@ -12,15 +12,15 @@ import { CalendarDisplay } from '../models/calendarDisplay';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
   readonly MaxTileYearView: number = 37;
   readonly MaxTileMonthView: number = 7;
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly longPressDuration = 500; // milliseconds
+  private resizeTimeout: ReturnType<typeof setTimeout> | undefined;
 
   @Input()
   currentView: CalendarView = CalendarView.Year;
@@ -50,10 +50,29 @@ export class CalendarComponent implements OnInit {
   @Input()
   selectedAppointments: Set<number> = new Set<number>();
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    // Debounce resize events to avoid excessive re-renders
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout(() => {
+      // Trigger change detection to re-calculate empty cells
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
+    }, 100);
   }
 
   @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();

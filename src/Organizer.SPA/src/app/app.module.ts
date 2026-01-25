@@ -28,9 +28,11 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule, MAT_DATE_FORMATS, DateAdapter } from '@angular/material/core';
+import { MatBottomSheetModule } from '@angular/material/bottom-sheet';
 import { StyleManager } from './themes/style-manager';
 import { WarningResumeComponent } from './warning-resume/warning-resume.component';
 import { InputDialogComponent } from './input-dialog/input-dialog.component';
+import { MobileFiltersComponent } from './mobile-filters/mobile-filters.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ColorPickerDirective } from 'ngx-color-picker';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
@@ -76,7 +78,8 @@ export function createApiConfigFactory() {
         AppointmentSummaryComponent,
         CustomerViewComponent,
         WarningResumeComponent,
-        InputDialogComponent
+        InputDialogComponent,
+        MobileFiltersComponent
     ],
     bootstrap: [AppComponent], imports: [BrowserModule,
         AppRoutingModule,
@@ -87,6 +90,7 @@ export function createApiConfigFactory() {
         MatButtonModule,
         MatCheckboxModule,
         MatDialogModule,
+        MatBottomSheetModule,
         MatSelectModule,
         MatDatepickerModule,
         MatNativeDateModule,

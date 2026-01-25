@@ -9,6 +9,7 @@ import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
@@ -17,6 +18,7 @@ import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
 import { InputDialogComponent, InputDialogData } from '../input-dialog/input-dialog.component';
+import { MobileFiltersComponent } from '../mobile-filters/mobile-filters.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -55,7 +57,8 @@ export class HomeComponent implements OnInit {
     private sanitized: DomSanitizer,
     private customDialog: CustomDialogService,
     private apiAppointments: AppointmentsService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -65,6 +68,16 @@ export class HomeComponent implements OnInit {
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
       this.calendars = this.route.snapshot.data.calendars;
     });
+  }
+
+  openMobileFilters(): void {
+    this.bottomSheet.open(MobileFiltersComponent, {
+      data: {}
+    });
+  }
+
+  isMobileView(): boolean {
+    return window.innerWidth < 768;
   }
 
   ngOnInit() {
