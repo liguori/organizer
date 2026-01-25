@@ -10,76 +10,16 @@ $grid-columns-desktop: 7;
 $grid-columns-mobile: 5;
 $transition-speed: 0.2s;
 
-// --- Status Colors with better contrast ---
-$color-danger: #dc2626;
-$color-danger-bg: rgba(220, 38, 38, 0.15);
-$color-success-dark: #166534;
-$color-success-dark-bg: rgba(22, 101, 52, 0.15);
-$color-success: #22c55e;
-$color-success-bg: rgba(34, 197, 94, 0.15);
-$color-warning: #eab308;
-$color-warning-bg: rgba(234, 179, 8, 0.15);
-
 // ============================================
-// Controls Section
+// Controls Section - Match Calendar Style
 // ============================================
-.controls {
-  display: flex;
-  flex-wrap: wrap;
-  gap: $spacing-md;
-  padding: $spacing-sm $spacing-md;
-  margin-bottom: $spacing-md;
-  align-items: center;
-
-  @media (max-width: $breakpoint-tablet) {
-    flex-wrap: nowrap;
-    gap: $spacing-sm;
-    overflow-x: auto;
-    padding: $spacing-sm;
-  }
+.target-box {
+  width: 5.5rem;
 }
 
-.year-controls {
-  display: flex;
-  align-items: center;
-  gap: $spacing-sm;
-  flex-shrink: 0;
-
-  .year-input {
-    width: 5rem;
-    
-    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-  }
-
-  @media (max-width: $breakpoint-tablet) {
-    .year-input {
-      width: 4rem;
-    }
-  }
-}
-
-.target-controls {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  flex-shrink: 0;
-
-  .target-input {
+@media (max-width: $breakpoint-tablet) {
+  .target-box {
     width: 4.5rem;
-    
-    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-  }
-
-  @media (max-width: $breakpoint-tablet) {
-    gap: $spacing-sm;
-    
-    .target-input {
-      width: 3.5rem;
-    }
   }
 }
 
@@ -223,39 +163,29 @@ $color-warning-bg: rgba(234, 179, 8, 0.15);
 }
 
 // ============================================
-// Status Indicator Classes
+// Status Indicator Classes - Using Theme Variables
 // ============================================
 .status-danger {
-  background: $color-danger-bg;
-  color: $color-danger;
+  background: var(--statusDangerBg);
+  color: var(--statusDangerText);
   font-weight: 600;
-
-  @media (prefers-color-scheme: dark) {
-    background: color.adjust($color-danger, $alpha: -0.7);
-    color: color.adjust($color-danger, $lightness: 20%);
-  }
 }
 
 .status-success-dark {
-  background: $color-success-dark-bg;
-  color: $color-success-dark;
+  background: var(--statusSuccessBg);
+  color: var(--statusSuccessText);
   font-weight: 600;
-
-  @media (prefers-color-scheme: dark) {
-    background: color.adjust($color-success-dark, $alpha: -0.7);
-    color: color.adjust($color-success-dark, $lightness: 30%);
-  }
 }
 
 .status-success {
-  background: $color-success-bg;
-  color: darken($color-success, 15%);
+  background: var(--statusSuccessBrightBg);
+  color: var(--statusSuccessBrightText);
   font-weight: 600;
 }
 
 .status-warning {
-  background: $color-warning-bg;
-  color: darken($color-warning, 25%);
+  background: var(--statusWarningBg);
+  color: var(--statusWarningText);
   font-weight: 600;
 }
 

@@ -23,6 +23,15 @@ export class ThemeVariables {
         navItemHoverBg: "rgba(0, 0, 0, 0.08)",
         navItemActiveBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
         navItemActiveColor: "#ffffff",
+        // Status indicator colors
+        statusDangerBg: "#fef2f2",
+        statusDangerText: "#dc2626",
+        statusSuccessBg: "#f0fdf4",
+        statusSuccessText: "#16a34a",
+        statusSuccessBrightBg: "#dcfce7",
+        statusSuccessBrightText: "#15803d",
+        statusWarningBg: "#fefce8",
+        statusWarningText: "#ca8a04",
     }
 
     static darkTheme = {
@@ -48,5 +57,14 @@ export class ThemeVariables {
         navItemHoverBg: "rgba(255, 255, 255, 0.12)",
         navItemActiveBg: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
         navItemActiveColor: "#ffffff",
+        // Status indicator colors
+        statusDangerBg: "rgba(239, 68, 68, 0.2)",
+        statusDangerText: "#f87171",
+        statusSuccessBg: "rgba(34, 197, 94, 0.2)",
+        statusSuccessText: "#4ade80",
+        statusSuccessBrightBg: "rgba(74, 222, 128, 0.25)",
+        statusSuccessBrightText: "#86efac",
+        statusWarningBg: "rgba(234, 179, 8, 0.2)",
+        statusWarningText: "#fde047",
     }
 }
