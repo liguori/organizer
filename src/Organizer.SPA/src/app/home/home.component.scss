@@ -11,6 +11,23 @@
         overflow-y: auto;
         padding-top: 20px; // Increased spacing to prevent overlap with wrapped filters
     }
+    
+    // Hide desktop-only filters on mobile
+    .desktop-only-filters {
+        display: none;
+    }
+    
+    // Show mobile FAB button
+    .mobile-filters-fab {
+        display: inline-flex;
+    }
+}
+
+// Desktop: hide mobile FAB, show all filters inline
+@media (min-width: 768px) {
+    .mobile-filters-fab {
+        display: none;
+    }
 }
 
 .calendar-option {

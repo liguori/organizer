@@ -7,7 +7,85 @@
   </div>
   
   <div class="sheet-content">
-    <!-- Filter content will be projected here -->
-    <ng-content></ng-content>
+    <mat-form-field class="filter-field">
+      <mat-label>Calendar</mat-label>
+      <mat-select [ngModel]="data.selectedCalendar" (selectionChange)="data.onCalendarChange($event.value); close()">
+        <mat-option value="">Main</mat-option>
+        @for (calendar of data.calendars; track calendar) {
+          <mat-option [value]="calendar.calendarName">
+            {{calendar.description}}
+          </mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary" (click)="data.onCreateCalendar(); close()">
+      <mat-icon>create_new_folder</mat-icon>
+      Create Calendar
+    </button>
+    
+    <mat-form-field class="filter-field">
+      <mat-label>Customer</mat-label>
+      <mat-select multiple [ngModel]="data.selectedCustomers" (selectionChange)="data.onCustomerChange($event)">
+        <mat-option>
+          <ngx-mat-select-search [ngModel]="data.filterSelectedCustomer" [placeholderLabel]="'Search...'"
+            [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
+        </mat-option>
+        @for (customer of data.customers; track customer) {
+          <mat-option [value]="customer">{{customer}}</mat-option>
+        }
+      </mat-select>
+    </mat-form-field>
+    
+    <button mat-raised-button color="primary" (click)="data.onClearCustomers(); close()">
+      <mat-icon>clear</mat-icon>
+      Clear Customer Filter
+    </button>
+    
+    @if (data.upstreamEventTokenEnabled) {
+      <button mat-raised-button [color]="data.upstreamEventToken ? 'accent' : 'primary'" 
+        (click)="data.onUpstreamTokenClick(); close()">
+        <mat-icon>vpn_key</mat-icon>
+        Upstream Event Token
+      </button>
+    }
+    
+    @if (data.warningsCount > 0) {
+      <button mat-raised-button color="warn" (click)="data.onWarningsClick(); close()">
+        <mat-icon>warning</mat-icon>
+        Warnings ({{data.warningsCount}})
+      </button>
+    }
+    
+    <button mat-raised-button color="primary" (click)="data.onAvailabilityClick(); close()">
+      <mat-icon>event_available</mat-icon>
+      Availability
+    </button>
+    
+    <button mat-raised-button color="primary" (click)="data.onTravelClick(); close()">
+      <mat-icon>flight_takeoff</mat-icon>
+      Travel/Other
+    </button>
+    
+    @if (data.selectedDatesCount > 0) {
+      <button mat-raised-button color="primary" (click)="data.onBulkCreateClick(); close()">
+        <mat-icon>add</mat-icon>
+        Create Appointments ({{data.selectedDatesCount}})
+      </button>
+    }
+    
+    @if (data.selectedAppointmentsCount > 0) {
+      <button mat-raised-button color="warn" (click)="data.onBulkDeleteClick(); close()">
+        <mat-icon>delete</mat-icon>
+        Delete Appointments ({{data.selectedAppointmentsCount}})
+      </button>
+    }
+    
+    @if (data.selectedDatesCount > 0 || data.selectedAppointmentsCount > 0) {
+      <button mat-raised-button color="primary" (click)="data.onClearSelectionClick(); close()">
+        <mat-icon>clear</mat-icon>
+        Clear Selection
+      </button>
+    }
   </div>
 </div>

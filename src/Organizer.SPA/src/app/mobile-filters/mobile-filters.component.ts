@@ -1,8 +1,33 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
+import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
 export interface MobileFiltersData {
-  // Add any data you need to pass to the bottom sheet
+  selectedCalendar: string;
+  calendars: Calendar[];
+  selectedCustomers: string[];
+  customers: string[];
+  filterSelectedCustomer: string;
+  upstreamEventTokenEnabled: boolean;
+  upstreamEventToken: string;
+  warningsCount: number;
+  selectedDatesCount: number;
+  selectedAppointmentsCount: number;
+  
+  // Callback functions
+  onCalendarChange: (value: string) => void;
+  onCreateCalendar: () => void;
+  onCustomerChange: (event: any) => void;
+  onClearCustomers: () => void;
+  onUpstreamTokenClick: () => void;
+  onWarningsClick: () => void;
+  onAvailabilityClick: () => void;
+  onTravelClick: () => void;
+  onBulkCreateClick: () => void;
+  onBulkDeleteClick: () => void;
+  onClearSelectionClick: () => void;
+  onShowCalendarEditor: (event: any, calendarName: string) => void;
+  onDeleteCalendar: (event: any, calendarName: string) => void;
 }
 
 @Component({

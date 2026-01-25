@@ -72,7 +72,32 @@ export class HomeComponent implements OnInit {
 
   openMobileFilters(): void {
     this.bottomSheet.open(MobileFiltersComponent, {
-      data: {}
+      data: {
+        selectedCalendar: this.selectedCalendar,
+        calendars: this.calendars,
+        selectedCustomers: this.selectedCustomers,
+        customers: this.getAppointmentCustomers(),
+        filterSelectedCustomer: this.filterSelectedCustomer,
+        upstreamEventTokenEnabled: this.upstreamEventTokenEnabled,
+        upstreamEventToken: this.upstreamEventToken,
+        warningsCount: this.getWarnings().length,
+        selectedDatesCount: this.selectedDates.size,
+        selectedAppointmentsCount: this.selectedAppointments.size,
+        
+        onCalendarChange: (value) => this.calendarSelected(value),
+        onCreateCalendar: () => this.createCalendar(),
+        onCustomerChange: (event) => this.filterCustomerSelectedValueChange(event),
+        onClearCustomers: () => this.selectedCustomers = [],
+        onUpstreamTokenClick: () => this.showUpstreamEventTokenDialog(),
+        onWarningsClick: () => this.showDialogWarning(),
+        onAvailabilityClick: () => this.availability(),
+        onTravelClick: () => this.withTravelOrOther(),
+        onBulkCreateClick: () => this.bulkCreateAppointment(),
+        onBulkDeleteClick: () => this.bulkDeleteAppointments(),
+        onClearSelectionClick: () => this.clearSelection(),
+        onShowCalendarEditor: (event, name) => this.showCalendarEditorDialog(event, name),
+        onDeleteCalendar: (event, name) => this.deleteCalendar(event, name)
+      }
     });
   }
 

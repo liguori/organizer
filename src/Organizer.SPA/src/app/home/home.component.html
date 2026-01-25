@@ -37,85 +37,94 @@
               <mat-option [value]="calendarDisplay.Calendar">Calendar</mat-option>
             </mat-select>
           </mat-form-field>
-          <mat-form-field class="filter-box">
-            <mat-label>Calendar</mat-label>
-            <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
-              (selectionChange)="calendarSelected($event.value)">
-              <mat-option value="">Main</mat-option>
-              @for (calendar of calendars; track calendar) {
-                <mat-option [value]="calendar.calendarName">
-                  <div>
-                    <span>{{calendar.description}}</span>
-                    @if (selectedCalendar!=calendar.calendarName || calendarSelection.panelOpen) {
-                      <span>
-                        <span (click)="showCalendarEditorDialog($event,calendar.calendarName)"
-                          title="Edit calendar">
-                          <mat-icon>edit</mat-icon>
+          
+          <!-- Desktop filters: Calendar, Customer, and action buttons (hidden on mobile) -->
+          <div class="desktop-only-filters">
+            <mat-form-field class="filter-box">
+              <mat-label>Calendar</mat-label>
+              <mat-select #calendarSelection [(ngModel)]="selectedCalendar" placeholder="Calendar"
+                (selectionChange)="calendarSelected($event.value)">
+                <mat-option value="">Main</mat-option>
+                @for (calendar of calendars; track calendar) {
+                  <mat-option [value]="calendar.calendarName">
+                    <div>
+                      <span>{{calendar.description}}</span>
+                      @if (selectedCalendar!=calendar.calendarName || calendarSelection.panelOpen) {
+                        <span>
+                          <span (click)="showCalendarEditorDialog($event,calendar.calendarName)"
+                            title="Edit calendar">
+                            <mat-icon>edit</mat-icon>
+                          </span>
+                          <span (click)="deleteCalendar($event,calendar.calendarName)" title="Delete calendar">
+                            <mat-icon>delete_forever</mat-icon>
+                          </span>
                         </span>
-                        <span (click)="deleteCalendar($event,calendar.calendarName)" title="Delete calendar">
-                          <mat-icon>delete_forever</mat-icon>
-                        </span>
-                      </span>
-                    }
-                  </div>
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>&nbsp;
-          <button mat-mini-fab color="primary" (click)="createCalendar()">
-            <mat-icon>create_new_folder</mat-icon>
-          </button>
-          <mat-form-field id="calendar-customer-filter" class="filter-box">
-            <mat-label>Customer</mat-label>
-            <mat-select #filterCustomer multiple [(ngModel)]="selectedCustomers"
-              (selectionChange)="filterCustomerSelectedValueChange($event)">
-              <mat-option>
-                <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
-                [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
-              </mat-option>
-              @for (customer of getAppointmentCustomers(); track customer) {
-                <mat-option [value]="customer">{{customer}}
-                </mat-option>
-              }
-            </mat-select>
-          </mat-form-field>
-          <button mat-icon-button color="primary" aria-label="Clear customer filter" (click)="unselectAllCustomer(filterCustomer)">
-            <mat-icon>clear</mat-icon>
-          </button>
-          @if (upstreamEventTokenEnabled) {
-            <button mat-mini-fab [color]="upstreamEventToken ? 'accent' : 'primary'" 
-              (click)="showUpstreamEventTokenDialog()" title="Upstream Event Token">
-              <mat-icon>vpn_key</mat-icon>
+                      }
+                    </div>
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>&nbsp;
+            <button mat-mini-fab color="primary" (click)="createCalendar()">
+              <mat-icon>create_new_folder</mat-icon>
             </button>
-          }
-          <div class="calendar-option">
-            @if (this.getWarnings().length>0) {
-              <button (click)="showDialogWarning()" mat-mini-fab color="warn" class="warning-button">
-                <mat-icon>warning</mat-icon>
+            <mat-form-field id="calendar-customer-filter" class="filter-box">
+              <mat-label>Customer</mat-label>
+              <mat-select #filterCustomer multiple [(ngModel)]="selectedCustomers"
+                (selectionChange)="filterCustomerSelectedValueChange($event)">
+                <mat-option>
+                  <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
+                  [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
+                </mat-option>
+                @for (customer of getAppointmentCustomers(); track customer) {
+                  <mat-option [value]="customer">{{customer}}
+                  </mat-option>
+                }
+              </mat-select>
+            </mat-form-field>
+            <button mat-icon-button color="primary" aria-label="Clear customer filter" (click)="unselectAllCustomer(filterCustomer)">
+              <mat-icon>clear</mat-icon>
+            </button>
+            @if (upstreamEventTokenEnabled) {
+              <button mat-mini-fab [color]="upstreamEventToken ? 'accent' : 'primary'" 
+                (click)="showUpstreamEventTokenDialog()" title="Upstream Event Token">
+                <mat-icon>vpn_key</mat-icon>
               </button>
             }
-            <button (click)="availability()" mat-mini-fab color="primary" title="Availability">
-              <mat-icon>event_available</mat-icon>
-            </button>&nbsp;
-            <button (click)="withTravelOrOther()" mat-mini-fab color="primary" title="Travel/Other">
-              <mat-icon>flight_takeoff</mat-icon>
-            </button>
-            @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
-              <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"
-                [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
-                <mat-icon>add</mat-icon>
-                <span class="selection-badge">{{selectedDates.size}}</span>
+            <div class="calendar-option">
+              @if (this.getWarnings().length>0) {
+                <button (click)="showDialogWarning()" mat-mini-fab color="warn" class="warning-button">
+                  <mat-icon>warning</mat-icon>
+                </button>
+              }
+              <button (click)="availability()" mat-mini-fab color="primary" title="Availability">
+                <mat-icon>event_available</mat-icon>
+              </button>&nbsp;
+              <button (click)="withTravelOrOther()" mat-mini-fab color="primary" title="Travel/Other">
+                <mat-icon>flight_takeoff</mat-icon>
               </button>
-              <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" class="selection-button"
-                [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
-                <mat-icon>delete</mat-icon>
-                <span class="selection-badge">{{selectedAppointments.size}}</span>
-              </button>
-              <button (click)="clearSelection()" mat-icon-button color="primary" class="selection-button" title="Clear selection">
-                <mat-icon>clear</mat-icon>
-              </button>
-            }
+              @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
+                <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"
+                  [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
+                  <mat-icon>add</mat-icon>
+                  <span class="selection-badge">{{selectedDates.size}}</span>
+                </button>
+                <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" class="selection-button"
+                  [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
+                  <mat-icon>delete</mat-icon>
+                  <span class="selection-badge">{{selectedAppointments.size}}</span>
+                </button>
+                <button (click)="clearSelection()" mat-icon-button color="primary" class="selection-button" title="Clear selection">
+                  <mat-icon>clear</mat-icon>
+                </button>
+              }
+            </div>
           </div>
+          
+          <!-- Mobile: FAB button to open filters dialog -->
+          <button mat-mini-fab color="accent" class="mobile-filters-fab" (click)="openMobileFilters()" title="More Filters & Actions">
+            <mat-icon>tune</mat-icon>
+          </button>
         </div>
             <div class="calendar-container">
               <app-calendar class="calendar-app" [currentYear]="selectedYear" [filterProject]="filterProject"
