@@ -2,14 +2,13 @@
 
 // Mobile-first styles (default for screens < 768px)
 .header{
-    height: $row-header-height-mobile;
+    // Hide the long header row on mobile since days will wrap
+    display: none;
 }
 
 .calendar-box{
-    display: inline-block;
+    display: block;
     width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
 }
 
 .year-header{
@@ -64,10 +63,12 @@
 // Tablet and larger screens (>= 768px)
 @media (min-width: 768px) {
     .header{
+        display: block;
         height: $row-header-height;
     }
 
     .calendar-box{
+        display: inline-block;
         height: 100% !important;
         overflow-x: visible;
     }
@@ -98,7 +99,11 @@
 }
 
 .row-year{
-    height: $row-height-year-mobile;
+    // Mobile: allow days to wrap, display as block
+    display: block;
+    margin-bottom: 20px;
+    border: 1px solid var(--calendarCellBorderColor);
+    padding: 5px;
 }
 
 .row-month{
@@ -108,7 +113,11 @@
 // Tablet and larger screens (>= 768px)
 @media (min-width: 768px) {
     .row-year{
+        display: block;
         height: $row-height-year;
+        margin-bottom: 0;
+        border: none;
+        padding: 0;
     }
 }
 
@@ -120,20 +129,20 @@
     position: relative;
     padding: 0vw 0vw 0vw 0vw;
     vertical-align: top;
-    height: 100%;
     display: inline-block;
     text-align: center;
     border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     font-family: 'Segoe UI';
-    margin: 0 auto 0 auto;
+    margin: 0;
     overflow:hidden;
     cursor: pointer;
     background-color: var(--calendarDayColor);
     color:var(--calendarDayTextColor);
-    // Ensure touch targets meet accessibility guidelines (44x44px minimum)
+    // Mobile: fixed width for 7 days per line with wrapping
+    width: calc((100% - 100px) / 7);
     min-width: 44px;
-    min-height: 44px;
+    height: 60px;
 }
 
 .day-container{
@@ -152,8 +161,10 @@
 // Tablet and larger screens (>= 768px)
 @media (min-width: 768px) {
     .day{
+        width: auto;
+        height: 100%;
         min-width: unset;
-        min-height: unset;
+        margin: 0 auto 0 auto;
     }
 
     .day-label{
@@ -189,7 +200,7 @@
 }
 
 .day-year{
-    width: $day-width-year-mobile;
+    // Mobile: width is set in .day class to allow wrapping
 }
 
 // Tablet and larger screens (>= 768px)
@@ -204,17 +215,16 @@
    font-size: $month-font-size-mobile;
    border: $cell-border-size solid var(--calendarCellBorderColor);
    box-sizing: border-box;
-   margin: 0;
-   padding: 0;
+   margin: 0 0 10px 0;
+   padding: 8px;
    text-transform: uppercase;
    font-weight: bold;
-   width: $year-month-col-width-mobile;
-   height: 100%;
+   width: 100%;
+   height: auto;
    background-color: var(--calendarMonthHeaderColor);
    color:var(--calendarMonthHeaderTextColor);
-   display: inline-flex;
-   align-items: center;
-   justify-content: center;
+   display: block;
+   text-align: center;
 }
 
 // Tablet and larger screens (>= 768px)
@@ -222,6 +232,12 @@
     .month-header{
         font-size: $month-font-size;
         width: $year-month-col-width;
+        height: 100%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
     }
 }
 
@@ -264,26 +280,30 @@
 
 .util-value{
     vertical-align: top;
-    padding: 0;
-    width: $util-width-mobile;
-    height: 100%;
+    padding: 8px;
+    width: 100%;
+    height: auto;
     font-size: $util-font-size-mobile;
-    display: inline-block;
+    display: block;
     border: $cell-border-size solid var(--calendarCellBorderColor);
     box-sizing: border-box;
     text-align: center;
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     background-color: var(--calendarUtilsColor);
     color: var(--calendarUtilsTextColor);
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
+    margin-top: 10px;
 }
 
 // Tablet and larger screens (>= 768px)
 @media (min-width: 768px) {
     .util-value{
         width: $util-width;
+        height: 100%;
         font-size: $util-font-size;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0;
+        margin-top: 0;
     }
 }
