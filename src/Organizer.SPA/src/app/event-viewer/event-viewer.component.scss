@@ -18,8 +18,18 @@
 }
 
 .event-month{
-    font-size: $event-font-size-month;
-    height: $event-height-month;
+    font-size: $event-font-size-month-mobile;
+    height: $event-height-month-mobile;
+    min-height: 16px;
+}
+
+// Tablet and larger screens (>= 768px)
+@media (min-width: 768px) {
+    .event-month{
+        font-size: $event-font-size-month;
+        height: $event-height-month;
+        min-height: unset;
+    }
 }
 
 .event:hover{

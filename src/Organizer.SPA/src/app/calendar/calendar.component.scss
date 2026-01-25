@@ -131,7 +131,17 @@
 }
 
 .row-month{
-    height: $row-height-month;
+    // Mobile: flexible height to fit appointments
+    height: auto;
+    min-height: 80px;
+}
+
+// Tablet and larger screens (>= 768px)
+@media (min-width: 768px) {
+    .row-month{
+        height: $row-height-month;
+        min-height: unset;
+    }
 }
 
 // Tablet and larger screens (>= 768px)
@@ -167,6 +177,11 @@
     width: calc(100% / 7);
     min-width: 44px;
     height: 60px;
+}
+
+// Mobile month view: taller cells to show at least 2 appointments
+.day-month {
+    height: 62px;
 }
 
 .day-container{

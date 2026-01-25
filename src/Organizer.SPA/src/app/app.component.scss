@@ -60,11 +60,11 @@
     display: inline;
 }
 
-// Mobile: icons only with larger touch targets
+// Mobile: icons only with compact touch-friendly targets
 @media (max-width: 600px) {
     .header {
-        height: auto;
-        padding: 8px 0;
+        height: 44px;
+        padding: 0;
     }
     
     .nav-text {
@@ -72,13 +72,12 @@
     }
     
     .separator {
-        margin: 0 2px;
-        font-size: 12px;
+        display: none;
     }
     
     .nav-link {
-        padding: 12px 14px;
-        border-radius: 8px;
+        padding: 8px 10px;
+        border-radius: 6px;
         min-width: 44px;
         min-height: 44px;
         justify-content: center;
@@ -88,7 +87,7 @@
         }
         
         .material-icons {
-            font-size: 22px;
+            font-size: 20px;
         }
     }
 }
