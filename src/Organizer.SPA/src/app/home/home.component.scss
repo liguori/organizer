@@ -9,7 +9,7 @@
 @media (max-width: 767px) {
     .calendar-container {
         overflow-y: auto;
-        padding-top: 8px;
+        padding-top: 20px; // Increased spacing to prevent overlap with wrapped filters
     }
 }
 
