@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Day } from '../models/day';
 import { CalendarDay } from '../models/calendarDay';
 import { Appointment, AppointmentExtraInfo } from '../api/OrganizerApiClient';
@@ -70,11 +70,8 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
     this.resizeTimeout = setTimeout(() => {
       // Trigger change detection to re-calculate empty cells
-      // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
-      setTimeout(() => {
-        this.cdr.detectChanges();
-      }, 0);
-    }, 100);
+      this.cdr.detectChanges();
+    }, 200); // Increased debounce time for better performance
   }
 
   @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();

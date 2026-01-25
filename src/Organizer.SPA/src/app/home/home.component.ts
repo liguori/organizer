@@ -87,7 +87,7 @@ export class HomeComponent implements OnInit {
         onCalendarChange: (value) => this.calendarSelected(value),
         onCreateCalendar: () => this.createCalendar(),
         onCustomerChange: (event) => this.filterCustomerSelectedValueChange(event),
-        onClearCustomers: () => this.selectedCustomers = [],
+        onClearCustomers: () => { this.selectedCustomers = []; this.applyInMemoryFilters(); },
         onUpstreamTokenClick: () => this.showUpstreamEventTokenDialog(),
         onWarningsClick: () => this.showDialogWarning(),
         onAvailabilityClick: () => this.availability(),
