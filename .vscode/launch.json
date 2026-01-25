@@ -48,5 +48,15 @@
             "url": "http://localhost:9876/debug.html",
             "webRoot": "${workspaceRoot}/src/Organizer.SPA"
         }
+    ],
+    "compounds": [
+        {
+            "name": "Full Stack (API + SPA)",
+            "configurations": [
+                "Organizer.API .NET Launch (web)",
+                "Organizer.SPA Launch (web)"
+            ],
+            "stopAll": true
+        }
     ]
 }
