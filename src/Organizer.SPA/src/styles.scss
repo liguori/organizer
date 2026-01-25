@@ -37,18 +37,20 @@ body,html
 
 .filters-header{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;  // Default: no wrap (desktop behavior)
     align-items: center;
     flex: 0 1 auto;
     padding: 5px 0px;
+    overflow-x: auto;   // Allow scroll if too many items
 }
 
 // Responsive filters on mobile
 @media (max-width: 767px) {
     .filters-header {
+        flex-wrap: wrap; // Wrap on mobile only
+        overflow-x: visible; // No horizontal scroll on mobile
         padding: 8px 4px; // Increased padding for more height
         min-height: 56px; // Ensure minimum height for proper rendering
-        overflow-x: visible;
         // Ensure it doesn't overlap calendar
         position: relative;
         z-index: 10;
