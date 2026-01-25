@@ -237,7 +237,7 @@ Year view with color-coded appointments for different customers:
 ### Additional Views
 
 <details>
-<summary>Click to expand more screenshots</summary>
+<summary>Click to see more screenshots showing monthly view, appointment editing, customer management, and other features</summary>
 
 #### Appointment Editing
 ![Appointment Editing](docs/AppointmentEditing.png)
