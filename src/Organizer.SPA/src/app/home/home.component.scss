@@ -1,12 +1,48 @@
-.calendar-container{
+.calendar-container {
     text-align: center;
     flex: 1 1 auto;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+}
+
+// Mobile: ensure calendar has proper spacing and scrolling
+@media (max-width: 767px) {
+    .calendar-container {
+        overflow-y: auto;
+        padding-top: 20px; // Increased spacing to prevent overlap with wrapped filters
+    }
+    
+    // Hide desktop-only filters on mobile
+    .desktop-only-filters {
+        display: none;
+    }
+    
+    // Show mobile FAB button
+    .mobile-filters-fab {
+        display: inline-flex;
+    }
+}
+
+// Desktop: hide mobile FAB, show all filters inline
+@media (min-width: 768px) {
+    .mobile-filters-fab {
+        display: none;
+    }
+    
+    .desktop-only-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 1; // Take remaining space to allow margin-left: auto to work
+    }
 }
 
 .calendar-option {
     margin-left: auto;
     display: flex;
     align-items: center;
+    flex-wrap: nowrap;
+    gap: 4px;
 }
 
 .warning-button {
@@ -58,4 +94,38 @@
 
 #calendar-customer-filter{
     width: 200px;
+}
+
+// Mobile: smaller widths for filters
+@media (max-width: 767px) {
+    #upstream-event-token{
+        width: 110px; // Increased for better rendering
+    }
+
+    #calendar-select-date-filter{
+        width: 110px;
+    }
+
+    #calendar-view-filter{
+        width: 90px; // Increased from 85px
+    }
+
+    #calendar-view-display{
+        width: 100px; // Increased from 95px
+    }
+
+    #calendar-project-filter{
+        width: 80px; // Increased from 75px
+    }
+
+    #calendar-customer-filter{
+        width: 130px; // Increased from 120px
+    }
+}
+
+// Tablet and larger screens (>= 768px)
+@media (min-width: 768px) {
+    .calendar-container{
+        overflow-x: visible;
+    }
 }

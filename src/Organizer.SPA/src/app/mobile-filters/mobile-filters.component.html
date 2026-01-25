@@ -1,0 +1,72 @@
+<div class="mobile-filters-sheet">
+  <div class="sheet-header">
+    <h2>Filters & Actions</h2>
+    <button mat-icon-button (click)="close()">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+  
+  <div class="sheet-content">
+    <!-- Use injected Calendar filter template -->
+    <ng-container *ngTemplateOutlet="data.calendarFilterTemplate"></ng-container>
+    
+    <button mat-raised-button color="primary" (click)="data.onCreateCalendar(); close()">
+      <mat-icon>create_new_folder</mat-icon>
+      Create Calendar
+    </button>
+    
+    <!-- Use injected Customer filter template -->
+    <ng-container *ngTemplateOutlet="data.customerFilterTemplate"></ng-container>
+    
+    <button mat-raised-button color="primary" (click)="data.onClearCustomers(); close()">
+      <mat-icon>clear</mat-icon>
+      Clear Customer Filter
+    </button>
+    
+    @if (data.upstreamEventTokenEnabled) {
+      <button mat-raised-button [color]="data.upstreamEventToken ? 'accent' : 'primary'" 
+        (click)="data.onUpstreamTokenClick(); close()">
+        <mat-icon>vpn_key</mat-icon>
+        Upstream Event Token
+      </button>
+    }
+    
+    @if (data.warningsCount > 0) {
+      <button mat-raised-button color="warn" (click)="data.onWarningsClick(); close()">
+        <mat-icon>warning</mat-icon>
+        Warnings ({{data.warningsCount}})
+      </button>
+    }
+    
+    <button mat-raised-button color="primary" (click)="data.onAvailabilityClick(); close()">
+      <mat-icon>event_available</mat-icon>
+      Availability
+    </button>
+    
+    <button mat-raised-button color="primary" (click)="data.onTravelClick(); close()">
+      <mat-icon>flight_takeoff</mat-icon>
+      Travel/Other
+    </button>
+    
+    @if (data.selectedDatesCount > 0) {
+      <button mat-raised-button color="primary" (click)="data.onBulkCreateClick(); close()">
+        <mat-icon>add</mat-icon>
+        Create Appointments ({{data.selectedDatesCount}})
+      </button>
+    }
+    
+    @if (data.selectedAppointmentsCount > 0) {
+      <button mat-raised-button color="warn" (click)="data.onBulkDeleteClick(); close()">
+        <mat-icon>delete</mat-icon>
+        Delete Appointments ({{data.selectedAppointmentsCount}})
+      </button>
+    }
+    
+    @if (data.selectedDatesCount > 0 || data.selectedAppointmentsCount > 0) {
+      <button mat-raised-button color="primary" (click)="data.onClearSelectionClick(); close()">
+        <mat-icon>clear</mat-icon>
+        Clear Selection
+      </button>
+    }
+  </div>
+</div>

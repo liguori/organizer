@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
@@ -9,6 +9,7 @@ import { DateTimeUtils } from '../utils/dateTimeUtils';
 import { CustomDialogService } from '../custom-dialog/custom-dialog.service';
 import { DomSanitizer } from '@angular/platform-browser';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { MatBottomSheet } from '@angular/material/bottom-sheet';
 import { AppointmentEditorComponent } from '../appointment-editor/appointment-editor.component';
 import { WarningResumeComponent } from '../warning-resume/warning-resume.component';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
@@ -17,6 +18,7 @@ import { CalendarView } from '../models/calendarView';
 import { CalendarDisplay } from '../models/calendarDisplay';
 import { CalendarEditorComponent } from '../calendar-editor/calendar-editor.component';
 import { InputDialogComponent, InputDialogData } from '../input-dialog/input-dialog.component';
+import { MobileFiltersComponent } from '../mobile-filters/mobile-filters.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 
@@ -49,13 +51,18 @@ export class HomeComponent implements OnInit {
   selectedDates: Set<string> = new Set<string>();
   selectedAppointments: Set<number> = new Set<number>();
 
+  // Template references for reusable filters
+  @ViewChild('calendarFilterTemplate', { static: false }) calendarFilterTemplate: TemplateRef<any>;
+  @ViewChild('customerFilterTemplate', { static: false }) customerFilterTemplate: TemplateRef<any>;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
     private sanitized: DomSanitizer,
     private customDialog: CustomDialogService,
     private apiAppointments: AppointmentsService,
-    public dialog: MatDialog) {
+    public dialog: MatDialog,
+    private bottomSheet: MatBottomSheet) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd)
     ).subscribe((event: NavigationEnd) => {
@@ -65,6 +72,45 @@ export class HomeComponent implements OnInit {
       this.upstreamEventTokenEnabled = this.route.snapshot.data.upstreamEventTokenEnabled
       this.calendars = this.route.snapshot.data.calendars;
     });
+  }
+
+  openMobileFilters(): void {
+    this.bottomSheet.open(MobileFiltersComponent, {
+      data: {
+        selectedCalendar: this.selectedCalendar,
+        calendars: this.calendars,
+        selectedCustomers: this.selectedCustomers,
+        customers: this.getAppointmentCustomers(),
+        filterSelectedCustomer: this.filterSelectedCustomer,
+        upstreamEventTokenEnabled: this.upstreamEventTokenEnabled,
+        upstreamEventToken: this.upstreamEventToken,
+        warningsCount: this.getWarnings().length,
+        selectedDatesCount: this.selectedDates.size,
+        selectedAppointmentsCount: this.selectedAppointments.size,
+        
+        // Pass template references for filter injection
+        calendarFilterTemplate: this.calendarFilterTemplate,
+        customerFilterTemplate: this.customerFilterTemplate,
+        
+        onCalendarChange: (value) => this.calendarSelected(value),
+        onCreateCalendar: () => this.createCalendar(),
+        onCustomerChange: (event) => this.filterCustomerSelectedValueChange(event),
+        onClearCustomers: () => { this.selectedCustomers = []; this.applyInMemoryFilters(); },
+        onUpstreamTokenClick: () => this.showUpstreamEventTokenDialog(),
+        onWarningsClick: () => this.showDialogWarning(),
+        onAvailabilityClick: () => this.availability(),
+        onTravelClick: () => this.withTravelOrOther(),
+        onBulkCreateClick: () => this.bulkCreateAppointment(),
+        onBulkDeleteClick: () => this.bulkDeleteAppointments(),
+        onClearSelectionClick: () => this.clearSelection(),
+        onShowCalendarEditor: (event, name) => this.showCalendarEditorDialog(event, name),
+        onDeleteCalendar: (event, name) => this.deleteCalendar(event, name)
+      }
+    });
+  }
+
+  isMobileView(): boolean {
+    return window.innerWidth < 768;
   }
 
   ngOnInit() {
@@ -345,6 +391,11 @@ export class HomeComponent implements OnInit {
 
   unselectAllCustomer(filterCustomer: MatSelect) {
     filterCustomer.options.forEach((item: MatOption) => { item.deselect() })
+  }
+
+  clearCustomerFilter() {
+    this.selectedCustomers = [];
+    this.applyInMemoryFilters();
   }
 
   withTravelOrOther(){

@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Day } from '../models/day';
 import { CalendarDay } from '../models/calendarDay';
 import { Appointment, AppointmentExtraInfo } from '../api/OrganizerApiClient';
@@ -15,12 +15,13 @@ import { CalendarDisplay } from '../models/calendarDisplay';
     changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
-export class CalendarComponent implements OnInit {
+export class CalendarComponent implements OnInit, OnDestroy {
   readonly MaxTileYearView: number = 37;
   readonly MaxTileMonthView: number = 7;
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly longPressDuration = 500; // milliseconds
+  private resizeTimeout: ReturnType<typeof setTimeout> | undefined;
 
   @Input()
   currentView: CalendarView = CalendarView.Year;
@@ -50,10 +51,32 @@ export class CalendarComponent implements OnInit {
   @Input()
   selectedAppointments: Set<number> = new Set<number>();
 
-  constructor(private route: ActivatedRoute, private router: Router) {
+  constructor(private route: ActivatedRoute, private router: Router, private cdr: ChangeDetectorRef) {
   }
 
   ngOnInit() {
+  }
+
+  ngOnDestroy() {
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+    }
+  }
+
+  @HostListener('window:resize', ['$event'])
+  onResize(event: Event) {
+    // Debounce resize events to avoid excessive re-renders
+    if (this.resizeTimeout) {
+      clearTimeout(this.resizeTimeout);
+    }
+    this.resizeTimeout = setTimeout(() => {
+      // Trigger change detection to re-calculate empty cells
+      this.cdr.markForCheck();
+      this.cdr.detectChanges();
+    }, 200);
   }
 
   @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();
@@ -197,6 +220,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  private isMobileView(): boolean {
+    return window.innerWidth < 768;
+  }
+
   getXValues(currentYvalue): Array<CalendarDay> {
     var res = new Array<CalendarDay>();
     var currentDaysInY = this.getCurrentDaysRangeInY(currentYvalue);
@@ -213,7 +240,16 @@ export class CalendarComponent implements OnInit {
       }
       res.push({ date: currentDate, index: res.length + 1 });
       if (i == currentDaysInY.end) {
-        var tileLeft = this.getMaxTile() - res.length;
+        // Calculate ending empty cells differently for mobile vs desktop
+        var tileLeft: number;
+        if (this.currentView == CalendarView.Year && this.isMobileView()) {
+          // Mobile: complete to next multiple of 7 for week alignment
+          const nextMultipleOf7 = Math.ceil(res.length / 7) * 7;
+          tileLeft = nextMultipleOf7 - res.length;
+        } else {
+          // Desktop: fill to MaxTile (37 for year view)
+          tileLeft = this.getMaxTile() - res.length;
+        }
         for (let k = 0; k < tileLeft; k++) {
           res.push({ index: res.length + 1 });
         }

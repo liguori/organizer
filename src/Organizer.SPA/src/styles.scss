@@ -14,6 +14,21 @@ body,html
    margin-left: 15px;
 }
 
+// Make filter boxes responsive on mobile
+@media (max-width: 767px) {
+    .filter-box{
+        margin-left: 2px;
+        margin-right: 2px;
+        font-size: 13px;
+        min-width: 90px; // Increased from 80px to ensure better rendering
+    }
+    
+    .year-box {
+        width: 75px; // Slightly larger for better display
+        min-width: 75px;
+    }
+}
+
 .container-box{
     display: flex;
     flex-flow: column;
@@ -22,10 +37,33 @@ body,html
 
 .filters-header{
     display: flex;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;  // Default: no wrap (desktop behavior)
     align-items: center;
     flex: 0 1 auto;
     padding: 5px 0px;
+    
+    // Ensure all elements align vertically at center
+    button {
+        vertical-align: middle;
+    }
+    
+    mat-form-field {
+        margin-bottom: 0; // Remove default bottom margin
+    }
+    
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none; // Hide hint/error space to reduce height
+    }
+}
+
+// Responsive filters on mobile
+@media (max-width: 767px) {
+    .filters-header {
+        flex-wrap: wrap; // Wrap on mobile only
+        overflow-x: visible; // No horizontal scroll on mobile
+        padding: 8px 4px; // Increased padding for more height
+        min-height: 56px; // Ensure minimum height for proper rendering
+    }
 }
 
 .cdk-global-scrollblock {
