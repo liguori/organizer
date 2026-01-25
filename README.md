@@ -21,7 +21,7 @@ A flexible appointment management system with support for multiple deployment mo
 |------|---------|
 | **Full-stack development** | `cd src/Organizer.AppHost && dotnet run` |
 | **Run API only** | `cd src/Organizer.API/Organizer.API && dotnet run` |
-| **Run SPA only** | `cd src/Organizer.SPA && npm install && npm start` |
+| **Run SPA only** | `cd src/Organizer.SPA && npm start` |
 | **Build desktop app** | `./Build.ps1` |
 | **Debug API in VS Code** | Press F5 → "Organizer.API .NET Launch (web)" |
 | **Debug SPA in VS Code** | Press F5 → "Organizer.SPA Launch (web)" |
@@ -73,7 +73,7 @@ The application has a modular architecture with three main components:
 ## Prerequisites
 
 - **.NET SDK** 10
-- **Node.js** 22+ (v20+ also works)
+- **Node.js** 20+
 
 ---
 
