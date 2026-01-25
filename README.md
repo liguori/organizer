@@ -229,10 +229,10 @@ npm run build -- --configuration production
 Year view with color-coded appointments for different customers:
 
 **Light Theme**
-![Calendar Light Theme](docs/CalendarView_Light_New.png)
+![Calendar Light Theme](docs/CalendarView.png)
 
 **Dark Theme**
-![Calendar Dark Theme](docs/CalendarView_Dark_New.png)
+![Calendar Dark Theme](docs/CalendarView_Dark_.png)
 
 ### Additional Views
 
