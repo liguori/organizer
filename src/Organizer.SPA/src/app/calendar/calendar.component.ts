@@ -197,6 +197,10 @@ export class CalendarComponent implements OnInit {
     }
   }
 
+  private isMobileView(): boolean {
+    return window.innerWidth < 768;
+  }
+
   getXValues(currentYvalue): Array<CalendarDay> {
     var res = new Array<CalendarDay>();
     var currentDaysInY = this.getCurrentDaysRangeInY(currentYvalue);
@@ -213,7 +217,16 @@ export class CalendarComponent implements OnInit {
       }
       res.push({ date: currentDate, index: res.length + 1 });
       if (i == currentDaysInY.end) {
-        var tileLeft = this.getMaxTile() - res.length;
+        // Calculate ending empty cells differently for mobile vs desktop
+        var tileLeft: number;
+        if (this.currentView == CalendarView.Year && this.isMobileView()) {
+          // Mobile: complete to next multiple of 7 for week alignment
+          const nextMultipleOf7 = Math.ceil(res.length / 7) * 7;
+          tileLeft = nextMultipleOf7 - res.length;
+        } else {
+          // Desktop: fill to MaxTile (37 for year view)
+          tileLeft = this.getMaxTile() - res.length;
+        }
         for (let k = 0; k < tileLeft; k++) {
           res.push({ index: res.length + 1 });
         }

@@ -281,17 +281,10 @@
     background-color: var(--calendarNodayColor);
 }
 
-// Mobile: show empty cells to fill complete weeks (7 days)
-// But hide excess empty cells that are only needed for desktop's 37-column layout
-@media (max-width: 767px) {
-    // Hide excess ending empty cells on mobile
-    // Keep starting empty cells (for alignment) + up to 6 ending empty cells (to complete week)
-    // Hide empty cells that are 8th-from-last or beyond among .day elements
-    // This allows weeks to complete naturally without showing all the desktop padding
-    .row-year > .day.no-day:nth-last-of-type(n+8) {
-        display: none;
-    }
-}
+// Note: Empty cell calculation is now handled in TypeScript based on viewport size
+// Mobile: completes to next multiple of 7 for week alignment
+// Desktop: fills to 37 cells for year view layout
+
 
 .today{
     background-color: var(--calendarTodayColor);
