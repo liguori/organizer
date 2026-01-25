@@ -70,8 +70,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
     this.resizeTimeout = setTimeout(() => {
       // Trigger change detection to re-calculate empty cells
-      this.cdr.markForCheck();
-      this.cdr.detectChanges();
+      // Use setTimeout to avoid ExpressionChangedAfterItHasBeenCheckedError
+      setTimeout(() => {
+        this.cdr.detectChanges();
+      }, 0);
     }, 100);
   }
 
