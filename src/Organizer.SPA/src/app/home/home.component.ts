@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
 import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
@@ -51,6 +51,10 @@ export class HomeComponent implements OnInit {
   selectedDates: Set<string> = new Set<string>();
   selectedAppointments: Set<number> = new Set<number>();
 
+  // Template references for reusable filters
+  @ViewChild('calendarFilterTemplate', { static: false }) calendarFilterTemplate: TemplateRef<any>;
+  @ViewChild('customerFilterTemplate', { static: false }) customerFilterTemplate: TemplateRef<any>;
+
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -83,6 +87,10 @@ export class HomeComponent implements OnInit {
         warningsCount: this.getWarnings().length,
         selectedDatesCount: this.selectedDates.size,
         selectedAppointmentsCount: this.selectedAppointments.size,
+        
+        // Pass template references for filter injection
+        calendarFilterTemplate: this.calendarFilterTemplate,
+        customerFilterTemplate: this.customerFilterTemplate,
         
         onCalendarChange: (value) => this.calendarSelected(value),
         onCreateCalendar: () => this.createCalendar(),
@@ -383,6 +391,11 @@ export class HomeComponent implements OnInit {
 
   unselectAllCustomer(filterCustomer: MatSelect) {
     filterCustomer.options.forEach((item: MatOption) => { item.deselect() })
+  }
+
+  clearCustomerFilter() {
+    this.selectedCustomers = [];
+    this.applyInMemoryFilters();
   }
 
   withTravelOrOther(){

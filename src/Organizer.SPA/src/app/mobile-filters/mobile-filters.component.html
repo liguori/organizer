@@ -7,35 +7,16 @@
   </div>
   
   <div class="sheet-content">
-    <mat-form-field class="filter-field">
-      <mat-label>Calendar</mat-label>
-      <mat-select [ngModel]="data.selectedCalendar" (selectionChange)="data.onCalendarChange($event.value); close()">
-        <mat-option value="">Main</mat-option>
-        @for (calendar of data.calendars; track calendar) {
-          <mat-option [value]="calendar.calendarName">
-            {{calendar.description}}
-          </mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <!-- Use injected Calendar filter template -->
+    <ng-container *ngTemplateOutlet="data.calendarFilterTemplate"></ng-container>
     
     <button mat-raised-button color="primary" (click)="data.onCreateCalendar(); close()">
       <mat-icon>create_new_folder</mat-icon>
       Create Calendar
     </button>
     
-    <mat-form-field class="filter-field">
-      <mat-label>Customer</mat-label>
-      <mat-select multiple [ngModel]="data.selectedCustomers" (selectionChange)="data.onCustomerChange($event)">
-        <mat-option>
-          <ngx-mat-select-search [ngModel]="data.filterSelectedCustomer" [placeholderLabel]="'Search...'"
-            [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
-        </mat-option>
-        @for (customer of data.customers; track customer) {
-          <mat-option [value]="customer">{{customer}}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
+    <!-- Use injected Customer filter template -->
+    <ng-container *ngTemplateOutlet="data.customerFilterTemplate"></ng-container>
     
     <button mat-raised-button color="primary" (click)="data.onClearCustomers(); close()">
       <mat-icon>clear</mat-icon>

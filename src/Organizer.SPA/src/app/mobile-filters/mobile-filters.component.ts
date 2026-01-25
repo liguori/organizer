@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, TemplateRef } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
@@ -13,6 +13,10 @@ export interface MobileFiltersData {
   warningsCount: number;
   selectedDatesCount: number;
   selectedAppointmentsCount: number;
+  
+  // Template references for filter injection
+  calendarFilterTemplate: TemplateRef<any>;
+  customerFilterTemplate: TemplateRef<any>;
   
   // Callback functions
   onCalendarChange: (value: string) => void;
