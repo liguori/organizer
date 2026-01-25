@@ -27,15 +27,15 @@ $color-warning-bg: rgba(234, 179, 8, 0.15);
   display: flex;
   flex-wrap: wrap;
   gap: $spacing-md;
-  padding: $spacing-md;
-  background: var(--calendarHeaderColor);
-  border-radius: 0.5rem;
-  margin-bottom: $spacing-lg;
+  padding: $spacing-sm $spacing-md;
+  margin-bottom: $spacing-md;
   align-items: center;
 
   @media (max-width: $breakpoint-tablet) {
-    flex-direction: column;
-    align-items: stretch;
+    flex-wrap: nowrap;
+    gap: $spacing-sm;
+    overflow-x: auto;
+    padding: $spacing-sm;
   }
 }
 
@@ -43,23 +43,9 @@ $color-warning-bg: rgba(234, 179, 8, 0.15);
   display: flex;
   align-items: center;
   gap: $spacing-sm;
+  flex-shrink: 0;
 
   .year-input {
-    width: 6rem;
-    
-    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
-      display: none;
-    }
-  }
-}
-
-.target-controls {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-  flex-wrap: wrap;
-
-  .target-input {
     width: 5rem;
     
     ::ng-deep .mat-mdc-form-field-subscript-wrapper {
@@ -68,7 +54,32 @@ $color-warning-bg: rgba(234, 179, 8, 0.15);
   }
 
   @media (max-width: $breakpoint-tablet) {
-    justify-content: space-between;
+    .year-input {
+      width: 4rem;
+    }
+  }
+}
+
+.target-controls {
+  display: flex;
+  align-items: center;
+  gap: $spacing-md;
+  flex-shrink: 0;
+
+  .target-input {
+    width: 4.5rem;
+    
+    ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+      display: none;
+    }
+  }
+
+  @media (max-width: $breakpoint-tablet) {
+    gap: $spacing-sm;
+    
+    .target-input {
+      width: 3.5rem;
+    }
   }
 }
 
@@ -77,8 +88,14 @@ $color-warning-bg: rgba(234, 179, 8, 0.15);
 // ============================================
 .utilization-container {
   width: 100%;
-  overflow-x: auto;
+  height: calc(100vh - 10rem); // Account for header and controls
+  overflow: auto;
   -webkit-overflow-scrolling: touch;
+
+  @media (max-width: $breakpoint-tablet) {
+    height: auto;
+    max-height: calc(100vh - 8rem);
+  }
 }
 
 .utilization-grid {
