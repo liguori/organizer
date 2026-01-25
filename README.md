@@ -232,7 +232,7 @@ Year view with color-coded appointments for different customers:
 ![Calendar Light Theme](docs/CalendarView.png)
 
 **Dark Theme**
-![Calendar Dark Theme](docs/CalendarView_Dark_.png)
+![Calendar Dark Theme](docs/CalendarView_Dark.png)
 
 ### Additional Views
 
