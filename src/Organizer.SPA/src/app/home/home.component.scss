@@ -28,13 +28,20 @@
     .mobile-filters-fab {
         display: none;
     }
+    
+    .desktop-only-filters {
+        display: flex;
+        align-items: center;
+        flex-wrap: nowrap;
+        flex: 1; // Take remaining space to allow margin-left: auto to work
+    }
 }
 
 .calendar-option {
     margin-left: auto;
     display: flex;
     align-items: center;
-    flex-wrap: wrap;
+    flex-wrap: nowrap;
     gap: 4px;
 }
 

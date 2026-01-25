@@ -41,7 +41,19 @@ body,html
     align-items: center;
     flex: 0 1 auto;
     padding: 5px 0px;
-    overflow-x: auto;   // Allow scroll if too many items
+    
+    // Ensure all elements align vertically at center
+    button {
+        vertical-align: middle;
+    }
+    
+    mat-form-field {
+        margin-bottom: 0; // Remove default bottom margin
+    }
+    
+    .mat-mdc-form-field-subscript-wrapper {
+        display: none; // Hide hint/error space to reduce height
+    }
 }
 
 // Responsive filters on mobile
@@ -51,9 +63,6 @@ body,html
         overflow-x: visible; // No horizontal scroll on mobile
         padding: 8px 4px; // Increased padding for more height
         min-height: 56px; // Ensure minimum height for proper rendering
-        // Ensure it doesn't overlap calendar
-        position: relative;
-        z-index: 10;
     }
 }
 

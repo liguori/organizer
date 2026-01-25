@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectorRef, HostListener } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Output, EventEmitter, ChangeDetectionStrategy, ChangeDetectorRef, HostListener } from '@angular/core';
 import { Day } from '../models/day';
 import { CalendarDay } from '../models/calendarDay';
 import { Appointment, AppointmentExtraInfo } from '../api/OrganizerApiClient';
@@ -12,6 +12,7 @@ import { CalendarDisplay } from '../models/calendarDisplay';
     selector: 'app-calendar',
     templateUrl: './calendar.component.html',
     styleUrls: ['./calendar.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CalendarComponent implements OnInit, OnDestroy {
@@ -60,6 +61,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     if (this.resizeTimeout) {
       clearTimeout(this.resizeTimeout);
     }
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+    }
   }
 
   @HostListener('window:resize', ['$event'])
@@ -70,8 +74,9 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
     this.resizeTimeout = setTimeout(() => {
       // Trigger change detection to re-calculate empty cells
+      this.cdr.markForCheck();
       this.cdr.detectChanges();
-    }, 200); // Increased debounce time for better performance
+    }, 200);
   }
 
   @Output() daySelected = new EventEmitter<{date: Date, event: MouseEvent}>();
