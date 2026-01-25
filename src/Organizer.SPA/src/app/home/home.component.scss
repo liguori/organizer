@@ -5,6 +5,14 @@
     -webkit-overflow-scrolling: touch;
 }
 
+// Mobile: ensure calendar has proper spacing and scrolling
+@media (max-width: 767px) {
+    .calendar-container{
+        overflow-y: auto;
+        padding-top: 8px;
+    }
+}
+
 .calendar-option {
     margin-left: auto;
     display: flex;

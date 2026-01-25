@@ -41,9 +41,15 @@ body,html
 // Responsive filters on mobile
 @media (max-width: 767px) {
     .filters-header{
+        padding: 4px;
+        gap: 4px;
+        // Prevent wrapping on mobile - use horizontal scroll instead
+        flex-wrap: nowrap;
         overflow-x: auto;
         -webkit-overflow-scrolling: touch;
-        padding: 8px 4px;
+        // Ensure it doesn't overlap calendar
+        position: relative;
+        z-index: 10;
     }
 }
 

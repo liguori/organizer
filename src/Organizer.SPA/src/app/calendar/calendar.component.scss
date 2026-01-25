@@ -257,6 +257,13 @@
     background-color: var(--calendarNodayColor);
 }
 
+// Mobile: hide empty placeholder cells to avoid partial rows
+@media (max-width: 767px) {
+    .no-day{
+        display: none;
+    }
+}
+
 .today{
     background-color: var(--calendarTodayColor);
     color: var(--calendarTodayTextColor);
