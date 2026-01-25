@@ -49,8 +49,6 @@ body,html
     .filters-header {
         padding: 8px 4px; // Increased padding for more height
         min-height: 56px; // Ensure minimum height for proper rendering
-        // Allow wrapping on mobile so filters go to new lines
-        flex-wrap: wrap;
         overflow-x: visible;
         // Ensure it doesn't overlap calendar
         position: relative;

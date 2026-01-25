@@ -284,6 +284,8 @@
 // Mobile: show empty cells to fill complete weeks (7 days)
 // But hide excess empty cells beyond 6 weeks (42 cells) that are only for desktop's 37-column layout
 @media (max-width: 767px) {
+    // Hide cells from position 43 onwards (6 weeks = 42 cells max on mobile)
+    // Desktop needs up to 37 cells, but mobile only needs enough for complete weeks (max 6 weeks)
     .day:nth-child(n+43).no-day {
         display: none;
     }
