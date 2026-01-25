@@ -23,6 +23,16 @@
         <div class="month-header">
           {{currentY.description}}
         </div>
+        <!-- Day abbreviations for mobile view -->
+        <div class="mobile-day-headers">
+          <div class="mobile-day-header">Mo</div>
+          <div class="mobile-day-header">Tu</div>
+          <div class="mobile-day-header">We</div>
+          <div class="mobile-day-header">Th</div>
+          <div class="mobile-day-header">Fr</div>
+          <div class="mobile-day-header">Sa</div>
+          <div class="mobile-day-header">Su</div>
+        </div>
       }
       @for (currentX of getXValues(currentY.value); track trackByDayItems($index, currentX)) {
         <div class="day"

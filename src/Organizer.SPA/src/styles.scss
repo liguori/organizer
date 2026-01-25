@@ -17,9 +17,15 @@ body,html
 // Make filter boxes responsive on mobile
 @media (max-width: 767px) {
     .filter-box{
-        margin-left: 4px;
-        margin-right: 4px;
-        font-size: 14px;
+        margin-left: 2px;
+        margin-right: 2px;
+        font-size: 13px;
+        min-width: 80px;
+    }
+    
+    .year-box {
+        width: 70px;
+        min-width: 70px;
     }
 }
 
