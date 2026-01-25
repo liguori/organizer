@@ -1,126 +1,168 @@
-import {
-  Component,
-  OnInit,
-  Input
-} from "@angular/core";
-import { ActivatedRoute, Router, NavigationEnd } from "@angular/router";
+import { Component, OnInit, Input, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { ActivatedRoute } from '@angular/router';
 import {
   Utilization,
   UtilizationRow,
   UtilizationService
-} from "../api/OrganizerApiClient";
-import { DateTimeUtils } from '../utils/dateTimeUtils';
+} from '../api/OrganizerApiClient';
+
+/** Status CSS class names for styling cells */
+type StatusClass = 'status-danger' | 'status-success-dark' | 'status-success' | 'status-warning' | '';
+
+/** Default target percentage for utilization */
+const DEFAULT_TARGET = 72;
+
+/** Hours per work day for calculations */
+const HOURS_PER_DAY = 8;
 
 @Component({
-    selector: "app-utilization",
-    templateUrl: "./utilization.component.html",
-    styleUrls: ["./utilization.component.scss"],
-    standalone: false
+  selector: 'app-utilization',
+  templateUrl: './utilization.component.html',
+  styleUrls: ['./utilization.component.scss'],
+  standalone: false
 })
 export class UtilizationComponent implements OnInit {
-  @Input()
-  utilization: Utilization;
+  private readonly route = inject(ActivatedRoute);
+  private readonly utilizationService = inject(UtilizationService);
+  private readonly destroyRef = inject(DestroyRef);
 
-  public selectedYear: number;
-  public target: number;
-  public includeNotConfirmed: boolean = true;
+  @Input() utilization: Utilization | null = null;
 
-  constructor(
-    private router: Router,
-    private route: ActivatedRoute,
-    private utilizationService: UtilizationService
-  ) {
-    this.target = 72;
+  selectedYear = new Date().getFullYear();
+  target = DEFAULT_TARGET;
+  includeNotConfirmed = true;
+
+  ngOnInit(): void {
+    this.initializeYear();
+    this.loadUtilization();
   }
 
-  ngOnInit() {
-    this.selectedYear = Number.parseInt(this.route.snapshot.params["year?"]);
-    var now = new Date();
-    if (this.selectedYear == now.getFullYear() && now.getMonth() > 7) this.selectedYear++;
-    this.getUtilization();
+  /**
+   * Initialize the selected year from route params or current date
+   */
+  private initializeYear(): void {
+    const yearParam = this.route.snapshot.params['year?'];
+    const parsedYear = yearParam ? parseInt(yearParam, 10) : NaN;
+    
+    if (!isNaN(parsedYear)) {
+      this.selectedYear = parsedYear;
+    }
+
+    // Auto-advance to next year if we're past August
+    const now = new Date();
+    if (this.selectedYear === now.getFullYear() && now.getMonth() > 7) {
+      this.selectedYear++;
+    }
   }
 
-  changeYear(value) {
-    this.selectedYear = Number.parseInt(value);
-    this.getUtilization();
+  /**
+   * Change the selected year and reload data
+   */
+  changeYear(value: string | number): void {
+    const newYear = typeof value === 'string' ? parseInt(value, 10) : value;
+    if (!isNaN(newYear) && newYear > 1900 && newYear < 2200) {
+      this.selectedYear = newYear;
+      this.loadUtilization();
+    }
   }
 
-  changeIncludeNotConfirmed() {
-    this.getUtilization();
+  /**
+   * Handle include not confirmed toggle
+   */
+  changeIncludeNotConfirmed(): void {
+    this.loadUtilization();
   }
 
-  getUtilization() {
+  /**
+   * Load utilization data from the API
+   */
+  private loadUtilization(): void {
+    this.utilization = null; // Show loading state
+    
     this.utilizationService
       .apiUtilizationYearGet(this.selectedYear, this.includeNotConfirmed)
-      .subscribe(util => {
-        this.utilization = util;
-        this.recalculateTargets(this.target);
+      .pipe(takeUntilDestroyed(this.destroyRef))
+      .subscribe({
+        next: (util) => {
+          this.utilization = util;
+          this.recalculateTargets(this.target);
+        },
+        error: (err) => {
+          console.error('Failed to load utilization data:', err);
+        }
       });
   }
 
-  recalculateTargets(value) {
-    this.target = Number.parseInt(value);
-    for (
-      var i = 0, len = this.utilization.utilizationMonths.length;
-      i < len;
-      i++
-    ) {
-      this.calculateTarget(this.utilization.utilizationMonths[i]);
+  /**
+   * Recalculate all target values based on new target percentage
+   */
+  recalculateTargets(value: string | number): void {
+    const newTarget = typeof value === 'string' ? parseInt(value, 10) : value;
+    
+    if (isNaN(newTarget) || newTarget < 0 || newTarget > 100) {
+      return;
     }
-    for (
-      var i = 0, len = this.utilization.utilizationQuarter.length;
-      i < len;
-      i++
-    ) {
-      this.calculateTarget(this.utilization.utilizationQuarter[i]);
-    }
-    for (
-      var i = 0, len = this.utilization.utilizationHalf.length;
-      i < len;
-      i++
-    ) {
-      this.calculateTarget(this.utilization.utilizationHalf[i]);
-    }
-    this.calculateTarget(this.utilization.utilizationYear);
-  }
+    
+    this.target = newTarget;
+    
+    if (!this.utilization) return;
 
-  calculateTarget(util: UtilizationRow) {
-    util.toBeBilledHours = Number(
-      (util.billableHours * (this.target / 100)).toFixed(2)
-    );
-    util.target = Number(
-      ((util.billedHours / util.toBeBilledHours) * 100).toFixed(2)
-    );
-    util.daysToTarget = Number(
-      ((util.toBeBilledHours - util.billedHours) / 8).toFixed(2)
-    );
-  }
-
-  getBilledHoursClass(util: UtilizationRow): String {
-    if (util.billedHours < util.toBeBilledHours) {
-      return 'red-cell';
-    } else {
-      return 'dark-green-cell';
+    // Process all utilization rows
+    this.utilization.utilizationMonths?.forEach(row => this.calculateTargetForRow(row));
+    this.utilization.utilizationQuarter?.forEach(row => this.calculateTargetForRow(row));
+    this.utilization.utilizationHalf?.forEach(row => this.calculateTargetForRow(row));
+    
+    if (this.utilization.utilizationYear) {
+      this.calculateTargetForRow(this.utilization.utilizationYear);
     }
   }
 
-  getTargetClass(util: UtilizationRow): String {
-    if (util.target > 110) {
-      return 'dark-green-cell';
-    } else if (util.target > 100 && util.target < 110) {
-      return 'green-cell';
-    } else if (util.target > 70 && util.target < 100) {
-      return 'yellow-cell';
-    } else {
-      return 'red-cell';
-    }
+  /**
+   * Calculate target metrics for a single utilization row
+   */
+  private calculateTargetForRow(row: UtilizationRow): void {
+    const billableHours = row.billableHours ?? 0;
+    const billedHours = row.billedHours ?? 0;
+    
+    row.toBeBilledHours = Number((billableHours * (this.target / 100)).toFixed(2));
+    
+    // Avoid division by zero
+    row.target = row.toBeBilledHours > 0
+      ? Number(((billedHours / row.toBeBilledHours) * 100).toFixed(2))
+      : 0;
+    
+    row.daysToTarget = Number(((row.toBeBilledHours - billedHours) / HOURS_PER_DAY).toFixed(2));
   }
 
-  getDaysToTargetClass(util: UtilizationRow): String {
-    if (util.daysToTarget > 0) {
-      return 'red-cell';
-    } else {
-      return 'dark-green-cell';
-    }
+  /**
+   * Get CSS class for billed hours cell based on target achievement
+   */
+  getBilledHoursClass(row: UtilizationRow): StatusClass {
+    const billedHours = row.billedHours ?? 0;
+    const toBeBilledHours = row.toBeBilledHours ?? 0;
+    
+    return billedHours < toBeBilledHours ? 'status-danger' : 'status-success-dark';
+  }
+
+  /**
+   * Get CSS class for target cell based on achievement percentage
+   */
+  getTargetClass(row: UtilizationRow): StatusClass {
+    const target = row.target ?? 0;
+    
+    if (target > 110) return 'status-success-dark';
+    if (target > 100) return 'status-success';
+    if (target > 70) return 'status-warning';
+    return 'status-danger';
+  }
+
+  /**
+   * Get CSS class for days to target cell
+   */
+  getDaysToTargetClass(row: UtilizationRow): StatusClass {
+    const daysToTarget = row.daysToTarget ?? 0;
+    
+    return daysToTarget > 0 ? 'status-danger' : 'status-success-dark';
   }
 }

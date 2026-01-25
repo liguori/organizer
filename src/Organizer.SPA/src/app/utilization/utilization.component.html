@@ -1,149 +1,147 @@
-<div class="header">
-  <button mat-mini-fab color="primary" (click)="changeYear(selectedYear - 1)">
-  -</button>&nbsp;
-  <mat-form-field class="year-box">
-    <mat-label>Year</mat-label>
-    <input matInput placeholder="Year" maxlength="4" [ngModel]="selectedYear"
-      (keyup.enter)="changeYear($event.target.value)" />
-    </mat-form-field>
-    &nbsp;&nbsp;
-    <button mat-mini-fab color="primary" (click)="changeYear(selectedYear + 1)">
-      +
+<section class="controls" role="group" aria-label="Utilization filters">
+  <div class="year-controls">
+    <button mat-mini-fab color="primary" 
+            (click)="changeYear(selectedYear - 1)"
+            aria-label="Previous year">
+      <mat-icon>remove</mat-icon>
     </button>
-    <mat-form-field class="target-box">
+    <mat-form-field class="year-input" appearance="outline">
+      <mat-label>Year</mat-label>
+      <input matInput 
+             type="number" 
+             [ngModel]="selectedYear"
+             (keyup.enter)="changeYear($any($event.target).value)"
+             aria-label="Select year" />
+    </mat-form-field>
+    <button mat-mini-fab color="primary" 
+            (click)="changeYear(selectedYear + 1)"
+            aria-label="Next year">
+      <mat-icon>add</mat-icon>
+    </button>
+  </div>
+
+  <div class="target-controls">
+    <mat-form-field class="target-input" appearance="outline">
       <mat-label>Target %</mat-label>
-      <input matInput placeholder="Target" maxlength="2" [ngModel]="target"
-        (keyup.enter)="recalculateTargets($event.target.value)" />
-      </mat-form-field>
-      &nbsp;&nbsp;
-      <mat-checkbox [(ngModel)]="includeNotConfirmed" (change)="changeIncludeNotConfirmed()">Include not confirmed
-      </mat-checkbox>
-    </div>
-    &nbsp;&nbsp;
-    @if (utilization) {
-      <div class="utilization">
-        <div class="header">
-          <div class="table-header">
-            Month
-          </div>
-          <div class="table-header">
-            Billable Hours
-          </div>
-          <div class="table-header">
-            To Be Billed Hours
-          </div>
-          <div class="table-header">
-            Billed Hours
-          </div>
-          <div class="table-header">
-            % Billed Hours
-          </div>
-          <div class="table-header">
-            Target
-          </div>
-          <div class="table-header">
-            Days To Target
-          </div>
-        </div>
-        @for (currentMonthUtilization of utilization.utilizationMonths; track currentMonthUtilization) {
-          <div class="table-row">
-            <div class="row-header cell">
-              {{ currentMonthUtilization.description }}
+      <input matInput 
+             type="number" 
+             min="0" 
+             max="100" 
+             [ngModel]="target"
+             (keyup.enter)="recalculateTargets($any($event.target).value)"
+             aria-label="Target percentage" />
+    </mat-form-field>
+    <mat-checkbox [(ngModel)]="includeNotConfirmed" 
+                  (change)="changeIncludeNotConfirmed()"
+                  color="primary">
+      Include not confirmed
+    </mat-checkbox>
+  </div>
+</section>
+
+@if (utilization) {
+  <div class="utilization-container" role="region" aria-label="Utilization data">
+    <!-- Responsive Table using CSS Grid -->
+    <div class="utilization-grid" role="table" aria-label="Monthly utilization">
+      <!-- Header Row -->
+      <div class="grid-header" role="row">
+        <div class="header-cell" role="columnheader">Period</div>
+        <div class="header-cell" role="columnheader">Billable</div>
+        <div class="header-cell hide-mobile" role="columnheader">To Bill</div>
+        <div class="header-cell" role="columnheader">Billed</div>
+        <div class="header-cell hide-mobile" role="columnheader">% Billed</div>
+        <div class="header-cell" role="columnheader">Target</div>
+        <div class="header-cell" role="columnheader">Days Left</div>
+      </div>
+
+      <!-- Monthly Data -->
+      <div class="section-group months">
+        @for (row of utilization.utilizationMonths; track row.monthNumber) {
+          <div class="grid-row" role="row">
+            <div class="cell period-cell" role="cell">{{ row.description }}</div>
+            <div class="cell numeric" role="cell">{{ row.billableHours | number:'1.0-1' }}</div>
+            <div class="cell numeric hide-mobile" role="cell">{{ row.toBeBilledHours | number:'1.0-1' }}</div>
+            <div class="cell numeric" [class]="getBilledHoursClass(row)" role="cell">
+              {{ row.billedHours | number:'1.0-1' }}
             </div>
-            <div class="cell">
-              {{ currentMonthUtilization.billableHours }}
+            <div class="cell numeric hide-mobile" role="cell">{{ row.percentageBilledHours | number:'1.0-1' }}%</div>
+            <div class="cell numeric" [class]="getTargetClass(row)" role="cell">
+              {{ row.target | number:'1.0-1' }}%
             </div>
-            <div class="cell">
-              {{ currentMonthUtilization.toBeBilledHours }}
-            </div>
-            <div [ngClass]="getBilledHoursClass(currentMonthUtilization)" class="cell">
-              {{ currentMonthUtilization.billedHours }}
-            </div>
-            <div class="cell">
-              {{ currentMonthUtilization.percentageBilledHours }} %
-            </div>
-            <div class="cell" [ngClass]="getTargetClass(currentMonthUtilization)">
-              {{ currentMonthUtilization.target }} %
-            </div>
-            <div class="cell" [ngClass]="getDaysToTargetClass(currentMonthUtilization)">
-              {{ currentMonthUtilization.daysToTarget }}
+            <div class="cell numeric" [class]="getDaysToTargetClass(row)" role="cell">
+              {{ row.daysToTarget | number:'1.0-1' }}
             </div>
           </div>
         }
-        <div class="quarter">
-          @for (currentQuarterUtilization of utilization.utilizationQuarter; track currentQuarterUtilization) {
-            <div class="table-row">
-              <div class="row-header cell">
-                {{ currentQuarterUtilization.description }}
-              </div>
-              <div class="cell">
-                {{ currentQuarterUtilization.billableHours }}
-              </div>
-              <div class="cell">
-                {{ currentQuarterUtilization.toBeBilledHours }}
-              </div>
-              <div [ngClass]="getBilledHoursClass(currentQuarterUtilization)" class="cell">
-                {{ currentQuarterUtilization.billedHours }}
-              </div>
-              <div class="cell">
-                {{ currentQuarterUtilization.percentageBilledHours }} %
-              </div>
-              <div class="cell" [ngClass]="getTargetClass(currentQuarterUtilization)">
-                {{ currentQuarterUtilization.target }} %
-              </div>
-              <div class="cell" [ngClass]="getDaysToTargetClass(currentQuarterUtilization)">
-                {{ currentQuarterUtilization.daysToTarget }}
-              </div>
+      </div>
+
+      <!-- Quarterly Summary -->
+      <div class="section-group quarters">
+        @for (row of utilization.utilizationQuarter; track row.description) {
+          <div class="grid-row summary-row" role="row">
+            <div class="cell period-cell" role="cell">{{ row.description }}</div>
+            <div class="cell numeric" role="cell">{{ row.billableHours | number:'1.0-1' }}</div>
+            <div class="cell numeric hide-mobile" role="cell">{{ row.toBeBilledHours | number:'1.0-1' }}</div>
+            <div class="cell numeric" [class]="getBilledHoursClass(row)" role="cell">
+              {{ row.billedHours | number:'1.0-1' }}
             </div>
-          }
-        </div>
-        <div class="half">
-          @for (halfYearUtilization of utilization.utilizationHalf; track halfYearUtilization) {
-            <div class="table-row">
-              <div class="row-header cell">
-                {{ halfYearUtilization.description }}
-              </div>
-              <div class="cell">
-                {{ halfYearUtilization.billableHours }}
-              </div>
-              <div class="cell">
-                {{ halfYearUtilization.toBeBilledHours }}
-              </div>
-              <div [ngClass]="getBilledHoursClass(halfYearUtilization)" class="cell">
-                {{ halfYearUtilization.billedHours }}
-              </div>
-              <div class="cell">{{ halfYearUtilization.percentageBilledHours }} %</div>
-              <div class="cell" [ngClass]="getTargetClass(halfYearUtilization)">
-                {{ halfYearUtilization.target }} %
-              </div>
-              <div class="cell" [ngClass]="getDaysToTargetClass(halfYearUtilization)">
-                {{ halfYearUtilization.daysToTarget }}
-              </div>
+            <div class="cell numeric hide-mobile" role="cell">{{ row.percentageBilledHours | number:'1.0-1' }}%</div>
+            <div class="cell numeric" [class]="getTargetClass(row)" role="cell">
+              {{ row.target | number:'1.0-1' }}%
             </div>
-          }
-        </div>
-        <div class="year">
-          <div class="table-row">
-            <div class="row-header cell">
-              {{ utilization.utilizationYear.description }}
+            <div class="cell numeric" [class]="getDaysToTargetClass(row)" role="cell">
+              {{ row.daysToTarget | number:'1.0-1' }}
             </div>
-            <div class="cell">
-              {{ utilization.utilizationYear.billableHours }}
+          </div>
+        }
+      </div>
+
+      <!-- Half-Year Summary -->
+      <div class="section-group halves">
+        @for (row of utilization.utilizationHalf; track row.description) {
+          <div class="grid-row summary-row" role="row">
+            <div class="cell period-cell" role="cell">{{ row.description }}</div>
+            <div class="cell numeric" role="cell">{{ row.billableHours | number:'1.0-1' }}</div>
+            <div class="cell numeric hide-mobile" role="cell">{{ row.toBeBilledHours | number:'1.0-1' }}</div>
+            <div class="cell numeric" [class]="getBilledHoursClass(row)" role="cell">
+              {{ row.billedHours | number:'1.0-1' }}
             </div>
-            <div class="cell">
-              {{ utilization.utilizationYear.toBeBilledHours }}
+            <div class="cell numeric hide-mobile" role="cell">{{ row.percentageBilledHours | number:'1.0-1' }}%</div>
+            <div class="cell numeric" [class]="getTargetClass(row)" role="cell">
+              {{ row.target | number:'1.0-1' }}%
             </div>
-            <div [ngClass]="getBilledHoursClass(utilization.utilizationYear)" class="cell">
-              {{ utilization.utilizationYear.billedHours }}
+            <div class="cell numeric" [class]="getDaysToTargetClass(row)" role="cell">
+              {{ row.daysToTarget | number:'1.0-1' }}
             </div>
-            <div class="cell">{{ utilization.utilizationYear.percentageBilledHours }} %</div>
-            <div class="cell" [ngClass]="getTargetClass(utilization.utilizationYear)">
-              {{ utilization.utilizationYear.target }} %
+          </div>
+        }
+      </div>
+
+      <!-- Year Summary -->
+      @if (utilization.utilizationYear) {
+        <div class="section-group year-total">
+          <div class="grid-row total-row" role="row">
+            <div class="cell period-cell" role="cell">{{ utilization.utilizationYear.description }}</div>
+            <div class="cell numeric" role="cell">{{ utilization.utilizationYear.billableHours | number:'1.0-1' }}</div>
+            <div class="cell numeric hide-mobile" role="cell">{{ utilization.utilizationYear.toBeBilledHours | number:'1.0-1' }}</div>
+            <div class="cell numeric" [class]="getBilledHoursClass(utilization.utilizationYear)" role="cell">
+              {{ utilization.utilizationYear.billedHours | number:'1.0-1' }}
             </div>
-            <div class="cell" [ngClass]="getDaysToTargetClass(utilization.utilizationYear)">
-              {{ utilization.utilizationYear.daysToTarget }}
+            <div class="cell numeric hide-mobile" role="cell">{{ utilization.utilizationYear.percentageBilledHours | number:'1.0-1' }}%</div>
+            <div class="cell numeric" [class]="getTargetClass(utilization.utilizationYear)" role="cell">
+              {{ utilization.utilizationYear.target | number:'1.0-1' }}%
+            </div>
+            <div class="cell numeric" [class]="getDaysToTargetClass(utilization.utilizationYear)" role="cell">
+              {{ utilization.utilizationYear.daysToTarget | number:'1.0-1' }}
             </div>
           </div>
         </div>
-      </div>
-    }
+      }
+    </div>
+  </div>
+} @else {
+  <div class="loading-state">
+    <mat-progress-bar mode="indeterminate"></mat-progress-bar>
+    <p>Loading utilization data...</p>
+  </div>
+}
