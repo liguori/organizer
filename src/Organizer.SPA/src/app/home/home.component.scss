@@ -1,4 +1,4 @@
-.calendar-container{
+.calendar-container {
     text-align: center;
     flex: 1 1 auto;
     overflow-x: auto;
@@ -7,7 +7,7 @@
 
 // Mobile: ensure calendar has proper spacing and scrolling
 @media (max-width: 767px) {
-    .calendar-container{
+    .calendar-container {
         overflow-y: auto;
         padding-top: 8px;
     }

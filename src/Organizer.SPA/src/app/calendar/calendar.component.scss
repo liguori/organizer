@@ -253,13 +253,13 @@
    font-weight: bold;
 }
 
-.no-day{
+.no-day {
     background-color: var(--calendarNodayColor);
 }
 
 // Mobile: hide empty placeholder cells to avoid partial rows
 @media (max-width: 767px) {
-    .no-day{
+    .no-day {
         display: none;
     }
 }

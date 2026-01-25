@@ -40,9 +40,8 @@ body,html
 
 // Responsive filters on mobile
 @media (max-width: 767px) {
-    .filters-header{
+    .filters-header {
         padding: 4px;
-        gap: 4px;
         // Prevent wrapping on mobile - use horizontal scroll instead
         flex-wrap: nowrap;
         overflow-x: auto;
