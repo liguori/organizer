@@ -21,61 +21,6 @@
     gap: 4px;
 }
 
-// Mobile: expandable actions container
-.mobile-actions-container {
-    display: none; // Hidden on desktop
-    position: relative;
-}
-
-.mobile-actions-toggle {
-    display: none;
-}
-
-.mobile-actions-menu {
-    display: contents; // Show inline on desktop
-}
-
-@media (max-width: 767px) {
-    .mobile-actions-container {
-        display: block;
-        margin-left: auto;
-    }
-    
-    .mobile-actions-toggle {
-        display: inline-flex;
-    }
-    
-    .mobile-actions-menu {
-        display: none; // Collapsed by default
-        position: absolute;
-        top: 48px;
-        right: 0;
-        background: var(--calendarHeaderColor, #fff);
-        border: 1px solid var(--calendarCellBorderColor, #ccc);
-        border-radius: 4px;
-        padding: 8px;
-        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
-        z-index: 100;
-        min-width: 200px;
-    }
-    
-    .mobile-actions-menu.expanded {
-        display: block;
-    }
-    
-    .mobile-actions-menu .calendar-option {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 8px;
-        margin-left: 0;
-    }
-    
-    .mobile-actions-menu button {
-        width: 100%;
-        margin: 0 !important;
-    }
-}
-
 .warning-button {
     margin-left: 8px !important;
     margin-right: 8px !important;

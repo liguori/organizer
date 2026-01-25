@@ -49,13 +49,6 @@ export class HomeComponent implements OnInit {
   selectedDates: Set<string> = new Set<string>();
   selectedAppointments: Set<number> = new Set<number>();
 
-  // Mobile action menu expansion
-  mobileActionsExpanded: boolean = false;
-
-  toggleMobileActions() {
-    this.mobileActionsExpanded = !this.mobileActionsExpanded;
-  }
-
   constructor(
     private router: Router,
     private route: ActivatedRoute,

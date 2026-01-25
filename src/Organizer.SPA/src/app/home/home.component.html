@@ -82,52 +82,39 @@
           <button mat-icon-button color="primary" aria-label="Clear customer filter" (click)="unselectAllCustomer(filterCustomer)">
             <mat-icon>clear</mat-icon>
           </button>
-          
-          <!-- Mobile: Expandable actions menu -->
-          <div class="mobile-actions-container">
-            <button mat-icon-button color="primary" class="mobile-actions-toggle" 
-              (click)="toggleMobileActions()" 
-              title="Actions" 
-              aria-label="Toggle actions menu">
-              <mat-icon>{{ mobileActionsExpanded ? 'expand_less' : 'more_vert' }}</mat-icon>
+          @if (upstreamEventTokenEnabled) {
+            <button mat-mini-fab [color]="upstreamEventToken ? 'accent' : 'primary'" 
+              (click)="showUpstreamEventTokenDialog()" title="Upstream Event Token">
+              <mat-icon>vpn_key</mat-icon>
             </button>
-            
-            <div class="mobile-actions-menu" [class.expanded]="mobileActionsExpanded">
-              @if (upstreamEventTokenEnabled) {
-                <button mat-mini-fab [color]="upstreamEventToken ? 'accent' : 'primary'" 
-                  (click)="showUpstreamEventTokenDialog()" title="Upstream Event Token">
-                  <mat-icon>vpn_key</mat-icon>
-                </button>
-              }
-              <div class="calendar-option">
-                @if (this.getWarnings().length>0) {
-                  <button (click)="showDialogWarning()" mat-mini-fab color="warn" class="warning-button">
-                    <mat-icon>warning</mat-icon>
-                  </button>
-                }
-                <button (click)="availability()" mat-mini-fab color="primary" title="Availability">
-                  <mat-icon>event_available</mat-icon>
-                </button>&nbsp;
-                <button (click)="withTravelOrOther()" mat-mini-fab color="primary" title="Travel/Other">
-                  <mat-icon>flight_takeoff</mat-icon>
-                </button>
-                @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
-                  <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"
-                    [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
-                    <mat-icon>add</mat-icon>
-                    <span class="selection-badge">{{selectedDates.size}}</span>
-                  </button>
-                  <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" class="selection-button"
-                    [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
-                    <mat-icon>delete</mat-icon>
-                    <span class="selection-badge">{{selectedAppointments.size}}</span>
-                  </button>
-                  <button (click)="clearSelection()" mat-icon-button color="primary" class="selection-button" title="Clear selection">
-                    <mat-icon>clear</mat-icon>
-                  </button>
-                }
-              </div>
-            </div>
+          }
+          <div class="calendar-option">
+            @if (this.getWarnings().length>0) {
+              <button (click)="showDialogWarning()" mat-mini-fab color="warn" class="warning-button">
+                <mat-icon>warning</mat-icon>
+              </button>
+            }
+            <button (click)="availability()" mat-mini-fab color="primary" title="Availability">
+              <mat-icon>event_available</mat-icon>
+            </button>&nbsp;
+            <button (click)="withTravelOrOther()" mat-mini-fab color="primary" title="Travel/Other">
+              <mat-icon>flight_takeoff</mat-icon>
+            </button>
+            @if (selectedDates.size > 0 || selectedAppointments.size > 0) {
+              <button (click)="bulkCreateAppointment()" mat-mini-fab color="primary" class="selection-button"
+                [disabled]="selectedDates.size === 0" title="Create appointments ({{selectedDates.size}})">
+                <mat-icon>add</mat-icon>
+                <span class="selection-badge">{{selectedDates.size}}</span>
+              </button>
+              <button (click)="bulkDeleteAppointments()" mat-mini-fab color="warn" class="selection-button"
+                [disabled]="selectedAppointments.size === 0" title="Delete appointments ({{selectedAppointments.size}})">
+                <mat-icon>delete</mat-icon>
+                <span class="selection-badge">{{selectedAppointments.size}}</span>
+              </button>
+              <button (click)="clearSelection()" mat-icon-button color="primary" class="selection-button" title="Clear selection">
+                <mat-icon>clear</mat-icon>
+              </button>
+            }
           </div>
         </div>
             <div class="calendar-container">
