@@ -1,137 +1,131 @@
 @use "../variable.scss" as *;
 
-.event{
-    position: relative;
-    width: 100%;
-   
-    float: left;
-    font-family: 'Segoe UI';
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-}
+// ============================================
+// Event Viewer Component
+// ============================================
 
-.event-year{
-    font-size:  $event-font-size-year;
-    height: $event-height-year;
-}
+// --- Base Event ---
+.event {
+  position: relative;
+  width: 100%;
+  @include font-primary;
+  @include flex-center;
+  overflow: hidden;
 
-.event-month{
-    font-size: $event-font-size-month-mobile;
-    height: $event-height-month-mobile;
-    min-height: 16px;
-}
-
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .event-month{
-        font-size: $event-font-size-month;
-        height: $event-height-month;
-        min-height: unset;
-    }
-}
-
-.event:hover{
+  &:hover {
     opacity: 0.7;
+  }
 }
 
-.travel-badge{
-    position: absolute; 
-    top: 1px; 
-    right: 1px; 
-    background-color: red; 
-    width: 3.5px; 
-    height: 3.5px;
-    border: 0.1px solid #ffffff;
+// --- Event Size Variants ---
+.event-year {
+  font-size: $event-font-size-year;
+  height: $event-height-year;
 }
 
-.project-badge{
-    position: absolute; 
-    height: 7px; 
-    width: 7px; 
-    left: 0px; 
-    bottom: 0px;
-    clip-path: polygon(0 0,0 100%, 100% 100%);
+.event-month {
+  font-size: $event-font-size-month-mobile;
+  height: $event-height-month-mobile;
+  min-height: 1rem;
 }
 
-.not-confirmed{
-    border:1.2px solid #fbff00;
-    box-sizing: border-box;
-    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
+@media (min-width: $breakpoint-tablet) {
+  .event-month {
+    font-size: $event-font-size-month;
+    height: $event-height-month;
+    min-height: unset;
+  }
 }
 
-.selected-appointment.not-confirmed {
+// --- Event Badges ---
+.travel-badge {
+  position: absolute;
+  top: 0.0625rem;
+  right: 0.0625rem;
+  background-color: red;
+  width: 0.25rem;
+  height: 0.25rem;
+  border: 0.0625rem solid #fff;
+}
+
+.project-badge {
+  position: absolute;
+  height: 0.4375rem;
+  width: 0.4375rem;
+  left: 0;
+  bottom: 0;
+  clip-path: polygon(0 0, 0 100%, 100% 100%);
+}
+
+// --- Event States ---
+.not-confirmed {
+  border: 0.075rem solid #fbff00;
+  box-sizing: border-box;
+  box-shadow: inset 0.0125rem 0.0125rem 0.1875rem 0 rgb(71, 67, 67);
+}
+
+.warning {
+  border: 0.08125rem solid red;
+  box-sizing: border-box;
+  box-shadow: inset 0.0125rem 0.0125rem 0.1875rem 0 rgb(71, 67, 67);
+}
+
+.billable {
+  font-weight: bold;
+}
+
+// --- Selected Appointment (removes conflicting borders) ---
+.selected-appointment {
+  position: relative;
+
+  &.not-confirmed,
+  &.warning {
     border: none;
     box-shadow: none;
-}
+  }
 
-.billable{
-    font-weight: bold;
-}
-
-.warning{
-    border:1.3px solid red;
-    box-sizing: border-box;
-    box-shadow: inset 0.2px 0.2px 3px 0px rgb(71, 67, 67);
-}
-
-.selected-appointment.warning {
-    border: none;
-    box-shadow: none;
-}
-
-.availability{
-    position: absolute; 
-    top:0px;
-    height: 3px;
-    width: 100%;
-    border-bottom:  0.1px solid rgb(138, 127, 127);
-}
-
-
-.upstream-year{
-    text-decoration: underline;
-    font-size: 7px !important;
-}
-
-.upstream-month{
-    text-decoration: underline;
-    font-size: $event-font-size-month !important;
-}
-
-.upstream-matched{
-    text-decoration: underline;
-}
-
-.selected-appointment{
-    position: relative;
-}
-
-.selected-appointment::after {
+  &::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 3px solid var(--selection-color, #0288d1);
+    inset: 0;
+    border: 0.1875rem solid var(--selection-color, #0288d1);
     pointer-events: none;
     box-sizing: border-box;
     z-index: 1;
+  }
 }
 
+// --- Availability Bar ---
+.availability {
+  position: absolute;
+  top: 0;
+  height: 0.1875rem;
+  width: 100%;
+  border-bottom: 0.0625rem solid rgb(138, 127, 127);
+}
 
-.calendar{
-    position: relative;
-    width: 100%;
-   
-    float: left;
-    font-family: 'Segoe UI';
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden;
-    color: #ffffff;
-    background-color: rgb(51, 71, 255);
+// --- Upstream Styling ---
+.upstream-year {
+  text-decoration: underline;
+  font-size: 0.4375rem !important;
+}
+
+.upstream-month {
+  text-decoration: underline;
+  font-size: $event-font-size-month !important;
+}
+
+.upstream-matched {
+  text-decoration: underline;
+}
+
+// --- Calendar Fallback (if needed) ---
+.calendar {
+  position: relative;
+  width: 100%;
+  @include font-primary;
+  @include flex-center;
+  overflow: hidden;
+  color: #fff;
+  background-color: rgb(51, 71, 255);
 }

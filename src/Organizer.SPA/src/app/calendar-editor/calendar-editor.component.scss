@@ -1,25 +1,29 @@
-.delete-button{
-    margin-left: auto;
+@use "../variable" as *;
+
+// ============================================
+// Calendar Editor Component
+// ============================================
+
+.delete-button {
+  margin-left: auto;
 }
 
-.button{
-    width:120px;
+.button {
+  width: 7.5rem;
 }
 
-.full-width {
-    width: 100%;
+.full-width,
+.input-text {
+  width: 100%;
 }
 
-.input-text{
-    width: 100%;
+// --- Edit State Indicators ---
+.new-calendar-edit {
+  font-weight: bold;
+  color: #47bd65;
 }
 
-.new-calendar-edit{
-    font-weight:bold;
-    color: #47bd65;
-}
-
-.existent-calendar-edit{
-    font-weight:bold;
-    color:#c98b2e;
+.existent-calendar-edit {
+  font-weight: bold;
+  color: #c98b2e;
 }

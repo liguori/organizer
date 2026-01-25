@@ -1,24 +1,31 @@
-.customer-editor{
-    float:right;
+@use "../variable" as *;
+
+// ============================================
+// Customer Component
+// ============================================
+
+.customer-editor {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.name{
-    width: 300px;
+.name {
+  width: 18.75rem;
 }
 
-.codice{
-    width: 100px;
+.codice {
+  width: 6.25rem;
 }
 
-.color{
-    width: 120px;
+.color {
+  width: 7.5rem;
 }
 
-.project-color{
-    width:165px;
+.project-color {
+  width: 10.3125rem;
 }
 
-.customer-list{
-    height: 90%;
-    overflow-y: auto;
+.customer-list {
+  height: 90%;
+  overflow-y: auto;
 }

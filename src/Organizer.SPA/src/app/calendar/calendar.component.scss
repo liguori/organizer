@@ -1,370 +1,307 @@
 @use "../variable" as *;
 
-// Mobile-first styles (default for screens < 768px)
-.header{
-    // Hide the long header row on mobile since days will wrap
-    display: none;
+// ============================================
+// Calendar Component - Mobile First
+// ============================================
+
+// --- Header (hidden on mobile) ---
+.header {
+  display: none;
+  font-size: 1rem; // Reset from parent
 }
 
-// Mobile day headers - show only on mobile
+// --- Mobile Day Headers ---
 .mobile-day-headers {
-    display: flex;
-    width: 100%;
-    margin-bottom: 0; // No spacing, align directly with day cells
+  display: flex;
+  width: 100%;
+  margin-bottom: 0;
+  font-size: 1rem; // Reset from parent
+}
+
+// Month view mobile headers - sticky at top
+.mobile-month-headers {
+  position: sticky;
+  top: 0;
+  z-index: 1;
 }
 
 .mobile-day-header {
-    width: calc(100% / 7); // Match day cell width exactly
-    text-align: center;
-    font-size: 11px;
-    font-weight: bold;
-    padding: 4px 0;
-    background-color: var(--calendarHeaderColor);
-    color: var(--calendarHeaderTextColor);
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
+  width: $day-width-month;
+  text-align: center;
+  font-size: $day-label-font-size-mobile;
+  font-weight: bold;
+  padding: $spacing-xs 0;
+  @include header-cell;
 }
 
-.calendar-box{
-    display: block;
-    width: 100%;
+// --- Calendar Container ---
+.calendar-box {
+  display: block;
+  width: 100%;
+  font-size: 0; // Remove whitespace between inline elements
 }
 
-.year-header{
-   width: $year-month-col-width-mobile;
-   height: $row-header-height-mobile;
-   display: inline-block;
-   border: $cell-border-size solid var(--calendarCellBorderColor);
-   box-sizing: border-box;
-   background-color: var(--calendarHeaderColor);
-   color: var(--calendarHeaderTextColor);
-   text-align: center;
-   line-height: $row-header-height-mobile;
-   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   font-size: $header-font-size-mobile;
-  
-}
-.day-header{
-    height: $row-header-height-mobile;
-    display: inline-block;
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
-    background-color: var(--calendarHeaderColor);
-    color: var(--calendarHeaderTextColor);
-    text-align: center;
-    line-height: $row-header-height-mobile;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: $header-font-size-mobile;
+// --- Header Cells (shared base) ---
+.year-header,
+.day-header,
+.util-header {
+  display: inline-block;
+  height: $row-header-height-mobile;
+  line-height: $row-header-height-mobile;
+  font-size: $header-font-size-mobile;
+  @include header-cell;
+  @include font-secondary;
 }
 
-.day-header-month{
-    width:$day-width-month;
+.year-header {
+  width: $year-month-col-width-mobile;
 }
 
-.day-header-year{
-    width: $day-width-year-mobile;
+.day-header-month {
+  width: $day-width-month;
 }
 
-.util-header{
-    width: $util-width-mobile;
-    height: $row-header-height-mobile;
-    display: inline-block;
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
-    background-color: var(--calendarHeaderColor);
-    color: var(--calendarHeaderTextColor);
-    text-align: center;
-    line-height: $row-header-height-mobile;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: $header-font-size-mobile;
+.day-header-year {
+  width: $day-width-year-mobile;
 }
 
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .header{
-        display: block;
-        height: $row-header-height;
-    }
-
-    // Hide mobile day headers on desktop
-    .mobile-day-headers {
-        display: none;
-    }
-
-    .calendar-box{
-        display: inline-block;
-        height: 100% !important;
-        overflow-x: visible;
-    }
-
-    .year-header{
-        width: $year-month-col-width;
-        height: $row-header-height;
-        line-height: 3.6vh;
-        font-size: $header-font-size;
-    }
-
-    .day-header{
-        height: $row-header-height;
-        line-height: 3.6vh;
-        font-size: $header-font-size;
-    }
-
-    .day-header-year{
-        width: $day-width-year;
-    }
-
-    .util-header{
-        width: $util-width;
-        height: $row-header-height;
-        line-height: 3.6vh;
-        font-size: $header-font-size;
-    }
+.util-header {
+  width: $util-width-mobile;
 }
 
-.row-year{
-    // Mobile: allow days to wrap, display as block
-    display: block;
-    margin-bottom: 20px;
-    border: 1px solid var(--calendarCellBorderColor);
-    padding: 5px;
+// --- Row Styles ---
+.row-year {
+  display: block;
+  margin-bottom: $spacing-lg;
+  border: $cell-border-size solid var(--calendarCellBorderColor);
+  padding: $spacing-xs;
 }
 
-.row-month{
-    // Mobile: flexible height to fit appointments
-    height: auto;
-    min-height: 80px;
+.row-month {
+  height: auto;
+  font-size: 0; // Remove whitespace between inline-block days
+  line-height: 0;
+  display: block;
+  margin: 0;
+  padding: 0;
 }
 
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .row-month{
-        height: $row-height-month;
-        min-height: unset;
-    }
+.month-selected {
+  border: $cell-border-size solid var(--calendarTodayColor);
 }
 
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .row-year{
-        display: block;
-        height: $row-height-year;
-        margin-bottom: 0;
-        border: none;
-        padding: 0;
-    }
+// --- Day Cells ---
+.day {
+  position: relative;
+  padding: 0;
+  vertical-align: top;
+  display: inline-block;
+  text-align: center;
+  @include cell-base;
+  @include font-primary;
+  font-size: 0.75rem; // Reset font-size from parent (12px)
+  line-height: normal;
+  margin: 0;
+  overflow: hidden;
+  cursor: pointer;
+  background-color: var(--calendarDayColor);
+  color: var(--calendarDayTextColor);
+  width: $day-width-month;
+  min-width: $min-touch-target;
+  height: 3.75rem;
 }
 
-.month-selected{
-    border:1px solid  var(--calendarTodayColor);
-}
-
-.day{
-    position: relative;
-    padding: 0vw 0vw 0vw 0vw;
-    vertical-align: top;
-    display: inline-block;
-    text-align: center;
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
-    font-family: 'Segoe UI';
-    margin: 0;
-    overflow:hidden;
-    cursor: pointer;
-    background-color: var(--calendarDayColor);
-    color:var(--calendarDayTextColor);
-    // Mobile: 7 equal-width days per line with wrapping
-    width: calc(100% / 7);
-    min-width: 44px;
-    height: 60px;
-}
-
-// Mobile month view: taller cells to show at least 2 appointments
 .day-month {
-    height: 62px;
+  height: 3.875rem;
 }
 
-.day-container{
-    display: flex;
-    flex-flow: column;
-    height: 100%;
+.day-container {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 
-.day-label{
-    flex: 0 1 $day-label-height-mobile;
-    font-size: $day-label-font-size-mobile;
-    height: $day-label-height-mobile;
-    line-height: $day-label-height-mobile;
+.day-label {
+  flex: 0 1 $day-label-height-mobile;
+  font-size: $day-label-font-size-mobile;
+  height: $day-label-height-mobile;
+  line-height: $day-label-height-mobile;
 }
 
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .day{
-        width: auto;
-        height: 100%;
-        min-width: unset;
-        margin: 0 auto;
-    }
-
-    .day-label{
-        flex: 0 1 $day-label-height;
-        font-size: $day-label-font-size;
-        height: $day-label-height;
-        line-height: $day-label-height;
-    }
+.day:hover {
+  background-color: var(--calendarDayHoverColor);
 }
 
-.event-viewer{
-    flex: 1 1 auto;
-    overflow-x: auto;
+// --- Month Header ---
+.month-header {
+  @include font-secondary;
+  font-size: $month-font-size-mobile;
+  @include cell-base;
+  margin: 0 0 $spacing-sm 0;
+  padding: $spacing-sm;
+  text-transform: uppercase;
+  font-weight: bold;
+  width: 100%;
+  height: auto;
+  background-color: var(--calendarMonthHeaderColor);
+  color: var(--calendarMonthHeaderTextColor);
+  display: block;
+  text-align: center;
 }
 
-.event-viewer::-webkit-scrollbar
-{
-	width: 3px;
-	background-color: #F5F5F5;
+// --- Utility Value ---
+.util-value {
+  display: block;
+  width: 100%;
+  padding: $spacing-xs;
+  margin-top: $spacing-xs;
+  font-size: $util-font-size-mobile;
+  @include cell-base;
+  @include font-secondary;
+  background-color: var(--calendarUtilsColor);
+  color: var(--calendarUtilsTextColor);
+
+  &::before {
+    content: "Ut % ";
+    font-weight: bold;
+  }
 }
 
-.event-viewer::-webkit-scrollbar-thumb
-{
-	background-color: #b8b8b8;
+// --- Day Highlights ---
+.highlight-saturday {
+  background-color: var(--calendarSaturdayColor);
+  font-weight: bold;
 }
 
-.day:hover{
-    background-color: var(--calendarDayHoverColor);
-}
-
-.day-month{
-    width:$day-width-month;
-}
-
-.day-year{
-    // Mobile: width is set in .day class to allow wrapping
-}
-
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .day-year{
-        width: $day-width-year;
-    }
-}
-
-.month-header{
-   font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-   font-size: $month-font-size-mobile;
-   border: $cell-border-size solid var(--calendarCellBorderColor);
-   box-sizing: border-box;
-   margin: 0 0 10px 0;
-   padding: 8px;
-   text-transform: uppercase;
-   font-weight: bold;
-   width: 100%;
-   height: auto;
-   background-color: var(--calendarMonthHeaderColor);
-   color:var(--calendarMonthHeaderTextColor);
-   display: block;
-   text-align: center;
-}
-
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .month-header{
-        font-size: $month-font-size;
-        width: $year-month-col-width;
-        height: 100%;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-    }
-}
-
-
-.highlight-saturday{
-   background-color:var(--calendarSaturdayColor);
-   font-weight: bold;
-}
-
-
-.highlight-sunday{
-   background-color: var(--calendarSundayColor);
-   font-weight: bold;
+.highlight-sunday {
+  background-color: var(--calendarSundayColor);
+  font-weight: bold;
 }
 
 .no-day {
-    background-color: var(--calendarNodayColor);
+  background-color: var(--calendarNodayColor);
 }
 
-// Note: Empty cell calculation is now handled in TypeScript based on viewport size
-// Mobile: completes to next multiple of 7 for week alignment
-// Desktop: fills to 37 cells for year view layout
-
-
-.today{
-    background-color: var(--calendarTodayColor);
-    color: var(--calendarTodayTextColor);
+.today {
+  background-color: var(--calendarTodayColor);
+  color: var(--calendarTodayTextColor);
 }
 
-.selected-day{
-    position: relative;
-}
+// --- Selection States ---
+.selected-day {
+  position: relative;
 
-.selected-day::after {
+  &::after {
     content: '';
     position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    border: 3px solid var(--selection-color, #0288d1);
+    inset: 0;
+    border: 0.1875rem solid var(--selection-color, #0288d1);
     pointer-events: none;
     box-sizing: border-box;
+  }
 }
 
-.util-value{
-    // Show on mobile with label
+// --- Event Viewer Scrollbar ---
+.event-viewer {
+  flex: 1 1 auto;
+  overflow: hidden;
+}
+
+// ============================================
+// Desktop Overrides (>= 768px)
+// ============================================
+@media (min-width: $breakpoint-tablet) {
+  .header {
     display: block;
-    width: 100%;
-    padding: 4px;
-    margin-top: 5px;
-    font-size: $util-font-size-mobile;
-    border: $cell-border-size solid var(--calendarCellBorderColor);
-    box-sizing: border-box;
-    text-align: center;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    background-color: var(--calendarUtilsColor);
-    color: var(--calendarUtilsTextColor);
-}
+    height: $row-header-height;
+  }
 
-// Add "Ut %" label before the number on mobile
-.util-value::before {
-    content: "Ut % ";
-    font-weight: bold;
-}
+  .mobile-day-headers,
+  .mobile-month-headers {
+    display: none;
+  }
 
-// Tablet and larger screens (>= 768px)
-@media (min-width: 768px) {
-    .util-value{
-        width: $util-width;
-        height: 100%;
-        font-size: $util-font-size;
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 0;
-        margin-top: 0;
-        vertical-align: top;
-        border: $cell-border-size solid var(--calendarCellBorderColor);
-        box-sizing: border-box;
-        text-align: center;
-        font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-        background-color: var(--calendarUtilsColor);
-        color: var(--calendarUtilsTextColor);
+  .calendar-box {
+    display: inline-block;
+    height: 100% !important;
+    overflow-x: visible;
+  }
+
+  .year-header,
+  .day-header,
+  .util-header {
+    height: $row-header-height;
+    line-height: clamp(2rem, 3.6vh, 2.5rem);
+    font-size: $header-font-size;
+  }
+
+  .year-header {
+    width: $year-month-col-width;
+  }
+
+  .day-header-year {
+    width: $day-width-year;
+  }
+
+  .util-header {
+    width: $util-width;
+  }
+
+  .row-year {
+    display: block;
+    height: $row-height-year;
+    margin-bottom: 0;
+    border: none;
+    padding: 0;
+  }
+
+  .row-month {
+    height: $row-height-month;
+    min-height: unset;
+  }
+
+  .day {
+    width: auto;
+    height: 100%;
+    min-width: unset;
+    margin: 0 auto;
+  }
+
+  .day-month {
+    width: $day-width-month;
+  }
+
+  .day-year {
+    width: $day-width-year;
+  }
+
+  .day-label {
+    flex: 0 1 $day-label-height;
+    font-size: $day-label-font-size;
+    height: $day-label-height;
+    line-height: $day-label-height;
+  }
+
+  .month-header {
+    font-size: $month-font-size;
+    width: $year-month-col-width;
+    height: 100%;
+    @include flex-center;
+    margin: 0;
+    padding: 0;
+  }
+
+  .util-value {
+    width: $util-width;
+    height: 100%;
+    font-size: $util-font-size;
+    @include flex-center;
+    padding: 0;
+    margin-top: 0;
+    vertical-align: top;
+
+    &::before {
+      content: "";
     }
-    
-    // Remove label on desktop (it's in the header)
-    .util-value::before {
-        content: "";
-    }
+  }
 }

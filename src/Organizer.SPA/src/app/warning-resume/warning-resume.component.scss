@@ -1,7 +1,13 @@
-.warning-view{
-    display: inline-block;
-    color:red;
-    font-size: 17px;
-    margin-left: 10px;
-    font-weight: bold;
+@use "../variable" as *;
+
+// ============================================
+// Warning Resume Component
+// ============================================
+
+.warning-view {
+  display: inline-block;
+  color: #f00;
+  font-size: 1.0625rem;
+  margin-left: $spacing-sm;
+  font-weight: bold;
 }

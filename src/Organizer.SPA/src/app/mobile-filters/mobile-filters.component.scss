@@ -1,5 +1,11 @@
+@use "../variable" as *;
+
+// ============================================
+// Mobile Filters Component
+// ============================================
+
 .mobile-filters-sheet {
-  padding: 16px;
+  padding: $spacing-md;
   max-height: 80vh;
   overflow-y: auto;
 }
@@ -8,11 +14,11 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 16px;
-  
+  margin-bottom: $spacing-md;
+
   h2 {
     margin: 0;
-    font-size: 20px;
+    font-size: 1.25rem;
     font-weight: 500;
   }
 }
@@ -20,15 +26,5 @@
 .sheet-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  
-  // Make form fields full width in the sheet
-  ::ng-deep mat-form-field {
-    width: 100%;
-  }
-  
-  // Stack buttons vertically
-  ::ng-deep button {
-    margin: 4px 0;
-  }
+  gap: $spacing-md;
 }

@@ -1,7 +1,15 @@
-.customer-tile{
-    margin-bottom: 10px;
-    padding: 5px 5px 5px 5px;
+@use "../variable" as *;
+
+// ============================================
+// Customer View Component
+// ============================================
+
+.customer-tile {
+  margin-bottom: $spacing-sm;
+  padding: $spacing-xs;
 }
-.action-customer{
-    float: right;
+
+.action-customer {
+  display: flex;
+  justify-content: flex-end;
 }

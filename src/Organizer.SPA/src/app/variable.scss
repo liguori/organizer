@@ -1,39 +1,92 @@
 @use 'sass:math';
 
-// Mobile-first responsive variables
-// Base mobile values (for screens < 768px)
-$event-font-size-year-mobile: 10px;
-$event-font-size-month-mobile: 10px;
-$event-height-year:50%;
-$event-height-month:20%;
-$event-height-month-mobile: 18px;
-$header-font-size-mobile: 11px;
-$month-font-size-mobile: 12px;
-$day-label-font-size-mobile: 11px;
-$day-label-height-mobile: 18px;
-$row-header-height-mobile: 32px;
-$row-height-year-mobile: 80px;
+// ============================================
+// Design System Variables
+// Using rem for typography, % for layout, em for component-relative sizing
+// Base: 1rem = 16px (browser default)
+// ============================================
+
+// --- Breakpoints ---
+$breakpoint-tablet: 48rem; // 768px equivalent
+
+// --- Borders ---
+$cell-border-size: 0.03125rem; // ~0.5px, thin border
+
+// --- Font Stacks (centralized) ---
+$font-primary: 'Segoe UI', system-ui, -apple-system, sans-serif;
+$font-secondary: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+
+// --- Layout Percentages (remain unchanged - already relative) ---
+$event-height-year: 50%;
+$event-height-month: 20%;
 $row-height-month: 18%;
-$util-width-mobile: 50px;
-$util-font-size-mobile: 12px;
-$cell-border-size: 0.5px;
-$year-month-col-width-mobile: 50px;
-$day-width-year-mobile: 44px;
-$day-width-month: calc(100% / 7);
-$utilization-table:100%;
+$row-height-year: 7.6%;
+$util-width: 3%;
+$year-month-col-width: 3%;
+$utilization-table: 100%;
 $utilization-width: calc(#{$utilization-table} / 7);
 $utilization-row-height: calc(100% / 20);
-
-// Desktop values (for screens >= 768px) - original values
-$event-font-size-year:1.4vh;
-$event-font-size-month:1.2vh;
-$header-font-size:1.0vw;
-$month-font-size:1.05vw;
-$day-label-font-size:1.6vh;
-$day-label-height:1.7vh;
-$row-header-height:4vh;
-$row-height-year:7.6%;
-$util-width: 3%;
-$util-font-size:1.1vw;
-$year-month-col-width:3%;
+$day-width-month: calc(100% / 7);
 $day-width-year: calc((100% - #{$year-month-col-width} - #{$util-width}) / 37);
+
+// --- Mobile Values (< 768px) ---
+$event-font-size-year-mobile: 0.625rem;   // ~10px
+$event-font-size-month-mobile: 0.625rem;  // ~10px
+$event-height-month-mobile: 1.125rem;     // ~18px
+$header-font-size-mobile: 0.6875rem;      // ~11px
+$month-font-size-mobile: 0.75rem;         // ~12px
+$day-label-font-size-mobile: 0.6875rem;   // ~11px
+$day-label-height-mobile: 1.125rem;       // ~18px
+$row-header-height-mobile: 2rem;          // ~32px
+$row-height-year-mobile: 5rem;            // ~80px
+$util-width-mobile: 3.125rem;             // ~50px
+$util-font-size-mobile: 0.75rem;          // ~12px
+$year-month-col-width-mobile: 3.125rem;   // ~50px
+$day-width-year-mobile: 2.75rem;          // ~44px
+$min-touch-target: 2.75rem;               // ~44px - minimum touch target
+
+// --- Desktop Values (>= 768px) ---
+// Using clamp() for fluid typography where appropriate
+$event-font-size-year: clamp(0.625rem, 1.4vh, 1rem);
+$event-font-size-month: clamp(0.5rem, 1.2vh, 0.875rem);
+$header-font-size: clamp(0.625rem, 1vw, 1rem);
+$month-font-size: clamp(0.75rem, 1.05vw, 1.125rem);
+$day-label-font-size: clamp(0.75rem, 1.6vh, 1rem);
+$day-label-height: clamp(1rem, 1.7vh, 1.5rem);
+$row-header-height: clamp(2rem, 4vh, 3rem);
+$util-font-size: clamp(0.75rem, 1.1vw, 1.125rem);
+
+// --- Spacing Scale (rem-based) ---
+$spacing-xs: 0.25rem;   // ~4px
+$spacing-sm: 0.5rem;    // ~8px
+$spacing-md: 1rem;      // ~16px
+$spacing-lg: 1.5rem;    // ~24px
+$spacing-xl: 2rem;      // ~32px
+
+// --- Common Mixins ---
+@mixin font-primary {
+  font-family: $font-primary;
+}
+
+@mixin font-secondary {
+  font-family: $font-secondary;
+}
+
+@mixin flex-center {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin cell-base {
+  border: $cell-border-size solid var(--calendarCellBorderColor);
+  box-sizing: border-box;
+  text-align: center;
+}
+
+@mixin header-cell {
+  @include cell-base;
+  @include font-secondary;
+  background-color: var(--calendarHeaderColor);
+  color: var(--calendarHeaderTextColor);
+}

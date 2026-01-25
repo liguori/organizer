@@ -1,127 +1,116 @@
-body,html
-{
-    margin: 0;
-    font-family: 'Segoe UI';
-    height: 100%;
-    overflow: hidden;
+@use "./app/variable" as *;
+
+// ============================================
+// Global Styles
+// ============================================
+
+body, html {
+  margin: 0;
+  @include font-primary;
+  height: 100%;
+  overflow: hidden;
 }
 
-.year-box{
-    width:80px;
+// --- Layout Containers ---
+.container-box {
+  display: flex;
+  flex-flow: column;
+  height: 100%;
 }
 
-.filter-box{
-   margin-left: 15px;
+// --- Form Fields ---
+.year-box {
+  width: 5rem;
 }
 
-// Make filter boxes responsive on mobile
-@media (max-width: 767px) {
-    .filter-box{
-        margin-left: 2px;
-        margin-right: 2px;
-        font-size: 13px;
-        min-width: 90px; // Increased from 80px to ensure better rendering
-    }
-    
-    .year-box {
-        width: 75px; // Slightly larger for better display
-        min-width: 75px;
-    }
+.filter-box {
+  margin-left: $spacing-md;
 }
 
-.container-box{
-    display: flex;
-    flex-flow: column;
-    height: 100%;
+.form-field-date {
+  width: 10rem;
 }
 
-.filters-header{
-    display: flex;
-    flex-wrap: nowrap;  // Default: no wrap (desktop behavior)
-    align-items: center;
-    flex: 0 1 auto;
-    padding: 5px 0px;
-    
-    // Ensure all elements align vertically at center
-    button {
-        vertical-align: middle;
-    }
-    
-    mat-form-field {
-        margin-bottom: 0; // Remove default bottom margin
-    }
-    
-    .mat-mdc-form-field-subscript-wrapper {
-        display: none; // Hide hint/error space to reduce height
-    }
+// --- Filter Header ---
+.filters-header {
+  display: flex;
+  flex-wrap: nowrap;
+  align-items: center;
+  flex: 0 1 auto;
+  padding: $spacing-xs 0;
+
+  button {
+    vertical-align: middle;
+  }
+
+  mat-form-field {
+    margin-bottom: 0;
+  }
+
+  .mat-mdc-form-field-subscript-wrapper {
+    display: none;
+  }
 }
 
-// Responsive filters on mobile
-@media (max-width: 767px) {
-    .filters-header {
-        flex-wrap: wrap; // Wrap on mobile only
-        overflow-x: visible; // No horizontal scroll on mobile
-        padding: 8px 4px; // Increased padding for more height
-        min-height: 56px; // Ensure minimum height for proper rendering
-    }
-}
-
+// --- Scroll Block Override ---
 .cdk-global-scrollblock {
-    position: static;
-    overflow: hidden !important;
+  position: static;
+  overflow: hidden !important;
 }
 
-// Mat-dialog: adapt to content but constrain to viewport
-.cdk-overlay-pane.mat-mdc-dialog-panel {
-    max-width: 90vw !important;
-    max-height: 90vh !important;
-}
-
+// --- Dialog Styles ---
+.cdk-overlay-pane.mat-mdc-dialog-panel,
 .mat-mdc-dialog-container {
-    max-width: 90vw !important;
-    max-height: 90vh !important;
+  max-width: 90vw !important;
+  max-height: 90vh !important;
 }
 
-// Make mat-dialog fullscreen on mobile
-@media (max-width: 767px) {
-    .cdk-overlay-pane.mat-mdc-dialog-panel {
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        overflow: hidden !important;
-    }
+// --- Mobile Overrides (< 768px) ---
+@media (max-width: 47.9375rem) {
+  .filter-box {
+    margin-left: $spacing-xs;
+    margin-right: $spacing-xs;
+    font-size: 0.8125rem;
+    min-width: 5.625rem;
+  }
 
-    .mat-mdc-dialog-container {
-        max-width: 100vw !important;
-        max-height: 100vh !important;
-        width: 100vw !important;
-        height: 100vh !important;
-        border-radius: 0 !important;
-        overflow: hidden !important;
-    }
+  .year-box {
+    width: 4.6875rem;
+    min-width: 4.6875rem;
+  }
 
-    .mat-mdc-dialog-surface {
-        border-radius: 0 !important;
-        overflow: hidden !important;
-        height: 100% !important;
-    }
+  .filters-header {
+    flex-wrap: wrap;
+    overflow-x: visible;
+    padding: $spacing-sm $spacing-xs;
+    min-height: 3.5rem;
+  }
 
-    .mdc-dialog__container {
-        overflow: hidden !important;
-    }
+  // Full-screen dialogs on mobile
+  .cdk-overlay-pane.mat-mdc-dialog-panel,
+  .mat-mdc-dialog-container {
+    max-width: 100vw !important;
+    max-height: 100vh !important;
+    width: 100vw !important;
+    height: 100vh !important;
+    overflow: hidden !important;
+  }
 
-    .mdc-dialog__surface {
-        overflow: hidden !important;
-    }
+  .mat-mdc-dialog-container {
+    border-radius: 0 !important;
+  }
 
-    .mat-mdc-dialog-content {
-        overflow-y: auto !important;
-        overflow-x: hidden !important;
-        max-height: calc(100vh - 140px) !important;
-    }
-}
+  .mat-mdc-dialog-surface,
+  .mdc-dialog__container,
+  .mdc-dialog__surface {
+    border-radius: 0 !important;
+    overflow: hidden !important;
+    height: 100% !important;
+  }
 
-.form-field-date{
-    width: 160px;
+  .mat-mdc-dialog-content {
+    overflow-y: auto !important;
+    overflow-x: hidden !important;
+    max-height: calc(100vh - 8.75rem) !important;
+  }
 }

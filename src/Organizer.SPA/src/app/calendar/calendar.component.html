@@ -1,4 +1,16 @@
 <div class="calendar-box">
+  <!-- Mobile day headers for Month view -->
+  @if (currentView == calendarView.Month) {
+    <div class="mobile-day-headers mobile-month-headers">
+      <div class="mobile-day-header">Mo</div>
+      <div class="mobile-day-header">Tu</div>
+      <div class="mobile-day-header">We</div>
+      <div class="mobile-day-header">Th</div>
+      <div class="mobile-day-header">Fr</div>
+      <div class="mobile-day-header">Sa</div>
+      <div class="mobile-day-header">Su</div>
+    </div>
+  }
   <div class="header">
     @if (currentView== calendarView.Year) {
       <div class="year-header">

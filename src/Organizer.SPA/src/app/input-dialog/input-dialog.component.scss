@@ -1,6 +1,12 @@
+@use "../variable" as *;
+
+// ============================================
+// Input Dialog Component
+// ============================================
+
 .full-width {
   width: 100%;
-  min-width: 400px;
+  min-width: 25rem;
 }
 
 textarea {

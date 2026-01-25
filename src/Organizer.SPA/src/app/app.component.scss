@@ -1,102 +1,106 @@
 @use "./variable" as *;
 
-#loader-placeholder{
-    height: 5px;
+// ============================================
+// App Root Component
+// ============================================
+
+#loader-placeholder {
+  height: $spacing-xs;
 }
 
+// --- Navigation Header ---
 .header {
-    height: 20px;
-    text-align: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0;
+  height: 1.25rem;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0;
 }
 
 .nav-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    color: var(--appMenuLinkColor);
-    text-decoration: none;
-    cursor: pointer;
-    font-size: 14px;
-    transition: opacity 0.2s ease;
-    
-    &:hover {
-        opacity: 0.7;
-    }
-    
-    &.active {
-        font-weight: 600;
-        text-decoration: underline;
-    }
-    
-    .material-icons {
-        font-family: 'Material Icons' !important;
-        font-weight: normal;
-        font-style: normal;
-        font-size: 16px;
-        line-height: 1;
-        text-transform: none;
-        letter-spacing: normal;
-        word-wrap: normal;
-        white-space: nowrap;
-        direction: ltr;
-        -webkit-font-smoothing: antialiased;
-        text-rendering: optimizeLegibility;
-        -moz-osx-font-smoothing: grayscale;
-        font-feature-settings: 'liga';
-    }
+  display: inline-flex;
+  align-items: center;
+  gap: $spacing-xs;
+  color: var(--appMenuLinkColor);
+  text-decoration: none;
+  cursor: pointer;
+  font-size: 0.875rem;
+  transition: opacity 0.2s ease;
+
+  &:hover {
+    opacity: 0.7;
+  }
+
+  &.active {
+    font-weight: 600;
+    text-decoration: underline;
+  }
+
+  .material-icons {
+    font-family: 'Material Icons' !important;
+    font-weight: normal;
+    font-style: normal;
+    font-size: 1rem;
+    line-height: 1;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    white-space: nowrap;
+    direction: ltr;
+    -webkit-font-smoothing: antialiased;
+    text-rendering: optimizeLegibility;
+    -moz-osx-font-smoothing: grayscale;
+    font-feature-settings: 'liga';
+  }
 }
 
 .separator {
-    color: var(--appMenuLinkColor);
-    margin: 0 6px;
-    opacity: 0.5;
+  color: var(--appMenuLinkColor);
+  margin: 0 $spacing-sm;
+  opacity: 0.5;
 }
 
 .nav-text {
-    display: inline;
+  display: inline;
 }
 
-// Mobile: icons only with compact touch-friendly targets
-@media (max-width: 600px) {
-    .header {
-        height: 44px;
-        padding: 0;
-    }
-    
-    .nav-text {
-        display: none;
-    }
-    
-    .separator {
-        display: none;
-    }
-    
-    .nav-link {
-        padding: 8px 10px;
-        border-radius: 6px;
-        min-width: 44px;
-        min-height: 44px;
-        justify-content: center;
-        
-        &:active {
-            background: var(--navItemHoverBg, rgba(128, 128, 128, 0.2));
-        }
-        
-        .material-icons {
-            font-size: 20px;
-        }
-    }
+// --- Theme Wrapper ---
+.theme-wrapper {
+  height: 100%;
+  margin: 0 1% 0 1%;
 }
 
-*{
-    font-family: "Segoe UI";
+// --- Global Font ---
+* {
+  @include font-primary;
 }
 
-.theme-wrapper{
-    height: 100%;
-    margin: 0 1% 0 1%;
+// --- Mobile Navigation (< 600px) ---
+@media (max-width: 37.5rem) {
+  .header {
+    height: $min-touch-target;
+    padding: 0;
+  }
+
+  .nav-text,
+  .separator {
+    display: none;
+  }
+
+  .nav-link {
+    padding: $spacing-sm 0.625rem;
+    border-radius: $spacing-sm;
+    min-width: $min-touch-target;
+    min-height: $min-touch-target;
+    justify-content: center;
+
+    &:active {
+      background: var(--navItemHoverBg, rgba(128, 128, 128, 0.2));
+    }
+
+    .material-icons {
+      font-size: 1.25rem;
+    }
+  }
 }
