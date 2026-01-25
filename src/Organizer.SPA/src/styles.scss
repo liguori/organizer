@@ -37,16 +37,15 @@ body,html
 
 .filters-header{
     display: flex;
+    flex-wrap: wrap;
     align-items: center;
     flex: 0 1 auto;
     padding: 5px 0px;
-    gap: 4px;
 }
 
 // Responsive filters on mobile
 @media (max-width: 767px) {
     .filters-header {
-        flex-wrap: wrap; // Only wrap on mobile
         padding: 8px 4px; // Increased padding for more height
         min-height: 56px; // Ensure minimum height for proper rendering
         overflow-x: visible;
