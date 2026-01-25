@@ -282,7 +282,12 @@
 }
 
 // Mobile: show empty cells to fill complete weeks (7 days)
-// (removed the display: none so weeks align properly)
+// But hide excess empty cells beyond 6 weeks (42 cells) that are only for desktop's 37-column layout
+@media (max-width: 767px) {
+    .day:nth-child(n+43).no-day {
+        display: none;
+    }
+}
 
 .today{
     background-color: var(--calendarTodayColor);
