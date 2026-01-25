@@ -71,6 +71,57 @@ body,html
     overflow: hidden !important;
 }
 
+// Mat-dialog: adapt to content but constrain to viewport
+.cdk-overlay-pane.mat-mdc-dialog-panel {
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+}
+
+.mat-mdc-dialog-container {
+    max-width: 90vw !important;
+    max-height: 90vh !important;
+}
+
+// Make mat-dialog fullscreen on mobile
+@media (max-width: 767px) {
+    .cdk-overlay-pane.mat-mdc-dialog-panel {
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        overflow: hidden !important;
+    }
+
+    .mat-mdc-dialog-container {
+        max-width: 100vw !important;
+        max-height: 100vh !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0 !important;
+        overflow: hidden !important;
+    }
+
+    .mat-mdc-dialog-surface {
+        border-radius: 0 !important;
+        overflow: hidden !important;
+        height: 100% !important;
+    }
+
+    .mdc-dialog__container {
+        overflow: hidden !important;
+    }
+
+    .mdc-dialog__surface {
+        overflow: hidden !important;
+    }
+
+    .mat-mdc-dialog-content {
+        overflow-y: auto !important;
+        overflow-x: hidden !important;
+        max-height: calc(100vh - 140px) !important;
+    }
+}
+
 .form-field-date{
     width: 160px;
 }

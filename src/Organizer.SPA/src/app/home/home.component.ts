@@ -214,7 +214,6 @@ export class HomeComponent implements OnInit {
   showAppointmentSummaryDialog(app: AppointmentExtraInfo) {
     const dialogRef = this.dialog.open(AppointmentSummaryComponent, {
       width: '700px',
-      height: '300px',
       data: {
         route: this.route,
         currentAppointment: app,
@@ -232,7 +231,6 @@ export class HomeComponent implements OnInit {
     }
     const dialogRef = this.dialog.open(CalendarEditorComponent, {
       width: '50vw',
-      height: '50vh',
       data: {
         route: this.route,
         currentCalendar: calendarToEdit,
@@ -249,7 +247,6 @@ export class HomeComponent implements OnInit {
   showAppointmentEditorDialog() {
     const dialogRef = this.dialog.open(AppointmentEditorComponent, {
       width: '65vw',
-      height: '55vh',
       data: {
         route: this.route,
         currentAppointment: this.currentAppointment,
@@ -268,7 +265,6 @@ export class HomeComponent implements OnInit {
   showDialogWarning() {
     const dialogRef = this.dialog.open(WarningResumeComponent, {
       width: '700px',
-      height: '400px',
       data: {
         warnings: this.getWarnings()
       }

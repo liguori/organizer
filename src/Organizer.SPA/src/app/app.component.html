@@ -6,11 +6,31 @@
 </div>
 <div class="theme-wrapper">
   <div class="header">
-    <a [routerLink]="getCalendarCurrentYearUrl()">Calendar</a> | <a
-  [routerLink]="getCustomerCurrentYearUrl()">Customer</a> | <a
-[routerLink]="getUtilizationCurrentYearUrl()">Utilization</a> | <a (click)="toggleDarkLight()">Change
-Theme</a> | <a [href]="apiBackupUrl">Backup</a>
-</div>
+    <a class="nav-link" [routerLink]="getCalendarCurrentYearUrl()" routerLinkActive="active">
+      <span class="material-icons">event</span>
+      <span class="nav-text">Calendar</span>
+    </a>
+    <span class="separator">|</span>
+    <a class="nav-link" [routerLink]="getCustomerCurrentYearUrl()" routerLinkActive="active">
+      <span class="material-icons">people</span>
+      <span class="nav-text">Customer</span>
+    </a>
+    <span class="separator">|</span>
+    <a class="nav-link" [routerLink]="getUtilizationCurrentYearUrl()" routerLinkActive="active">
+      <span class="material-icons">assessment</span>
+      <span class="nav-text">Utilization</span>
+    </a>
+    <span class="separator">|</span>
+    <a class="nav-link" (click)="toggleDarkLight()">
+      <span class="material-icons">{{ themeToggle ? 'wb_sunny' : 'brightness_3' }}</span>
+      <span class="nav-text">Theme</span>
+    </a>
+    <span class="separator">|</span>
+    <a class="nav-link" [href]="apiBackupUrl">
+      <span class="material-icons">cloud_download</span>
+      <span class="nav-text">Backup</span>
+    </a>
+  </div>
 
-<router-outlet></router-outlet>
+  <router-outlet></router-outlet>
 </div>

@@ -18,6 +18,11 @@ export class ThemeVariables {
         calendarUtilsColor: "#e3ffdd",
         calendarUtilsTextColor: "#000000",
         selectionColor: "#0288d1",
+        // Navigation bar theme variables
+        navContainerBg: "rgba(0, 0, 0, 0.04)",
+        navItemHoverBg: "rgba(0, 0, 0, 0.08)",
+        navItemActiveBg: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
+        navItemActiveColor: "#ffffff",
     }
 
     static darkTheme = {
@@ -38,5 +43,10 @@ export class ThemeVariables {
         calendarUtilsColor: "#2d2e2d",
         calendarUtilsTextColor: "#ffffff",
         selectionColor: "#ff9800",
+        // Navigation bar theme variables
+        navContainerBg: "rgba(255, 255, 255, 0.08)",
+        navItemHoverBg: "rgba(255, 255, 255, 0.12)",
+        navItemActiveBg: "linear-gradient(135deg, #f093fb 0%, #f5576c 100%)",
+        navItemActiveColor: "#ffffff",
     }
 }

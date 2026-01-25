@@ -4,15 +4,93 @@
     height: 5px;
 }
 
-.header{
+.header {
     height: 20px;
     text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
 }
 
-.header a{
+.nav-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
     color: var(--appMenuLinkColor);
-    text-decoration: underline;
+    text-decoration: none;
     cursor: pointer;
+    font-size: 14px;
+    transition: opacity 0.2s ease;
+    
+    &:hover {
+        opacity: 0.7;
+    }
+    
+    &.active {
+        font-weight: 600;
+        text-decoration: underline;
+    }
+    
+    .material-icons {
+        font-family: 'Material Icons' !important;
+        font-weight: normal;
+        font-style: normal;
+        font-size: 16px;
+        line-height: 1;
+        text-transform: none;
+        letter-spacing: normal;
+        word-wrap: normal;
+        white-space: nowrap;
+        direction: ltr;
+        -webkit-font-smoothing: antialiased;
+        text-rendering: optimizeLegibility;
+        -moz-osx-font-smoothing: grayscale;
+        font-feature-settings: 'liga';
+    }
+}
+
+.separator {
+    color: var(--appMenuLinkColor);
+    margin: 0 6px;
+    opacity: 0.5;
+}
+
+.nav-text {
+    display: inline;
+}
+
+// Mobile: icons only with larger touch targets
+@media (max-width: 600px) {
+    .header {
+        height: auto;
+        padding: 8px 0;
+    }
+    
+    .nav-text {
+        display: none;
+    }
+    
+    .separator {
+        margin: 0 2px;
+        font-size: 12px;
+    }
+    
+    .nav-link {
+        padding: 12px 14px;
+        border-radius: 8px;
+        min-width: 44px;
+        min-height: 44px;
+        justify-content: center;
+        
+        &:active {
+            background: var(--navItemHoverBg, rgba(128, 128, 128, 0.2));
+        }
+        
+        .material-icons {
+            font-size: 22px;
+        }
+    }
 }
 
 *{
