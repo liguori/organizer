@@ -26,7 +26,9 @@ A flexible appointment management system with support for multiple deployment mo
 | **Debug API in VS Code** | Press F5 → "Organizer.API .NET Launch (web)" |
 | **Debug SPA in VS Code** | Press F5 → "Organizer.SPA Launch (web)" |
 
----## Tech Stack
+---
+
+## Tech Stack
 
 | Layer | Technology |
 |-------|------------|
