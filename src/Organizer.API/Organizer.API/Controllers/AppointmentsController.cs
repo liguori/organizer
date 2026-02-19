@@ -45,7 +45,7 @@ namespace Organizer.API.Controllers
             var databasePath = _configuration["DatabasePath"];
             if (string.IsNullOrEmpty(databasePath))
             {
-                return StatusCode(500, "Database path is not configured.");
+                return StatusCode(500, "Backup is not available.");
             }
 
             using var stream = new FileStream(databasePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
