@@ -30,7 +30,7 @@
   "private": true,
   "devDependencies": {
     "electron": "^40.0.0",
-    "electron-builder": "^26.0.0",
+    "electron-builder": "^26.7.0",
     "gulp": "^5.0.0",
     "gulp-replace": "^1.1.4"
   },
