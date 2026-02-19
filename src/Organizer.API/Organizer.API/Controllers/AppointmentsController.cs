@@ -204,6 +204,8 @@ namespace Organizer.API.Controllers
             {
                 var customerId = currentAppointmentToSetProjectColor.CustomerID.Value;
                 
+                // Only set project colors if the customer exists in both dictionaries.
+                // If a customer has projects but no ProjectColors, we skip color assignment.
                 if (customerProjectsDict.TryGetValue(customerId, out var currentCustomerProjects) &&
                     customerColorsDict.TryGetValue(customerId, out var currentCustomerColors))
                 {
