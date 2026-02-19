@@ -38,6 +38,8 @@ namespace Organizer.API.Services
             {
                 if (!year.HasValue) return;
                 var upstreamApi = _configuration[ConfigurationValues.UpstreamApiUrl];
+                if (string.IsNullOrWhiteSpace(upstreamApi)) return;
+                
                 var httpClient = _httpClientFactory.CreateClient();
 
                 if (_configuration.GetValue<bool>(ConfigurationValues.UpstreamApiCustomTokenInput))
