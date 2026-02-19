@@ -6,7 +6,9 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Logging;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Transactions;
@@ -23,14 +25,16 @@ namespace Organizer.API.Controllers
         private readonly IWarningChecker _warningChecker;
         private readonly IUpstreamApiAppointments _upstreamAppointments;
         public readonly IConfiguration _configuration;
+        private readonly ILogger<AppointmentsController> _logger;
 
-        public AppointmentsController(OrganizerContext context, IMapper mapper, IWarningChecker warningChecker, IConfiguration configuration, IUpstreamApiAppointments upstreamAppointment)
+        public AppointmentsController(OrganizerContext context, IMapper mapper, IWarningChecker warningChecker, IConfiguration configuration, IUpstreamApiAppointments upstreamAppointment, ILogger<AppointmentsController> logger)
         {
             _context = context;
             _mapper = mapper;
             _warningChecker = warningChecker;
             _configuration = configuration;
             _upstreamAppointments = upstreamAppointment;
+            _logger = logger;
         }
 
         // GET: api/Appointments/Backup
@@ -44,6 +48,8 @@ namespace Organizer.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, CalendarDisplay display, [FromHeader] string upstreamCustomTokenInput)
         {
+            var stopwatch = Stopwatch.StartNew();
+            
             var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
             if (display == CalendarDisplay.Event || (display == CalendarDisplay.Calendar && !string.IsNullOrWhiteSpace(calendarName)))
@@ -53,11 +59,36 @@ namespace Organizer.API.Controllers
                 else
                     appointment = appointment.Where(x => x.CalendarName == "" || x.CalendarName == null);
             }
+            
+            var dbQueryTime = Stopwatch.StartNew();
             var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
+            dbQueryTime.Stop();
+            _logger.LogInformation("DB query time: {DbQueryMs}ms for {AppointmentCount} appointments", dbQueryTime.ElapsedMilliseconds, appList.Count);
+            
+            var mapTime = Stopwatch.StartNew();
             var appointmentList = _mapper.Map<List<AppointmentExtraInfo>>(appList);
+            mapTime.Stop();
+            _logger.LogInformation("Mapping time: {MapMs}ms", mapTime.ElapsedMilliseconds);
+            
+            var warningTime = Stopwatch.StartNew();
             _warningChecker.PerformCheck(appointmentList);
+            warningTime.Stop();
+            _logger.LogInformation("Warning check time: {WarningMs}ms", warningTime.ElapsedMilliseconds);
+            
+            var upstreamTime = Stopwatch.StartNew();
             await _upstreamAppointments.AddUpstreamAppointmentsAsync(appointmentList, year, calendarName, display, upstreamCustomTokenInput);
+            upstreamTime.Stop();
+            _logger.LogInformation("Upstream appointments time: {UpstreamMs}ms", upstreamTime.ElapsedMilliseconds);
+            
+            var colorTime = Stopwatch.StartNew();
             SetProjectColor(appointmentList);
+            colorTime.Stop();
+            _logger.LogInformation("SetProjectColor time: {ColorMs}ms", colorTime.ElapsedMilliseconds);
+            
+            stopwatch.Stop();
+            _logger.LogInformation("Total GetAppointments time: {TotalMs}ms for year={Year}, calendarName={CalendarName}, display={Display}", 
+                stopwatch.ElapsedMilliseconds, year, calendarName, display);
+            
             return appointmentList;
         }
 
@@ -150,28 +181,40 @@ namespace Organizer.API.Controllers
 
         void SetProjectColor(List<AppointmentExtraInfo> appList)
         {
-            var customerProjects = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue)
-                                      .Select(x => new { CustomerID = x.CustomerID.Value, x.Project })
-                                      .GroupBy(x => new { x.CustomerID, x.Project })
-                                      .GroupBy(x => x.Key.CustomerID);
+            // Pre-compute customer projects and colors to avoid repeated LINQ queries in the loop
+            var customerProjectsDict = appList
+                .Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue)
+                .GroupBy(x => x.CustomerID.Value)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.Select(x => x.Project).Distinct().ToList()
+                );
 
-
-            var customerColors = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue)
-                                      .Select(x => new { x.CustomerID, Colors = x?.Customer?.ProjectColors?.Split(";") })
-                                      .GroupBy(x => x.CustomerID);
+            var customerColorsDict = appList
+                .Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue && x.Customer?.ProjectColors != null)
+                .GroupBy(x => x.CustomerID.Value)
+                .ToDictionary(
+                    g => g.Key,
+                    g => g.First().Customer?.ProjectColors?.Split(";")
+                );
 
             var appListToSetProjectColors = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue);
+            
             foreach (var currentAppointmentToSetProjectColor in appListToSetProjectColors)
             {
-                var currentCustomerProjects = customerProjects.Where(x => x.Key == currentAppointmentToSetProjectColor.CustomerID).First().ToList().Select(x => x.Key.Project).ToList();
-                var currentCustomerColors = customerColors.Where(x => x.Key == currentAppointmentToSetProjectColor.CustomerID).First().ToList().Select(x => x.Colors).ToList().First();
-
-                for (int i = 0; i < currentCustomerProjects.Count; i++)
+                var customerId = currentAppointmentToSetProjectColor.CustomerID.Value;
+                
+                if (customerProjectsDict.TryGetValue(customerId, out var currentCustomerProjects) &&
+                    customerColorsDict.TryGetValue(customerId, out var currentCustomerColors))
                 {
-                    if (currentAppointmentToSetProjectColor.Project == currentCustomerProjects[i] && currentCustomerColors?.Length > i)
+                    for (int i = 0; i < currentCustomerProjects.Count; i++)
                     {
-                        currentAppointmentToSetProjectColor.ProjectColor = currentCustomerColors[i];
-                        break;
+                        if (currentAppointmentToSetProjectColor.Project == currentCustomerProjects[i] && 
+                            currentCustomerColors?.Length > i)
+                        {
+                            currentAppointmentToSetProjectColor.ProjectColor = currentCustomerColors[i];
+                            break;
+                        }
                     }
                 }
             }
