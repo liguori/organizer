@@ -195,7 +195,7 @@ namespace Organizer.API.Controllers
                 .GroupBy(x => x.CustomerID.Value)
                 .ToDictionary(
                     g => g.Key,
-                    g => g.First().Customer?.ProjectColors?.Split(";")
+                    g => g.First().Customer.ProjectColors.Split(";")
                 );
 
             var appListToSetProjectColors = appList.Where(x => !string.IsNullOrWhiteSpace(x.Project) && x.CustomerID.HasValue);
@@ -210,7 +210,7 @@ namespace Organizer.API.Controllers
                     for (int i = 0; i < currentCustomerProjects.Count; i++)
                     {
                         if (currentAppointmentToSetProjectColor.Project == currentCustomerProjects[i] && 
-                            currentCustomerColors?.Length > i)
+                            currentCustomerColors.Length > i)
                         {
                             currentAppointmentToSetProjectColor.ProjectColor = currentCustomerColors[i];
                             break;
