@@ -11,6 +11,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using System.IO;
 using System.Transactions;
 
 namespace Organizer.API.Controllers
@@ -41,7 +42,16 @@ namespace Organizer.API.Controllers
         [HttpGet("Backup")]
         public async Task<ActionResult> GetBackup()
         {
-            return File(await System.IO.File.ReadAllBytesAsync(_configuration["DatabasePath"]), "application/octet-stream", "Database.db");
+            var databasePath = _configuration["DatabasePath"];
+            if (string.IsNullOrEmpty(databasePath))
+            {
+                return StatusCode(500, "Database path is not configured.");
+            }
+
+            using var stream = new FileStream(databasePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+            using var memoryStream = new MemoryStream();
+            await stream.CopyToAsync(memoryStream);
+            return File(memoryStream.ToArray(), "application/octet-stream", "Database.db");
         }
 
         // GET: api/Appointments
