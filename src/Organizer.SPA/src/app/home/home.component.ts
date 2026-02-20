@@ -413,19 +413,23 @@ export class HomeComponent implements OnInit {
   toggleDateSelection(date: Date) {
     // Use local date components to avoid timezone conversion issues
     const dateKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
-    if (this.selectedDates.has(dateKey)) {
-      this.selectedDates.delete(dateKey);
+    const newSet = new Set(this.selectedDates);
+    if (newSet.has(dateKey)) {
+      newSet.delete(dateKey);
     } else {
-      this.selectedDates.add(dateKey);
+      newSet.add(dateKey);
     }
+    this.selectedDates = newSet;
   }
 
   toggleAppointmentSelection(appointmentId: number) {
-    if (this.selectedAppointments.has(appointmentId)) {
-      this.selectedAppointments.delete(appointmentId);
+    const newSet = new Set(this.selectedAppointments);
+    if (newSet.has(appointmentId)) {
+      newSet.delete(appointmentId);
     } else {
-      this.selectedAppointments.add(appointmentId);
+      newSet.add(appointmentId);
     }
+    this.selectedAppointments = newSet;
   }
 
   clearSelection() {

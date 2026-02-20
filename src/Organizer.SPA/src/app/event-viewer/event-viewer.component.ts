@@ -17,6 +17,7 @@ export class EventViewerComponent implements OnInit {
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private longPressActivated = false;
+  private preventNextClick = false;
   private touchStartX = 0;
   private touchStartY = 0;
   private readonly longPressDuration = 500; // milliseconds
@@ -48,12 +49,17 @@ export class EventViewerComponent implements OnInit {
 
   eventClick(app: AppointmentExtraInfo, event: MouseEvent) {
     event.stopPropagation(); // Prevent day click event
+    if (this.preventNextClick) {
+      this.preventNextClick = false;
+      return;
+    }
     this.eventSelected.emit({appointment: app, event: event});
   }
 
   onTouchStart(app: AppointmentExtraInfo, event: TouchEvent) {
     event.stopPropagation();
     this.longPressActivated = false;
+    this.preventNextClick = false;
     if (event.touches.length > 0) {
       this.touchStartX = event.touches[0].clientX;
       this.touchStartY = event.touches[0].clientY;
@@ -77,6 +83,7 @@ export class EventViewerComponent implements OnInit {
     }
     if (this.longPressActivated) {
       event.preventDefault(); // Prevent click from firing after long press
+      this.preventNextClick = true; // Fallback guard for browsers where preventDefault doesn't suppress click
       this.longPressActivated = false;
     }
   }
