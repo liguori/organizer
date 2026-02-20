@@ -20,7 +20,11 @@ export class CalendarComponent implements OnInit, OnDestroy {
   readonly MaxTileMonthView: number = 7;
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
+  private longPressActivated = false;
+  private touchStartX = 0;
+  private touchStartY = 0;
   private readonly longPressDuration = 500; // milliseconds
+  private readonly longPressMoveThreshold = 10; // pixels
   private resizeTimeout: ReturnType<typeof setTimeout> | undefined;
 
   @Input()
@@ -94,8 +98,14 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   onTouchStart(currentDay: CalendarDay, event: TouchEvent) {
+    this.longPressActivated = false;
+    if (event.touches.length > 0) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+    }
     this.longPressTimer = setTimeout(() => {
       if (currentDay.date != null) {
+        this.longPressActivated = true;
         // Simulate CTRL+Click for long press
         const mouseEvent = new MouseEvent('click', {
           ctrlKey: true,
@@ -111,12 +121,21 @@ export class CalendarComponent implements OnInit, OnDestroy {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
+    if (this.longPressActivated) {
+      event.preventDefault(); // Prevent click from firing after long press
+      this.longPressActivated = false;
+    }
   }
 
   onTouchMove(event: TouchEvent) {
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = undefined;
+    if (this.longPressTimer && event.touches.length > 0) {
+      const deltaX = Math.abs(event.touches[0].clientX - this.touchStartX);
+      const deltaY = Math.abs(event.touches[0].clientY - this.touchStartY);
+      if (deltaX > this.longPressMoveThreshold || deltaY > this.longPressMoveThreshold) {
+        clearTimeout(this.longPressTimer);
+        this.longPressTimer = undefined;
+        this.longPressActivated = false;
+      }
     }
   }
 

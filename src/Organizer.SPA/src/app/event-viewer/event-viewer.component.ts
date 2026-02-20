@@ -16,7 +16,11 @@ export class EventViewerComponent implements OnInit {
   calendars: Array<Calendar>;
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
+  private longPressActivated = false;
+  private touchStartX = 0;
+  private touchStartY = 0;
   private readonly longPressDuration = 500; // milliseconds
+  private readonly longPressMoveThreshold = 10; // pixels
 
   constructor(
     private route: ActivatedRoute
@@ -49,7 +53,13 @@ export class EventViewerComponent implements OnInit {
 
   onTouchStart(app: AppointmentExtraInfo, event: TouchEvent) {
     event.stopPropagation();
+    this.longPressActivated = false;
+    if (event.touches.length > 0) {
+      this.touchStartX = event.touches[0].clientX;
+      this.touchStartY = event.touches[0].clientY;
+    }
     this.longPressTimer = setTimeout(() => {
+      this.longPressActivated = true;
       // Simulate CTRL+Click for long press
       const mouseEvent = new MouseEvent('click', {
         ctrlKey: true,
@@ -65,13 +75,22 @@ export class EventViewerComponent implements OnInit {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
+    if (this.longPressActivated) {
+      event.preventDefault(); // Prevent click from firing after long press
+      this.longPressActivated = false;
+    }
   }
 
   onTouchMove(event: TouchEvent) {
     event.stopPropagation();
-    if (this.longPressTimer) {
-      clearTimeout(this.longPressTimer);
-      this.longPressTimer = undefined;
+    if (this.longPressTimer && event.touches.length > 0) {
+      const deltaX = Math.abs(event.touches[0].clientX - this.touchStartX);
+      const deltaY = Math.abs(event.touches[0].clientY - this.touchStartY);
+      if (deltaX > this.longPressMoveThreshold || deltaY > this.longPressMoveThreshold) {
+        clearTimeout(this.longPressTimer);
+        this.longPressTimer = undefined;
+        this.longPressActivated = false;
+      }
     }
   }
 
