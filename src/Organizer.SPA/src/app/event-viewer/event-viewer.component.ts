@@ -17,6 +17,8 @@ export class EventViewerComponent implements OnInit {
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private readonly longPressDuration = 500; // milliseconds
+  private longPressTriggered = false;
+  private touchMoved = false;
 
   constructor(
     private route: ActivatedRoute
@@ -49,7 +51,12 @@ export class EventViewerComponent implements OnInit {
 
   onTouchStart(app: AppointmentExtraInfo, event: TouchEvent) {
     event.stopPropagation();
+    event.preventDefault(); // Prevent browser native long press (context menu, iOS callout)
+    this.longPressTriggered = false;
+    this.touchMoved = false;
     this.longPressTimer = setTimeout(() => {
+      this.longPressTriggered = true;
+      this.longPressTimer = undefined;
       // Simulate CTRL+Click for long press
       const mouseEvent = new MouseEvent('click', {
         ctrlKey: true,
@@ -59,20 +66,39 @@ export class EventViewerComponent implements OnInit {
     }, this.longPressDuration);
   }
 
-  onTouchEnd(event: TouchEvent) {
+  onTouchEnd(app: AppointmentExtraInfo, event: TouchEvent) {
     event.stopPropagation();
+    const wasLongPress = this.longPressTriggered;
+    const hasMoved = this.touchMoved;
+    if (this.longPressTimer) {
+      clearTimeout(this.longPressTimer);
+      this.longPressTimer = undefined;
+    }
+    this.longPressTriggered = false;
+    this.touchMoved = false;
+    if (!wasLongPress && !hasMoved) {
+      // Short tap: fire regular click since preventDefault suppresses synthesized click
+      const mouseEvent = new MouseEvent('click', { bubbles: true });
+      this.eventClick(app, mouseEvent);
+    }
+  }
+
+  onTouchMove(event: TouchEvent) {
+    event.stopPropagation();
+    this.touchMoved = true;
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
   }
 
-  onTouchMove(event: TouchEvent) {
-    event.stopPropagation();
+  onTouchCancel(event: TouchEvent) {
     if (this.longPressTimer) {
       clearTimeout(this.longPressTimer);
       this.longPressTimer = undefined;
     }
+    this.longPressTriggered = false;
+    this.touchMoved = false;
   }
 
   isAppointmentSelected(appointmentId: number): boolean {
