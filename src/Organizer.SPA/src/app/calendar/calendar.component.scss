@@ -109,6 +109,9 @@
   width: $day-width-month;
   min-width: $min-touch-target;
   height: 3.75rem;
+  -webkit-touch-callout: none; // Prevent iOS callout on long press
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 .day-month {
