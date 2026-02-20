@@ -21,6 +21,7 @@ import { InputDialogComponent, InputDialogData } from '../input-dialog/input-dia
 import { MobileFiltersComponent } from '../mobile-filters/mobile-filters.component';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { CalendarResolver } from '../resolvers/calendar-resolver.service';
 
 @Component({
     selector: 'app-home',
@@ -61,6 +62,7 @@ export class HomeComponent implements OnInit {
     private sanitized: DomSanitizer,
     private customDialog: CustomDialogService,
     private apiAppointments: AppointmentsService,
+    private calendarResolver: CalendarResolver,
     public dialog: MatDialog,
     private bottomSheet: MatBottomSheet) {
     router.events.pipe(
@@ -240,6 +242,7 @@ export class HomeComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       this.selectedCalendar = result.calendarName;
       this.persistUiFilterInLocalStorage();
+      this.calendarResolver.invalidate();
       this.router.navigate(['calendar/', this.selectedYear]);
     });
   }
@@ -348,6 +351,7 @@ export class HomeComponent implements OnInit {
     if (confirm("Do you want to delete the calendar: " + calendarName + "?")) {
       this.apiAppointments.apiAppointmentsCalendarCalendarNameDelete(calendarName).subscribe(x => {
         if (localStorage.getItem('SelectedCalendar') == calendarName) localStorage.removeItem("SelectedCalendar");
+        this.calendarResolver.invalidate();
         this.router.navigate(['calendar/', this.selectedYear]);
       });
     }

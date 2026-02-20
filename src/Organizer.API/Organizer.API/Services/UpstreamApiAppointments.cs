@@ -10,6 +10,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Net.Http.Json;
+using System.Threading;
 using System.Threading.Tasks;
 
 namespace Organizer.API.Services
@@ -41,6 +42,7 @@ namespace Organizer.API.Services
                 if (string.IsNullOrWhiteSpace(upstreamApi)) return;
                 
                 var httpClient = _httpClientFactory.CreateClient();
+                httpClient.Timeout = TimeSpan.FromSeconds(10);
 
                 if (_configuration.GetValue<bool>(ConfigurationValues.UpstreamApiCustomTokenInput))
                 {
@@ -51,7 +53,8 @@ namespace Organizer.API.Services
                     httpClient.DefaultRequestHeaders.Add(UpstreamApiKeyHeaderName, _configuration[ConfigurationValues.UpstreamApiKey]);
                 }
 
-                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}&display={display}");
+                using var cts = new CancellationTokenSource(TimeSpan.FromSeconds(10));
+                var res = await httpClient.GetFromJsonAsync<IEnumerable<UpstreamAppointment>>(upstreamApi + $"?year={year}&calendarName={calendarName}&display={display}", cts.Token);
 
                 var customers = await _context.Customers.ToListAsync();
                 var colorCombination = new Dictionary<string, (string color, string textColor)>();

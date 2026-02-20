@@ -1,4 +1,4 @@
-const { app, BrowserWindow } = require('electron')
+const { app, BrowserWindow, net } = require('electron')
 const path = require('path')
 const url = require('url')
 const { setupTitlebar, attachTitlebarToWindow } = require('custom-electron-titlebar/main')
@@ -75,6 +75,29 @@ app.on('activate', function () {
 
 var apiProcess = null;
 
+function waitForApi(apiUrl, retries, delay) {
+  return new Promise((resolve) => {
+    function check(attempt) {
+      if (attempt >= retries) {
+        writeLog('API readiness check: max retries reached, proceeding anyway');
+        resolve();
+        return;
+      }
+      const request = net.request(apiUrl);
+      request.on('response', () => {
+        writeLog('API is ready');
+        resolve();
+      });
+      request.on('error', () => {
+        writeLog(`API not ready yet (attempt ${attempt + 1}/${retries}), retrying in ${delay}ms...`);
+        setTimeout(() => check(attempt + 1), delay);
+      });
+      request.end();
+    }
+    check(0);
+  });
+}
+
 function initialize() {
   var proc = require('child_process').spawn;
   //  run server
@@ -84,6 +107,10 @@ function initialize() {
 
   apiProcess.stdout.on('data', (data) => {
     writeLog(`stdout: ${data}`);
+  });
+
+  // Wait for the API to be ready before creating the window
+  waitForApi('http://localhost:5541/api/Appointments/calendars', 30, 1000).then(() => {
     if (mainWindow == null) {
       createWindow();
     }
