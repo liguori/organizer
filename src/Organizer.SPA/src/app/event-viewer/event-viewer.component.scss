@@ -11,6 +11,7 @@
   @include font-primary;
   @include flex-center;
   overflow: hidden;
+  user-select: none;
 
   &:hover {
     opacity: 0.7;
