@@ -16,3 +16,6 @@
 # .NET Build artifacts
 **/bin/
 **/obj/
+
+**/node_modules/
+**/dist/
