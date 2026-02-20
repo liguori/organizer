@@ -28,7 +28,7 @@
       <div class="util-header">Ut %</div>
     }
   </div>
-  @for (currentY of getYValues(); track currentY) {
+  @for (currentY of getYValues(); track currentY.value) {
     <div [class.row-month]="currentView== calendarView.Month"
       [class.row-year]="currentView== calendarView.Year" [ngClass]="{'month-selected' : isCurrentMonth(currentY) }">
       @if (currentView== calendarView.Year) {
