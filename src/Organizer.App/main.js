@@ -110,7 +110,7 @@ function initialize() {
   });
 
   // Wait for the API to be ready before creating the window
-  waitForApi('http://localhost:5541/api/Appointments/calendars?X-API-Key=dfneringersssjgeorjfweoejrfinej89r43jfjdscfju3j4iugjsiczncnncnvc', 30, 1000).then(() => {
+  waitForApi('http://localhost:5541/api/Appointments/calendars', 30, 1000).then(() => {
     if (mainWindow == null) {
       createWindow();
     }
