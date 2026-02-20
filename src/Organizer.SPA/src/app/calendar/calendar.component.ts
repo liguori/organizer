@@ -21,6 +21,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
   
   private longPressTimer: ReturnType<typeof setTimeout> | undefined;
   private longPressActivated = false;
+  private preventNextClick = false;
   private touchStartX = 0;
   private touchStartY = 0;
   private readonly longPressDuration = 500; // milliseconds
@@ -92,6 +93,10 @@ export class CalendarComponent implements OnInit, OnDestroy {
   }
 
   dayClicked(currentDay: CalendarDay, event: MouseEvent) {
+    if (this.preventNextClick) {
+      this.preventNextClick = false;
+      return;
+    }
     if (currentDay.date != null) {
       this.daySelected.emit({date: currentDay.date, event: event});
     }
@@ -99,6 +104,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
 
   onTouchStart(currentDay: CalendarDay, event: TouchEvent) {
     this.longPressActivated = false;
+    this.preventNextClick = false;
     if (event.touches.length > 0) {
       this.touchStartX = event.touches[0].clientX;
       this.touchStartY = event.touches[0].clientY;
@@ -123,6 +129,7 @@ export class CalendarComponent implements OnInit, OnDestroy {
     }
     if (this.longPressActivated) {
       event.preventDefault(); // Prevent click from firing after long press
+      this.preventNextClick = true; // Fallback guard for browsers where preventDefault doesn't suppress click
       this.longPressActivated = false;
     }
   }
