@@ -2,7 +2,7 @@ import { Component, OnInit, ChangeDetectionStrategy, ChangeDetectorRef, inject, 
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Router, ActivatedRoute, NavigationEnd } from '@angular/router';
 import { CustomersService, Customer, Appointment } from '../api/OrganizerApiClient';
-import { filter } from 'rxjs/operators';
+import { filter, switchMap } from 'rxjs/operators';
 
 @Component({
     selector: 'app-customer',
@@ -26,11 +26,10 @@ export class CustomerComponent implements OnInit {
     private cdr: ChangeDetectorRef) {
     router.events.pipe(
       filter(event => event instanceof NavigationEnd),
+      switchMap(() => this.customerService.apiCustomersGet()),
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe((event: NavigationEnd) => {
-      this.customerService.apiCustomersGet().subscribe(cus => {
-        this.customers = cus;
-      });
+    ).subscribe(cus => {
+      this.customers = cus;
       this.appointments = this.route.snapshot.data.appointments;
     });
     this.clearCustomerEditing();
