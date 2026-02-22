@@ -12,6 +12,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using System.IO;
+using System.Threading;
 using System.Transactions;
 
 namespace Organizer.API.Controllers
@@ -40,7 +41,7 @@ namespace Organizer.API.Controllers
 
         // GET: api/Appointments/Backup
         [HttpGet("Backup")]
-        public async Task<ActionResult> GetBackup()
+        public async Task<ActionResult> GetBackup(CancellationToken cancellationToken)
         {
             var databasePath = _configuration["DatabasePath"];
             if (string.IsNullOrEmpty(databasePath))
@@ -50,13 +51,13 @@ namespace Organizer.API.Controllers
 
             using var stream = new FileStream(databasePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
             using var memoryStream = new MemoryStream();
-            await stream.CopyToAsync(memoryStream);
+            await stream.CopyToAsync(memoryStream, cancellationToken);
             return File(memoryStream.ToArray(), "application/octet-stream", "Database.db");
         }
 
         // GET: api/Appointments
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, CalendarDisplay display, [FromHeader] string upstreamCustomTokenInput)
+        public async Task<ActionResult<IEnumerable<AppointmentExtraInfo>>> GetAppointments(int? year, string calendarName, CalendarDisplay display, [FromHeader] string upstreamCustomTokenInput, CancellationToken cancellationToken)
         {
             var stopwatch = Stopwatch.StartNew();
             
@@ -71,7 +72,7 @@ namespace Organizer.API.Controllers
             }
             
             var dbQueryTime = Stopwatch.StartNew();
-            var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync();
+            var appList = await appointment.OrderBy(x => x.StartDate).ToListAsync(cancellationToken);
             dbQueryTime.Stop();
             _logger.LogInformation("DB query time: {DbQueryMs}ms for {AppointmentCount} appointments", dbQueryTime.ElapsedMilliseconds, appList.Count);
             
@@ -104,16 +105,16 @@ namespace Organizer.API.Controllers
 
         // GET: api/Appointments/calendars
         [HttpGet("calendars")]
-        public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars()
+        public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars(CancellationToken cancellationToken)
         {
-            return await _context.Calendars.ToListAsync();
+            return await _context.Calendars.ToListAsync(cancellationToken);
         }
 
         // GET: api/Appointments/calendar/calendarName
         [HttpGet("calendar/{calendarName}")]
-        public async Task<ActionResult<Calendar>> GetAppointment(string calendarName)
+        public async Task<ActionResult<Calendar>> GetAppointment(string calendarName, CancellationToken cancellationToken)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName, cancellationToken);
 
             if (calendar == null)
             {
@@ -126,36 +127,36 @@ namespace Organizer.API.Controllers
 
         // DELETE: api/calendar/{calendarname}
         [HttpDelete("calendar/{calendarName}")]
-        public async Task<ActionResult<Calendar>> DeleteCalendar(string calendarName)
+        public async Task<ActionResult<Calendar>> DeleteCalendar(string calendarName, CancellationToken cancellationToken)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName, cancellationToken);
             if (calendar == null)
             {
                 return NotFound();
             }
 
             _context.Calendars.Remove(calendar);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return calendar;
         }
 
         // POST: api/calendar/
         [HttpPost("calendar")]
-        public async Task<IActionResult> PostCalendar(Calendar calendar)
+        public async Task<IActionResult> PostCalendar(Calendar calendar, CancellationToken cancellationToken)
         {
-            var currentCalendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendar.CalendarName);
+            var currentCalendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendar.CalendarName, cancellationToken);
             if (currentCalendar == null)
             {
                 _context.Calendars.Add(calendar);
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             return Ok(calendar);
         }
 
         // PUT: api/calendar/calendarName
         [HttpPut("calendar/{calendarName}")]
-        public async Task<IActionResult> PutCalendar(string calendarName, Calendar calendar)
+        public async Task<IActionResult> PutCalendar(string calendarName, Calendar calendar, CancellationToken cancellationToken)
         {
             if (calendarName != calendar.CalendarName)
             {
@@ -165,7 +166,7 @@ namespace Organizer.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -234,9 +235,9 @@ namespace Organizer.API.Controllers
 
         // GET: api/Appointments/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Appointment>> GetAppointment(int id)
+        public async Task<ActionResult<Appointment>> GetAppointment(int id, CancellationToken cancellationToken)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = await _context.Appointments.FindAsync(new object[] { id }, cancellationToken);
 
             if (appointment == null)
             {
@@ -248,7 +249,7 @@ namespace Organizer.API.Controllers
 
         // PUT: api/Appointments/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointment(int id, Appointment appointment)
+        public async Task<IActionResult> PutAppointment(int id, Appointment appointment, CancellationToken cancellationToken)
         {
             if (id != appointment.ID)
             {
@@ -260,7 +261,7 @@ namespace Organizer.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -279,28 +280,28 @@ namespace Organizer.API.Controllers
 
         // POST: api/Appointments
         [HttpPost]
-        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment)
+        public async Task<ActionResult<Appointment>> PostAppointment(Appointment appointment, CancellationToken cancellationToken)
         {
             appointment.StartDate = appointment.StartDate.Date;
             appointment.EndDate = appointment.EndDate.Date;
             _context.Appointments.Add(appointment);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return CreatedAtAction("GetAppointment", new { id = appointment.ID }, appointment);
         }
 
         // DELETE: api/Appointments/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Appointment>> DeleteAppointment(int id)
+        public async Task<ActionResult<Appointment>> DeleteAppointment(int id, CancellationToken cancellationToken)
         {
-            var appointment = await _context.Appointments.FindAsync(id);
+            var appointment = await _context.Appointments.FindAsync(new object[] { id }, cancellationToken);
             if (appointment == null)
             {
                 return NotFound();
             }
 
             _context.Appointments.Remove(appointment);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return appointment;
         }

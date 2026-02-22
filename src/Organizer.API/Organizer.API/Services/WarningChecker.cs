@@ -18,12 +18,12 @@ namespace Organizer.API.Services
                     if (!app.Confirmed)
                     {
                         app.Warning = true;
-                        app.WarningDescription += "Waiting for confirmation.";
+                        app.WarningDescription += "Waiting for confirmation. ";
                     }
                     if(app.RequireTravel && !app.TravelBooked)
                     {
                         app.Warning = true;
-                        app.WarningDescription += "Travel not booked.";
+                        app.WarningDescription += "Travel not booked. ";
                     }
                 }
             }

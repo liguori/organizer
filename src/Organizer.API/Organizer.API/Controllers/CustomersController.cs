@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,16 +26,16 @@ namespace Organizer.API.Controllers
 
         // GET: api/Customers
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
+        public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers(CancellationToken cancellationToken)
         {
-            return await _context.Customers.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Customers.OrderBy(x => x.Name).ToListAsync(cancellationToken);
         }
 
         // GET: api/Customers/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<Customer>> GetCustomer(int id)
+        public async Task<ActionResult<Customer>> GetCustomer(int id, CancellationToken cancellationToken)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(new object[] { id }, cancellationToken);
 
             if (customer == null)
             {
@@ -46,7 +47,7 @@ namespace Organizer.API.Controllers
 
         // PUT: api/Customers/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutCustomer(int id, Customer customer)
+        public async Task<IActionResult> PutCustomer(int id, Customer customer, CancellationToken cancellationToken)
         {
             if (id != customer.ID)
             {
@@ -57,7 +58,7 @@ namespace Organizer.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,26 +77,26 @@ namespace Organizer.API.Controllers
 
         // POST: api/Customers
         [HttpPost]
-        public async Task<ActionResult<Customer>> PostCustomer(Customer customer)
+        public async Task<ActionResult<Customer>> PostCustomer(Customer customer, CancellationToken cancellationToken)
         {
             _context.Customers.Add(customer);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return CreatedAtAction("GetCustomer", new { id = customer.ID }, customer);
         }
 
         // DELETE: api/Customers/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<Customer>> DeleteCustomer(int id)
+        public async Task<ActionResult<Customer>> DeleteCustomer(int id, CancellationToken cancellationToken)
         {
-            var customer = await _context.Customers.FindAsync(id);
+            var customer = await _context.Customers.FindAsync(new object[] { id }, cancellationToken);
             if (customer == null)
             {
                 return NotFound();
             }
 
             _context.Customers.Remove(customer);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return customer;
         }

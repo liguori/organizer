@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -25,16 +26,16 @@ namespace Organizer.API.Controllers
 
         // GET: api/AppointmentTypes
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AppointmentType>>> GetAppointmentTypes()
+        public async Task<ActionResult<IEnumerable<AppointmentType>>> GetAppointmentTypes(CancellationToken cancellationToken)
         {
-            return await _context.AppointmentType.ToListAsync();
+            return await _context.AppointmentType.ToListAsync(cancellationToken);
         }
 
         // GET: api/AppointmentTypes/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<AppointmentType>> GetAppointmentType(int id)
+        public async Task<ActionResult<AppointmentType>> GetAppointmentType(int id, CancellationToken cancellationToken)
         {
-            var appointmentType = await _context.AppointmentType.FindAsync(id);
+            var appointmentType = await _context.AppointmentType.FindAsync(new object[] { id }, cancellationToken);
 
             if (appointmentType == null)
             {
@@ -46,7 +47,7 @@ namespace Organizer.API.Controllers
 
         // PUT: api/AppointmentTypes/5
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutAppointmentType(int id, AppointmentType appointmentType)
+        public async Task<IActionResult> PutAppointmentType(int id, AppointmentType appointmentType, CancellationToken cancellationToken)
         {
             if (id != appointmentType.ID)
             {
@@ -57,7 +58,7 @@ namespace Organizer.API.Controllers
 
             try
             {
-                await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync(cancellationToken);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,26 +77,26 @@ namespace Organizer.API.Controllers
 
         // POST: api/AppointmentTypes
         [HttpPost]
-        public async Task<ActionResult<AppointmentType>> PostAppointmentType(AppointmentType appointmentType)
+        public async Task<ActionResult<AppointmentType>> PostAppointmentType(AppointmentType appointmentType, CancellationToken cancellationToken)
         {
             _context.AppointmentType.Add(appointmentType);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return CreatedAtAction("GetAppointmentType", new { id = appointmentType.ID }, appointmentType);
         }
 
         // DELETE: api/AppointmentTypes/5
         [HttpDelete("{id}")]
-        public async Task<ActionResult<AppointmentType>> DeleteAppointmentType(int id)
+        public async Task<ActionResult<AppointmentType>> DeleteAppointmentType(int id, CancellationToken cancellationToken)
         {
-            var appointmentType = await _context.AppointmentType.FindAsync(id);
+            var appointmentType = await _context.AppointmentType.FindAsync(new object[] { id }, cancellationToken);
             if (appointmentType == null)
             {
                 return NotFound();
             }
 
             _context.AppointmentType.Remove(appointmentType);
-            await _context.SaveChangesAsync();
+            await _context.SaveChangesAsync(cancellationToken);
 
             return appointmentType;
         }

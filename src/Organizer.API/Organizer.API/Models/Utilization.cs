@@ -31,6 +31,7 @@ namespace Organizer.API.Models
         {
             get
             {
+                if (BillableHours == 0) return 0;
                 return Math.Round((BilledHours / BillableHours) * 100, 2);
             }
         }

@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, TemplateRef } from '@angular/core';
+import { Component, OnInit, ViewChild, TemplateRef, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { Appointment, AppointmentExtraInfo, AppointmentsService } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute, NavigationEnd } from "@angular/router";
 import { AppointmentViewModel } from '../models/appointmentViewModel';
@@ -30,6 +31,7 @@ import { CalendarResolver } from '../resolvers/calendar-resolver.service';
     standalone: false
 })
 export class HomeComponent implements OnInit {
+  private readonly destroyRef = inject(DestroyRef);
 
   originalAppointments: Array<AppointmentExtraInfo>;
   appointments: Array<AppointmentExtraInfo>;
@@ -66,7 +68,8 @@ export class HomeComponent implements OnInit {
     public dialog: MatDialog,
     private bottomSheet: MatBottomSheet) {
     router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
+      filter(event => event instanceof NavigationEnd),
+      takeUntilDestroyed(this.destroyRef)
     ).subscribe((event: NavigationEnd) => {
       this.originalAppointments = this.route.snapshot.data.appointments;
       this.appointments = this.originalAppointments;
