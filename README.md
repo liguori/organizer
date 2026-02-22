@@ -254,4 +254,29 @@ Year view with color-coded appointments for different customers:
 #### Multiple Customer Filter
 ![Multiple Customer Filter](docs/CalendarMultiCustomerFilter.png)
 
+#### Mobile Calendar View
+![Mobile Calendar View](docs/CalendarMobileView.png)
+
+#### Mobile Filters
+![Mobile Filters](docs/CalendarMobileFilters.png)
+
 </details>
+
+---
+
+## Extracting Screenshots
+
+App screenshots for documentation are generated automatically using [Playwright](https://playwright.dev/). The screenshot tests live in `./e2e` and mock the backend API so no running server is required.
+
+**Prerequisites:** Node.js 20+, Angular dev server dependencies installed (`npm install` in `src/Organizer.SPA`).
+
+**Run:**
+
+```bash
+cd e2e
+npm install
+npx playwright install chromium
+npm run screenshots
+```
+
+Screenshots are saved to the `docs/` folder and can be committed back to update the documentation images.

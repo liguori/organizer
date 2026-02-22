@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "target": "ES2019",
+    "module": "commonjs",
+    "moduleResolution": "node",
+    "strict": true,
+    "esModuleInterop": true,
+    "outDir": "./dist",
+    "sourceMap": true,
+    "types": ["node"]
+  },
+  "include": ["tests/**/*.ts", "fixtures/**/*.ts", "playwright.config.ts"]
+}

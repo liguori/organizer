@@ -1,0 +1,16 @@
+{
+  "name": "organizer-e2e",
+  "version": "1.0.0",
+  "description": "Playwright E2E tests and screenshot extraction for Organizer",
+  "private": true,
+  "engines": {
+    "node": ">=20"
+  },
+  "scripts": {
+    "screenshots": "playwright test --project=chromium",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.58.2"
+  }
+}
