@@ -102,6 +102,9 @@
       </button>
       }
       <div class="calendar-option">
+        <span class="appointment-counter" [title]="getFilteredAppointmentsCount() + ' appointments shown'">
+          <mat-icon class="counter-icon">event_note</mat-icon>{{getFilteredAppointmentsCount()}}
+        </span>
         @if (this.getWarnings().length>0) {
         <button (click)="showDialogWarning()" mat-mini-fab color="warn" class="warning-button">
           <mat-icon>warning</mat-icon>

@@ -87,6 +87,7 @@ export class HomeComponent implements OnInit {
         upstreamEventTokenEnabled: this.upstreamEventTokenEnabled,
         upstreamEventToken: this.upstreamEventToken,
         warningsCount: this.getWarnings().length,
+        appointmentsCount: this.getFilteredAppointmentsCount(),
         selectedDatesCount: this.selectedDates.size,
         selectedAppointmentsCount: this.selectedAppointments.size,
         
@@ -393,6 +394,16 @@ export class HomeComponent implements OnInit {
 
   filterAppointmentDescriptionSelectedValueChange(event) {
     this.applyInMemoryFilters()
+  }
+
+  getFilteredAppointmentsCount(): number {
+    if (!this.appointments) return 0;
+    if (this.filterProject != null && this.filterProject.trim() !== '') {
+      return this.appointments.filter(x =>
+        x.project != null && x.project.toLowerCase() === this.filterProject.toLowerCase()
+      ).length;
+    }
+    return this.appointments.length;
   }
 
   unselectAllAppointmentDescription(filterAppointment: MatSelect) {
