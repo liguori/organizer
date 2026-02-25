@@ -135,7 +135,10 @@
       </div>
     </div>
 
-    <!-- Mobile: FAB button to open filters dialog -->
+    <!-- Mobile: counter + FAB button to open filters dialog -->
+    <span class="appointment-counter mobile-only-counter" [title]="getFilteredAppointmentsCount() + ' days shown'">
+      <mat-icon class="counter-icon">event_note</mat-icon>{{getFilteredAppointmentsCount()}}
+    </span>
     <button mat-mini-fab color="accent" class="mobile-filters-fab" (click)="openMobileFilters()"
       title="More Filters & Actions">
       <mat-icon>tune</mat-icon>

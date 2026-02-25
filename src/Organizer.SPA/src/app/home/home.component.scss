@@ -106,6 +106,10 @@
     display: inline-flex;
   }
 
+  .mobile-only-counter {
+    display: inline-flex;
+  }
+
   #upstream-event-token {
     width: 6.875rem;
   }
@@ -134,6 +138,10 @@
 // --- Desktop Overrides (>= 768px) ---
 @media (min-width: $breakpoint-tablet) {
   .mobile-filters-fab {
+    display: none;
+  }
+
+  .mobile-only-counter {
     display: none;
   }
 
