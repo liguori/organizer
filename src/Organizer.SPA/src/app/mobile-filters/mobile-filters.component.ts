@@ -11,6 +11,7 @@ export interface MobileFiltersData {
   upstreamEventTokenEnabled: boolean;
   upstreamEventToken: string;
   warningsCount: number;
+  appointmentsCount: number;
   selectedDatesCount: number;
   selectedAppointmentsCount: number;
   
