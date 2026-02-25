@@ -67,18 +67,18 @@
       </mat-form-field>
     </ng-template>
 
-    <!-- Reusable Customer Filter Template -->
-    <ng-template #customerFilterTemplate let-filterCustomerRef="filterCustomerRef">
-      <mat-form-field id="calendar-customer-filter" class="filter-box">
-        <mat-label>Customer</mat-label>
-        <mat-select #filterCustomer multiple [(ngModel)]="selectedCustomers"
-          (selectionChange)="filterCustomerSelectedValueChange($event)">
+    <!-- Reusable Appointment Filter Template -->
+    <ng-template #appointmentFilterTemplate let-filterAppointmentRef="filterAppointmentRef">
+      <mat-form-field id="calendar-appointment-filter" class="filter-box">
+        <mat-label>Appointment</mat-label>
+        <mat-select #filterAppointment multiple [(ngModel)]="selectedAppointmentDescriptions"
+          (selectionChange)="filterAppointmentDescriptionSelectedValueChange($event)">
           <mat-option>
-            <ngx-mat-select-search [(ngModel)]="filterSelectedCustomer" [placeholderLabel]="'Search...'"
+            <ngx-mat-select-search [(ngModel)]="filterSelectedAppointmentDescription" [placeholderLabel]="'Search...'"
               [noEntriesFoundLabel]="'Not found'" name="search"></ngx-mat-select-search>
           </mat-option>
-          @for (customer of getAppointmentCustomers(); track customer) {
-          <mat-option [value]="customer">{{customer}}
+          @for (desc of getAppointmentDescriptions(); track desc) {
+          <mat-option [value]="desc">{{desc}}
           </mat-option>
           }
         </mat-select>
@@ -91,8 +91,8 @@
       <button mat-mini-fab color="primary" (click)="createCalendar()">
         <mat-icon>create_new_folder</mat-icon>
       </button>
-      <ng-container *ngTemplateOutlet="customerFilterTemplate"></ng-container>
-      <button mat-icon-button color="primary" aria-label="Clear customer filter" (click)="clearCustomerFilter()">
+      <ng-container *ngTemplateOutlet="appointmentFilterTemplate"></ng-container>
+      <button mat-icon-button color="primary" aria-label="Clear appointment filter" (click)="clearAppointmentDescriptionFilter()">
         <mat-icon>clear</mat-icon>
       </button>
       @if (upstreamEventTokenEnabled) {

@@ -15,12 +15,12 @@
       Create Calendar
     </button>
     
-    <!-- Use injected Customer filter template -->
-    <ng-container *ngTemplateOutlet="data.customerFilterTemplate"></ng-container>
+    <!-- Use injected Appointment filter template -->
+    <ng-container *ngTemplateOutlet="data.appointmentFilterTemplate"></ng-container>
     
-    <button mat-raised-button color="primary" (click)="data.onClearCustomers(); close()">
+    <button mat-raised-button color="primary" (click)="data.onClearAppointmentDescriptions(); close()">
       <mat-icon>clear</mat-icon>
-      Clear Customer Filter
+      Clear Appointment Filter
     </button>
     
     @if (data.upstreamEventTokenEnabled) {

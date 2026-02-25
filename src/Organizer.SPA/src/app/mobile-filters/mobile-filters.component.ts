@@ -5,9 +5,9 @@ import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 export interface MobileFiltersData {
   selectedCalendar: string;
   calendars: Calendar[];
-  selectedCustomers: string[];
-  customers: string[];
-  filterSelectedCustomer: string;
+  selectedAppointmentDescriptions: string[];
+  appointmentDescriptions: string[];
+  filterSelectedAppointmentDescription: string;
   upstreamEventTokenEnabled: boolean;
   upstreamEventToken: string;
   warningsCount: number;
@@ -16,13 +16,13 @@ export interface MobileFiltersData {
   
   // Template references for filter injection
   calendarFilterTemplate: TemplateRef<any>;
-  customerFilterTemplate: TemplateRef<any>;
+  appointmentFilterTemplate: TemplateRef<any>;
   
   // Callback functions
   onCalendarChange: (value: string) => void;
   onCreateCalendar: () => void;
-  onCustomerChange: (event: any) => void;
-  onClearCustomers: () => void;
+  onAppointmentDescriptionChange: (event: any) => void;
+  onClearAppointmentDescriptions: () => void;
   onUpstreamTokenClick: () => void;
   onWarningsClick: () => void;
   onAvailabilityClick: () => void;
