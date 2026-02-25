@@ -398,12 +398,22 @@ export class HomeComponent implements OnInit {
 
   getFilteredAppointmentsCount(): number {
     if (!this.appointments) return 0;
-    if (this.filterProject != null && this.filterProject.trim() !== '') {
-      return this.appointments.filter(x =>
-        x.project != null && x.project.toLowerCase() === this.filterProject.toLowerCase()
-      ).length;
-    }
-    return this.appointments.length;
+    const filtered = (this.filterProject != null && this.filterProject.trim() !== '')
+      ? this.appointments.filter(x =>
+          x.project != null && x.project.toLowerCase() === this.filterProject.toLowerCase()
+        )
+      : this.appointments;
+    return filtered.reduce((total, x) => {
+      if (x.startDate && x.endDate) {
+        const start = new Date(x.startDate);
+        const end = new Date(x.endDate);
+        start.setHours(0, 0, 0, 0);
+        end.setHours(0, 0, 0, 0);
+        const days = Math.floor((end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24)) + 1;
+        return total + Math.max(1, days);
+      }
+      return total + 1;
+    }, 0);
   }
 
   unselectAllAppointmentDescription(filterAppointment: MatSelect) {
