@@ -34,6 +34,40 @@ export class ThemeVariables {
         statusWarningText: "#ca8a04",
     }
 
+    static purpleTheme = {
+        appMenuLinkColor: "#4a148c",
+        calendarHeaderColor: "#4a148c",
+        calendarHeaderTextColor: "#ffffff",
+        calendarCellBorderColor: "#9c4dcc",
+        calendarDayColor: "#f3e5f5",
+        calendarDayTextColor: "#1a0030",
+        calendarDayHoverColor: "#e1bee7",
+        calendarMonthHeaderColor: "#ce93d8",
+        calendarMonthHeaderTextColor: "#1a0030",
+        calendarSaturdayColor: "#ede7f6",
+        calendarSundayColor: "#f8bbd0",
+        calendarNodayColor: "#d1c4e9",
+        calendarTodayColor: "#6a1b9a",
+        calendarTodayTextColor: "#ffffff",
+        calendarUtilsColor: "#e8eaf6",
+        calendarUtilsTextColor: "#1a0030",
+        selectionColor: "#ab47bc",
+        // Navigation bar theme variables
+        navContainerBg: "rgba(74, 20, 140, 0.1)",
+        navItemHoverBg: "rgba(171, 71, 188, 0.2)",
+        navItemActiveBg: "linear-gradient(135deg, #a855f7 0%, #7c3aed 100%)",
+        navItemActiveColor: "#ffffff",
+        // Status indicator colors
+        statusDangerBg: "#fef2f2",
+        statusDangerText: "#dc2626",
+        statusSuccessBg: "#f0fdf4",
+        statusSuccessText: "#16a34a",
+        statusSuccessBrightBg: "#dcfce7",
+        statusSuccessBrightText: "#15803d",
+        statusWarningBg: "#fefce8",
+        statusWarningText: "#ca8a04",
+    }
+
     static darkTheme = {
         appMenuLinkColor:"#ffffff",
         calendarHeaderColor: "#21252c",

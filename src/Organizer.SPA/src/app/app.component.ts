@@ -37,11 +37,11 @@ export class AppComponent implements OnInit {
     });
   }
 
-  themeToggle: boolean;
+  currentTheme: string;
   apiBackupUrl: string = AppConfig.settings.api.url + "/api/Appointments/Backup?X-API-Key=" + AppConfig.settings.api.key;
 
   ngOnInit() {
-    this.themeToggle = this.getStoredThemeState();
+    this.currentTheme = this.getStoredThemeState();
     this.initializeTheme();
   }
 
@@ -58,17 +58,26 @@ export class AppComponent implements OnInit {
   }
 
   toggleDarkLight() {
-    this.themeToggle = !this.themeToggle;
-    this.setStoredThemeState(this.themeToggle);
+    this.currentTheme = this.currentTheme === 'dark' ? 'light' : 'dark';
+    this.setStoredThemeState(this.currentTheme);
+    this.initializeTheme();
+  }
+
+  togglePurple() {
+    this.currentTheme = this.currentTheme === 'purple' ? 'light' : 'purple';
+    this.setStoredThemeState(this.currentTheme);
     this.initializeTheme();
   }
 
   initializeTheme() {
     var variablesToUse: any;
     var themeName: string;
-    if (this.themeToggle == true) {
+    if (this.currentTheme === 'dark') {
       variablesToUse = ThemeVariables.darkTheme;
       themeName = 'purple-green';
+    } else if (this.currentTheme === 'purple') {
+      variablesToUse = ThemeVariables.purpleTheme;
+      themeName = 'deeppurple-amber';
     } else {
       variablesToUse = ThemeVariables.lightTheme;
       themeName = 'indigo-pink';
@@ -80,18 +89,18 @@ export class AppComponent implements OnInit {
     }
   }
 
-  setStoredThemeState(theme: boolean) {
+  setStoredThemeState(theme: string) {
     try {
       window.localStorage["organizer-theme"] = JSON.stringify(theme);
     } catch (err) {
     }
   }
 
-  getStoredThemeState(): boolean {
+  getStoredThemeState(): string {
     try {
-      return JSON.parse(window.localStorage["organizer-theme"] || null);
+      return JSON.parse(window.localStorage["organizer-theme"] || null) || 'light';
     } catch {
-      return null;
+      return 'light';
     }
   }
 

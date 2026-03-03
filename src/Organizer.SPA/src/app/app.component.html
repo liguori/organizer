@@ -22,8 +22,13 @@
     </a>
     <span class="separator">|</span>
     <a class="nav-link" (click)="toggleDarkLight()">
-      <span class="material-icons">{{ themeToggle ? 'wb_sunny' : 'brightness_3' }}</span>
+      <span class="material-icons">{{ currentTheme === 'dark' ? 'wb_sunny' : 'brightness_3' }}</span>
       <span class="nav-text">Theme</span>
+    </a>
+    <span class="separator">|</span>
+    <a class="nav-link" [class.active]="currentTheme === 'purple'" (click)="togglePurple()">
+      <span class="material-icons">palette</span>
+      <span class="nav-text">Viola</span>
     </a>
     <span class="separator">|</span>
     <a class="nav-link" [href]="apiBackupUrl">
