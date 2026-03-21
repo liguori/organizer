@@ -63,11 +63,12 @@
         </div>
       }
       @if (currentView== calendarView.Year) {
+        @let utilPct = getMonthUtilization(currentY.value,currentYear);
         <div class="util-value">
           <div class="util-bar-container">
-            <div class="util-bar-fill" [style.height.%]="getMonthUtilization(currentY.value,currentYear)"></div>
+            <div class="util-bar-fill" [style.height.%]="utilPct"></div>
           </div>
-          <span class="util-pct">{{getMonthUtilization(currentY.value,currentYear)}}%</span>
+          <span class="util-pct">{{utilPct}}%</span>
         </div>
       }
     </div>
