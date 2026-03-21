@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import { AppointmentTypesService } from '../api/OrganizerApiClient/api/appointmentTypes.service';
 import { AppointmentType, CustomersService, Customer, AppointmentsService, Appointment } from '../api/OrganizerApiClient';
@@ -14,6 +14,7 @@ import { firstValueFrom } from 'rxjs';
     selector: 'app-appointment-editor',
     templateUrl: './appointment-editor.component.html',
     styleUrls: ['./appointment-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AppointmentEditorComponent implements OnInit {
@@ -28,6 +29,7 @@ export class AppointmentEditorComponent implements OnInit {
     private appointmentTypeService: AppointmentTypesService,
     private customerService: CustomersService,
     private appServ: AppointmentsService,
+    private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<AppointmentEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { route: ActivatedRoute, currentAppointment: AppointmentViewModel }) {
     this.currentAppointment = this.data.currentAppointment;
@@ -39,6 +41,7 @@ export class AppointmentEditorComponent implements OnInit {
     this.appointmentTypeService.apiAppointmentTypesGet().subscribe(
       data => {
         this.appointmentsType = data.filter(x => x.id != 99);
+        this.cdr.markForCheck();
       },
       (err) => {
         console.log(err.message);
@@ -47,7 +50,8 @@ export class AppointmentEditorComponent implements OnInit {
 
     this.customerService.apiCustomersGet().subscribe(
       data => {
-        this.customers = data
+        this.customers = data;
+        this.cdr.markForCheck();
       },
       (err) => {
         console.log(err.message);

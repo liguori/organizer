@@ -60,7 +60,7 @@ namespace Organizer.API.Controllers
         {
             var stopwatch = Stopwatch.StartNew();
             
-            var appointment = _context.Appointments.Include(x => x.Customer).Include(x => x.Type).AsQueryable();
+            var appointment = _context.Appointments.AsNoTracking().Include(x => x.Customer).Include(x => x.Type).AsQueryable();
             if (year.HasValue) appointment = appointment.Where(x => x.StartDate.Year == year);
             if (display == CalendarDisplay.Event || (display == CalendarDisplay.Calendar && !string.IsNullOrWhiteSpace(calendarName)))
             {
@@ -106,14 +106,14 @@ namespace Organizer.API.Controllers
         [HttpGet("calendars")]
         public async Task<ActionResult<IEnumerable<Calendar>>> GetCalendars()
         {
-            return await _context.Calendars.ToListAsync();
+            return await _context.Calendars.AsNoTracking().ToListAsync();
         }
 
         // GET: api/Appointments/calendar/calendarName
         [HttpGet("calendar/{calendarName}")]
         public async Task<ActionResult<Calendar>> GetAppointment(string calendarName)
         {
-            var calendar = await _context.Calendars.FirstOrDefaultAsync(x => x.CalendarName == calendarName);
+            var calendar = await _context.Calendars.AsNoTracking().FirstOrDefaultAsync(x => x.CalendarName == calendarName);
 
             if (calendar == null)
             {

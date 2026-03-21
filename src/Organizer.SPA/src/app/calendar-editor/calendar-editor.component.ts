@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { AppointmentViewModel } from '../models/appointmentViewModel';
 import { AppointmentType, CustomersService, Customer, AppointmentsService, Appointment } from '../api/OrganizerApiClient';
 import { Router, ActivatedRoute } from '@angular/router';
@@ -11,6 +11,7 @@ import { Calendar } from '../api/OrganizerApiClient/model/calendar';
     selector: 'app-calendar-editor',
     templateUrl: './calendar-editor.component.html',
     styleUrls: ['./calendar-editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CalendarEditorComponent implements OnInit {
@@ -18,6 +19,7 @@ export class CalendarEditorComponent implements OnInit {
   constructor(
     private router: Router,
     private apiAppointments: AppointmentsService,
+    private cdr: ChangeDetectorRef,
     public dialogRef: MatDialogRef<CalendarEditorComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { route: ActivatedRoute, currentCalendar: string }) {
     this.currentCalendar = this.data.currentCalendar;
@@ -30,6 +32,7 @@ export class CalendarEditorComponent implements OnInit {
     } else {
       this.apiAppointments.apiAppointmentsCalendarCalendarNameGet(this.currentCalendar).subscribe(result => {
         this.editCalendar = result;
+        this.cdr.markForCheck();
       });
     }
   }

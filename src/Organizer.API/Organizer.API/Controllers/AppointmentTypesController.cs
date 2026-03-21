@@ -27,7 +27,7 @@ namespace Organizer.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AppointmentType>>> GetAppointmentTypes()
         {
-            return await _context.AppointmentType.ToListAsync();
+            return await _context.AppointmentType.AsNoTracking().ToListAsync();
         }
 
         // GET: api/AppointmentTypes/5

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 export interface InputDialogData {
@@ -12,6 +12,7 @@ export interface InputDialogData {
     selector: 'app-input-dialog',
     templateUrl: './input-dialog.component.html',
     styleUrls: ['./input-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class InputDialogComponent {

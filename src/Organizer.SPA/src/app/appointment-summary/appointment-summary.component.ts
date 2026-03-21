@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Inject } from '@angular/core';
+import { Component, OnInit, Input, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { AppointmentExtraInfo } from '../api/OrganizerApiClient';
 import { ActivatedRoute } from '@angular/router';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -7,6 +7,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
     selector: 'app-appointment-summary',
     templateUrl: './appointment-summary.component.html',
     styleUrls: ['./appointment-summary.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class AppointmentSummaryComponent implements OnInit {

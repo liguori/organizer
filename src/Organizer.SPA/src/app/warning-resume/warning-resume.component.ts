@@ -1,4 +1,4 @@
-import { Inject } from '@angular/core';
+import { Inject, ChangeDetectionStrategy } from '@angular/core';
 import { Component, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { AppointmentExtraInfo } from '../api/OrganizerApiClient/model/models';
@@ -7,6 +7,7 @@ import { AppointmentExtraInfo } from '../api/OrganizerApiClient/model/models';
     selector: 'app-warning-resume',
     templateUrl: './warning-resume.component.html',
     styleUrls: ['./warning-resume.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class WarningResumeComponent implements OnInit {

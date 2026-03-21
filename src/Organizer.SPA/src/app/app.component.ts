@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject, DestroyRef } from '@angular/core';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ThemeVariables } from './themes/themesVariables';
 import { StyleManager } from './themes/style-manager';
 import { AppConfig } from './app.config';
@@ -13,11 +14,14 @@ import { NavigationCancel, NavigationEnd, NavigationError, NavigationStart, Rout
 export class AppComponent implements OnInit {
   title = 'Organizer';
   loading = false;
+  private readonly destroyRef = inject(DestroyRef);
 
   constructor(
     private styleManager: StyleManager,
     private router: Router) {
-    this.router.events.subscribe((event) => {
+    this.router.events.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe((event) => {
       switch (true) {
         case event instanceof NavigationStart: {
           this.loading = true;
