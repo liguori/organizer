@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, ChangeDetectionStrategy } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/internal/operators/filter';
 import { Appointment, AppointmentExtraInfo } from '../api/OrganizerApiClient';
@@ -10,6 +10,7 @@ import { CalendarView } from '../models/calendarView';
     selector: 'app-event-viewer',
     templateUrl: './event-viewer.component.html',
     styleUrls: ['./event-viewer.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class EventViewerComponent implements OnInit {

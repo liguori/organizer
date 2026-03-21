@@ -6,6 +6,8 @@ using Organizer.API.Services.Abstract;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Organizer.API.OpenApi;
+using Microsoft.AspNetCore.ResponseCompression;
+using System.IO.Compression;
 
 const string ApiKeys = "ApiKeys";
 
@@ -53,6 +55,21 @@ builder.Services.AddTransient<IWarningChecker, WarningChecker>();
 builder.Services.AddTransient<IUpstreamApiAppointments, UpstreamApiAppointments>();
 builder.Services.AddHttpClient();
 
+builder.Services.AddResponseCompression(options =>
+{
+    options.EnableForHttps = true;
+    options.Providers.Add<BrotliCompressionProvider>();
+    options.Providers.Add<GzipCompressionProvider>();
+});
+builder.Services.Configure<BrotliCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.Optimal;
+});
+builder.Services.Configure<GzipCompressionProviderOptions>(options =>
+{
+    options.Level = CompressionLevel.SmallestSize;
+});
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -68,6 +85,8 @@ using (var scope = app.Services.CreateScope())
 {
     scope.ServiceProvider.GetRequiredService<OrganizerContext>()?.Database.EnsureCreated();
 }
+
+app.UseResponseCompression();
 
 app.UseCors("AllowAllOrigin");
 

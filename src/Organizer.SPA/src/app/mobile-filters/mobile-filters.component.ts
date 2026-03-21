@@ -1,4 +1,4 @@
-import { Component, Inject, TemplateRef } from '@angular/core';
+import { Component, Inject, TemplateRef, ChangeDetectionStrategy } from '@angular/core';
 import { MAT_BOTTOM_SHEET_DATA, MatBottomSheetRef } from '@angular/material/bottom-sheet';
 import { Calendar } from '../api/OrganizerApiClient/model/calendar';
 
@@ -39,6 +39,7 @@ export interface MobileFiltersData {
   selector: 'app-mobile-filters',
   templateUrl: './mobile-filters.component.html',
   styleUrls: ['./mobile-filters.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false
 })
 export class MobileFiltersComponent {

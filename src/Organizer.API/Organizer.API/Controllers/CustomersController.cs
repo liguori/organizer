@@ -27,7 +27,7 @@ namespace Organizer.API.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Customer>>> GetCustomers()
         {
-            return await _context.Customers.OrderBy(x => x.Name).ToListAsync();
+            return await _context.Customers.AsNoTracking().OrderBy(x => x.Name).ToListAsync();
         }
 
         // GET: api/Customers/5

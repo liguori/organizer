@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, inject, DestroyRef } from '@angular/core';
+import { Component, OnInit, Input, inject, DestroyRef, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ActivatedRoute } from '@angular/router';
 import {
@@ -20,12 +20,14 @@ const HOURS_PER_DAY = 8;
   selector: 'app-utilization',
   templateUrl: './utilization.component.html',
   styleUrls: ['./utilization.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   standalone: false
 })
 export class UtilizationComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   private readonly utilizationService = inject(UtilizationService);
   private readonly destroyRef = inject(DestroyRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   @Input() utilization: Utilization | null = null;
 
@@ -87,6 +89,7 @@ export class UtilizationComponent implements OnInit {
         next: (util) => {
           this.utilization = util;
           this.recalculateTargets(this.target);
+          this.cdr.markForCheck();
         },
         error: (err) => {
           console.error('Failed to load utilization data:', err);

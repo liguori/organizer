@@ -2,6 +2,7 @@ using Organizer.API.Infrastructure;
 using Organizer.API.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -37,7 +38,11 @@ namespace Organizer.API.Controllers
         {
             var DateStart = new DateTime(year - 1, 7, 1);
             var DateEnd = new DateTime(year, 6, 30);
-            var appointments = _context.Appointments.Where(a => (a.Confirmed || includeNotConfirmed) && a.Type.Billable == true && a.EndDate >= DateStart && a.StartDate <= DateEnd).ToList();
+            var appointments = await _context.Appointments
+                .AsNoTracking()
+                .Include(a => a.Type)
+                .Where(a => (a.Confirmed || includeNotConfirmed) && a.Type.Billable == true && a.EndDate >= DateStart && a.StartDate <= DateEnd)
+                .ToListAsync();
             var utilization = new Utilization()
             {
                 UtilizationMonths = new List<UtilizationRow>(),
@@ -49,7 +54,7 @@ namespace Organizer.API.Controllers
             {
 
                 var daysInMonth = DateTime.DaysInMonth(DateStart.Year, DateStart.Month);
-                _logger.LogInformation($"Month: {DateStart.ToString("MMM")} DaysInMonth: {daysInMonth}");
+                _logger.LogInformation("Month: {Month} DaysInMonth: {DaysInMonth}", DateStart.ToString("MMM"), daysInMonth);
                 var countAppointment = 0;
                 var workerDays = 0;
                 for (int i = 1; i <= daysInMonth; i++)
@@ -62,10 +67,8 @@ namespace Organizer.API.Controllers
                         ).Count();
                         workerDays++;
                     }
-                    _logger.LogInformation($"Day: {currentDate:dd/MM/yyyy} BillableDays: {countAppointment}");
-
                 }
-                _logger.LogInformation($"Month: {DateStart.ToString("MMM")} Billable: {workerDays * 8}h BIlled: {countAppointment * 8}h");
+                _logger.LogInformation("Month: {Month} Billable: {BillableHours}h Billed: {BilledHours}h", DateStart.ToString("MMM"), workerDays * 8, countAppointment * 8);
                 UtilizationRow monthUtil = new UtilizationRow()
                 {
                     MonthNumber = FY_month,

@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, Inject, ChangeDetectionStrategy } from '@angular/core';
 import { CustomDialogConfig } from './custom-dialog-config.interface';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 
@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA } from '@angular/material/dialog';
     selector: 'app-custom-dialog',
     templateUrl: './custom-dialog.component.html',
     styleUrls: ['./custom-dialog.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
     standalone: false
 })
 export class CustomDialogComponent implements OnInit {
