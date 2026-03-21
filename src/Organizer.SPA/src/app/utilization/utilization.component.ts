@@ -16,6 +16,17 @@ const DEFAULT_TARGET = 72;
 /** Hours per work day for calculations */
 const HOURS_PER_DAY = 8;
 
+/** Data for a single bar in the chart */
+export interface ChartBar {
+  label: string;
+  billedHours: number;
+  targetHours: number;
+  billableHours: number;
+  billedPercent: number;
+  targetPercent: number;
+  isOverTarget: boolean;
+}
+
 @Component({
   selector: 'app-utilization',
   templateUrl: './utilization.component.html',
@@ -32,6 +43,9 @@ export class UtilizationComponent implements OnInit {
   selectedYear = new Date().getFullYear();
   target = DEFAULT_TARGET;
   includeNotConfirmed = true;
+
+  /** Chart data derived from monthly utilization */
+  chartBars: ChartBar[] = [];
 
   ngOnInit(): void {
     this.initializeYear();
@@ -116,6 +130,8 @@ export class UtilizationComponent implements OnInit {
     if (this.utilization.utilizationYear) {
       this.calculateTargetForRow(this.utilization.utilizationYear);
     }
+
+    this.buildChartData();
   }
 
   /**
@@ -133,6 +149,61 @@ export class UtilizationComponent implements OnInit {
       : 0;
     
     row.daysToTarget = Number(((row.toBeBilledHours - billedHours) / HOURS_PER_DAY).toFixed(2));
+  }
+
+  /**
+   * Build chart data from monthly utilization rows
+   */
+  private buildChartData(): void {
+    if (!this.utilization?.utilizationMonths) {
+      this.chartBars = [];
+      return;
+    }
+
+    const maxHours = Math.max(
+      ...this.utilization.utilizationMonths.map(r =>
+        Math.max(r.billableHours ?? 0, r.billedHours ?? 0)
+      ),
+      1
+    );
+
+    this.chartBars = this.utilization.utilizationMonths.map(row => {
+      const billable = row.billableHours ?? 0;
+      const billed = row.billedHours ?? 0;
+      const targetHours = row.toBeBilledHours ?? 0;
+      return {
+        label: row.description ?? '',
+        billedHours: billed,
+        targetHours,
+        billableHours: billable,
+        billedPercent: (billed / maxHours) * 100,
+        targetPercent: (targetHours / maxHours) * 100,
+        isOverTarget: billed >= targetHours
+      };
+    });
+  }
+
+  /**
+   * Get KPI data for the year summary card
+   */
+  getYtdUtilization(): number {
+    return this.utilization?.utilizationYear?.percentageBilledHours ?? 0;
+  }
+
+  getYtdBilledHours(): number {
+    return this.utilization?.utilizationYear?.billedHours ?? 0;
+  }
+
+  getYtdBillableHours(): number {
+    return this.utilization?.utilizationYear?.billableHours ?? 0;
+  }
+
+  getYtdDaysToTarget(): number {
+    return this.utilization?.utilizationYear?.daysToTarget ?? 0;
+  }
+
+  getYtdTargetAchievement(): number {
+    return this.utilization?.utilizationYear?.target ?? 0;
   }
 
   /**
@@ -164,5 +235,23 @@ export class UtilizationComponent implements OnInit {
     const daysToTarget = row.daysToTarget ?? 0;
     
     return daysToTarget > 0 ? 'status-danger' : 'status-success-dark';
+  }
+
+  /**
+   * Get progress bar width as percentage (capped at 100%)
+   */
+  getProgressWidth(row: UtilizationRow): number {
+    const pct = row.percentageBilledHours ?? 0;
+    return Math.min(pct, 100);
+  }
+
+  /**
+   * Get the progress bar color class based on percentage
+   */
+  getProgressColorClass(row: UtilizationRow): string {
+    const pct = row.percentageBilledHours ?? 0;
+    if (pct >= this.target) return 'progress-success';
+    if (pct >= this.target * 0.7) return 'progress-warning';
+    return 'progress-danger';
   }
 }

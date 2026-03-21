@@ -154,7 +154,10 @@
 
 // --- Utility Value ---
 .util-value {
-  display: block;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: $spacing-xs;
   width: 100%;
   padding: $spacing-xs;
   margin-top: $spacing-xs;
@@ -165,9 +168,33 @@
   color: var(--calendarUtilsTextColor);
 
   &::before {
-    content: "Ut % ";
+    content: "Ut ";
     font-weight: bold;
   }
+}
+
+.util-bar-container {
+  width: 2rem;
+  height: 1rem;
+  background: var(--calendarCellBorderColor);
+  border-radius: 0.125rem;
+  overflow: hidden;
+  display: flex;
+  align-items: flex-end;
+  flex-shrink: 0;
+}
+
+.util-bar-fill {
+  width: 100%;
+  background: var(--statusSuccessText);
+  border-radius: 0.125rem 0.125rem 0 0;
+  min-height: 1px;
+  transition: height 0.3s ease;
+}
+
+.util-pct {
+  font-weight: 600;
+  font-size: inherit;
 }
 
 // --- Day Highlights ---
@@ -299,6 +326,8 @@
     height: 100%;
     font-size: $util-font-size;
     @include flex-center;
+    flex-direction: column;
+    gap: 0.125rem;
     padding: 0;
     margin-top: 0;
     vertical-align: top;
@@ -306,5 +335,16 @@
     &::before {
       content: "";
     }
+  }
+
+  .util-bar-container {
+    width: 70%;
+    height: 0.375rem;
+    display: flex;
+    align-items: flex-end;
+  }
+
+  .util-pct {
+    font-size: clamp(0.625rem, 1vw, 0.875rem);
   }
 }
