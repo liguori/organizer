@@ -12,7 +12,6 @@ jobs:
   Deploy-Backend:
     environment:
       name: ${{ github.event.inputs.environment }}
-      
     runs-on: ubuntu-latest
 
     steps:
