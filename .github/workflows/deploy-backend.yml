@@ -43,7 +43,7 @@ jobs:
           done
         env:
           API_KEYS: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
-          DB_PATH: 'Organizer.db'
+          DB_PATH: ${{ vars.DATABASE_PATH }}
 
       - name: Deploy Backend
         uses: azure/webapps-deploy@v3
