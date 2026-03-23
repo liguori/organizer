@@ -38,12 +38,10 @@ jobs:
       - name: Config Settings Substitution
         shell: bash
         run: |
-          jq --arg apikeys "$API_KEYS" --arg dbpath "$DB_PATH" '.ApiKeys = $apikeys | .DatabasePath = $dbpath' deploy/appsettings.json > deploy/appsettings.json.tmp
-          mv deploy/appsettings.json.tmp deploy/appsettings.json
-          jq --arg apikeys "$API_KEYS" --arg dbpath "$DB_PATH" '.ApiKeys = $apikeys | .DatabasePath = $dbpath' deploy/appsettings.Development.json > deploy/appsettings.Development.json.tmp
-          mv deploy/appsettings.Development.json.tmp deploy/appsettings.Development.json
-          jq --arg apikeys "$API_KEYS" --arg dbpath "$DB_PATH" '.ApiKeys = $apikeys | .DatabasePath = $dbpath' deploy/appsettings.Production.json > deploy/appsettings.Production.json.tmp
-          mv deploy/appsettings.Production.json.tmp deploy/appsettings.Production.json
+          for file in appsettings.json appsettings.Development.json appsettings.Production.json; do
+            jq --arg apikeys "$API_KEYS" --arg dbpath "$DB_PATH" '.ApiKeys = $apikeys | .DatabasePath = $dbpath' "deploy/$file" > "deploy/$file.tmp"
+            mv "deploy/$file.tmp" "deploy/$file"
+          done
         env:
           API_KEYS: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
           DB_PATH: 'Organizer.db'
