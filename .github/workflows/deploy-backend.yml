@@ -44,16 +44,6 @@ jobs:
         env:
           API_KEYS: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
           DB_PATH: 'Organizer.db'
-      
-      - name: Apply setitngs to preserve Local Persistent Files (e.g. *.db)
-        uses: azure/appservice-settings@v1
-        with:
-          app-name: 'app-engagement-be'
-          app-settings-json: |
-            [
-              { "name": "SCM_DO_BUILD_DURING_DEPLOYMENT", "value": "false" },
-              { "name": "WEBSITE_RUN_FROM_PACKAGE", "value": "0" }
-            ]
 
       - name: Deploy Backend
         uses: azure/webapps-deploy@v3
