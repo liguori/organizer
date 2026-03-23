@@ -16,37 +16,36 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
-      - uses: azure/login@v2
+      - uses: azure/login@v3
         with:
           creds: ${{ secrets.AZURE_SERVICE_PRINCIPAL }}
 
       - name: Extract branch name
         shell: bash
-        run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+        run: echo "branch=${GITHUB_REF#refs/heads/}" >> $GITHUB_OUTPUT
         id: extract_branch
 
       - name: Download Frontend Artifact
-        uses: dawidd6/action-download-artifact@v6
+        uses: dawidd6/action-download-artifact@v8
         with:
           workflow: build-frontend.yml
           name: organizer-frontend
           branch: ${{ steps.extract_branch.outputs.branch }}
           path: ./deploy
 
-    
-      - name: Config Settings Substitution
-        uses: microsoft/variable-substitution@v1
-        with:
-          files: 'deploy/assets/config/config.production.json'
+      - name: Config Settings Substitution
+        shell: bash
+        run: |
+          jq --arg key "$API_KEY" --arg url "$API_URL" '.api.key = $key | .api.url = $url' deploy/assets/config/config.production.json > deploy/assets/config/config.production.json.tmp
+          mv deploy/assets/config/config.production.json.tmp deploy/assets/config/config.production.json
         env:
-          api.key: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
-          api.url: ${{ vars.APPSERVICE_FE_CONFIG_APIURL }}
+          API_KEY: ${{ secrets.APPSERVICE_CONFIG_APIKEY }}
+          API_URL: ${{ vars.APPSERVICE_FE_CONFIG_APIURL }}
 
       - name: Deploy Frontend
-        uses: azure/webapps-deploy@v2
+        uses: azure/webapps-deploy@v3
         with:
           app-name:    ${{ vars.APPSERVICENAME_FE }}
           package: ./deploy
-        
