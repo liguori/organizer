@@ -1,5 +1,7 @@
 @use "./variable" as *;
 
+$shell-vertical-offset: $spacing-xl * 1.5;
+
 #loader-placeholder {
   position: fixed;
   inset: 0 0 auto 0;
@@ -24,7 +26,7 @@
 .app-rail {
   position: sticky;
   top: $spacing-lg;
-  height: calc(100vh - #{$spacing-xl * 1.5});
+  height: calc(100vh - #{$shell-vertical-offset});
   padding: $spacing-lg;
   border: 1px solid var(--surfaceBorderColor);
   border-radius: 1.75rem;
@@ -129,7 +131,7 @@
 
 .app-stage {
   min-width: 0;
-  min-height: calc(100vh - #{$spacing-xl * 1.5});
+  min-height: calc(100vh - #{$shell-vertical-offset});
   border: 1px solid var(--surfaceBorderColor);
   border-radius: 1.75rem;
   overflow: hidden;
