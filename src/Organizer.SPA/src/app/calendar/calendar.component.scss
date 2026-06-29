@@ -39,6 +39,10 @@
   display: block;
   width: 100%;
   font-size: 0; // Remove whitespace between inline elements
+  border-radius: 1.25rem;
+  overflow: hidden;
+  box-shadow: 0 1.25rem 3rem var(--surfaceShadowColor);
+  background: var(--panelStrongColor);
 }
 
 // --- Header Cells (shared base) ---
@@ -106,6 +110,7 @@
   cursor: pointer;
   background-color: var(--calendarDayColor);
   color: var(--calendarDayTextColor);
+  transition: transform 0.16s ease, box-shadow 0.16s ease, background-color 0.16s ease;
   width: $day-width-month;
   min-width: $min-touch-target;
   height: 3.75rem;
@@ -133,6 +138,9 @@
 
 .day:hover {
   background-color: var(--calendarDayHoverColor);
+  box-shadow: inset 0 0 0 0.125rem var(--calendarTodayColor);
+  transform: translateY(-0.0625rem);
+  z-index: 2;
 }
 
 // --- Month Header ---

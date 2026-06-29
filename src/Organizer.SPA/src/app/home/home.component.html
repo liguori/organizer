@@ -1,4 +1,23 @@
 <div class="container-box">
+  <section class="workspace-hero">
+    <div>
+      <span class="hero-kicker">Live planning cockpit</span>
+      <h1>{{selectedView == calendarView.Year ? selectedYear : (selectedDate | date : 'MMMM y')}}</h1>
+      <p>Una vista più ambiziosa sulla stessa base dati: filtra, seleziona e pianifica senza cambiare modello.</p>
+    </div>
+    <div class="hero-metrics">
+      <div class="metric-card">
+        <span class="material-icons">event_note</span>
+        <strong>{{getFilteredAppointmentsCount()}}</strong>
+        <small>giorni visibili</small>
+      </div>
+      <div class="metric-card accent">
+        <span class="material-icons">warning</span>
+        <strong>{{getWarnings().length}}</strong>
+        <small>alert</small>
+      </div>
+    </div>
+  </section>
   <div class="filters-header">
     <button mat-mini-fab color="primary" (click)="changeCurrentIndex(-1)">-</button>&nbsp;
     @if (selectedView == calendarView.Month) {

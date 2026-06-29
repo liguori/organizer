@@ -11,11 +11,17 @@ body, html {
   overflow: hidden;
 }
 
+body {
+  background: #0f172a;
+}
+
 // --- Layout Containers ---
 .container-box {
   display: flex;
   flex-flow: column;
   height: 100%;
+  min-height: 0;
+  color: var(--appTextColor);
 }
 
 // --- Form Fields ---
@@ -37,7 +43,10 @@ body, html {
   flex-wrap: nowrap;
   align-items: center;
   flex: 0 1 auto;
-  padding: $spacing-xs 0;
+  padding: $spacing-md;
+  gap: $spacing-xs;
+  background: var(--panelStrongColor);
+  border-bottom: 1px solid var(--surfaceBorderColor);
 
   button {
     vertical-align: middle;
@@ -45,6 +54,15 @@ body, html {
 
   mat-form-field {
     margin-bottom: 0;
+  }
+
+  .mat-mdc-form-field {
+    --mat-sys-surface-variant: var(--panelColor);
+  }
+
+  .mat-mdc-mini-fab,
+  .mat-mdc-icon-button {
+    box-shadow: 0 0.75rem 1.5rem var(--surfaceShadowColor) !important;
   }
 
   .mat-mdc-form-field-subscript-wrapper {

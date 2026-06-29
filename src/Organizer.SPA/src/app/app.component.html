@@ -1,36 +1,47 @@
-<div id="loader-placeholder">
-  @if (loading) {
-    <mat-progress-bar color="accent" mode="indeterminate">
-    </mat-progress-bar>
-  }
-</div>
 <div class="theme-wrapper">
-  <div class="header">
-    <a class="nav-link" [routerLink]="getCalendarCurrentYearUrl()" routerLinkActive="active">
-      <span class="material-icons">event</span>
-      <span class="nav-text">Calendar</span>
-    </a>
-    <span class="separator">|</span>
-    <a class="nav-link" [routerLink]="getCustomerCurrentYearUrl()" routerLinkActive="active">
-      <span class="material-icons">people</span>
-      <span class="nav-text">Customer</span>
-    </a>
-    <span class="separator">|</span>
-    <a class="nav-link" [routerLink]="getUtilizationCurrentYearUrl()" routerLinkActive="active">
-      <span class="material-icons">assessment</span>
-      <span class="nav-text">Utilization</span>
-    </a>
-    <span class="separator">|</span>
-    <a class="nav-link" (click)="toggleDarkLight()">
-      <span class="material-icons">{{ themeToggle ? 'wb_sunny' : 'brightness_3' }}</span>
-      <span class="nav-text">Theme</span>
-    </a>
-    <span class="separator">|</span>
-    <a class="nav-link" [href]="apiBackupUrl">
-      <span class="material-icons">cloud_download</span>
-      <span class="nav-text">Backup</span>
-    </a>
+  <div id="loader-placeholder">
+    @if (loading) {
+      <mat-progress-bar color="accent" mode="indeterminate"></mat-progress-bar>
+    }
   </div>
 
-  <router-outlet></router-outlet>
+  <aside class="app-rail">
+    <div class="brand-mark">
+      <span class="material-icons">auto_awesome</span>
+    </div>
+    <div class="brand-copy">
+      <span class="eyebrow">Organizer</span>
+      <strong>Command Center</strong>
+    </div>
+
+    <nav class="nav-stack" aria-label="Main navigation">
+      <a class="nav-link" [routerLink]="getCalendarCurrentYearUrl()" routerLinkActive="active">
+        <span class="material-icons">event</span>
+        <span class="nav-text">Calendar</span>
+      </a>
+      <a class="nav-link" [routerLink]="getCustomerCurrentYearUrl()" routerLinkActive="active">
+        <span class="material-icons">groups</span>
+        <span class="nav-text">Customer</span>
+      </a>
+      <a class="nav-link" [routerLink]="getUtilizationCurrentYearUrl()" routerLinkActive="active">
+        <span class="material-icons">query_stats</span>
+        <span class="nav-text">Utilization</span>
+      </a>
+    </nav>
+
+    <div class="rail-actions">
+      <button class="rail-action" type="button" (click)="toggleDarkLight()">
+        <span class="material-icons">{{ themeToggle ? 'light_mode' : 'dark_mode' }}</span>
+        <span>{{ themeToggle ? 'Light' : 'Dark' }}</span>
+      </button>
+      <a class="rail-action" [href]="apiBackupUrl">
+        <span class="material-icons">cloud_download</span>
+        <span>Backup</span>
+      </a>
+    </div>
+  </aside>
+
+  <main class="app-stage">
+    <router-outlet></router-outlet>
+  </main>
 </div>

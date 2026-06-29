@@ -8,6 +8,81 @@
   text-align: center;
   flex: 1 1 auto;
   overflow-x: auto;
+  min-height: 0;
+  padding: $spacing-md;
+  background:
+    linear-gradient(180deg, transparent, rgba(255, 255, 255, 0.04)),
+    var(--panelColor);
+}
+
+.workspace-hero {
+  display: flex;
+  align-items: stretch;
+  justify-content: space-between;
+  gap: $spacing-lg;
+  padding: $spacing-lg;
+  background:
+    linear-gradient(135deg, var(--panelStrongColor), var(--panelColor)),
+    var(--panelColor);
+  border-bottom: 1px solid var(--surfaceBorderColor);
+
+  h1 {
+    margin: $spacing-xs 0;
+    font-size: clamp(1.8rem, 4vw, 3.75rem);
+    line-height: 0.95;
+    letter-spacing: -0.06em;
+  }
+
+  p {
+    margin: 0;
+    max-width: 42rem;
+    color: var(--mutedTextColor);
+  }
+}
+
+.hero-kicker {
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: 0.75rem;
+  color: var(--mutedTextColor);
+  font-weight: 700;
+}
+
+.hero-metrics {
+  display: flex;
+  gap: $spacing-md;
+  align-items: stretch;
+}
+
+.metric-card {
+  min-width: 8rem;
+  padding: $spacing-md;
+  border: 1px solid var(--surfaceBorderColor);
+  border-radius: 1.25rem;
+  background: var(--panelStrongColor);
+  box-shadow: 0 1rem 2.5rem var(--surfaceShadowColor);
+  display: grid;
+  align-content: center;
+  gap: $spacing-xs;
+
+  .material-icons {
+    color: #2563eb;
+  }
+
+  strong {
+    font-size: 2rem;
+    line-height: 1;
+  }
+
+  small {
+    color: var(--mutedTextColor);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  &.accent .material-icons {
+    color: #f97316;
+  }
 }
 
 // --- Calendar Options ---
@@ -26,7 +101,8 @@
   gap: $spacing-xs;
   padding: 0.1875rem $spacing-sm;
   border-radius: 0.75rem;
-  background-color: rgba(0, 0, 0, 0.08);
+  background: var(--panelColor);
+  border: 1px solid var(--surfaceBorderColor);
   font-size: 0.75rem;
   font-weight: 500;
   white-space: nowrap;
@@ -93,9 +169,24 @@
 
 // --- Mobile Overrides (< 768px) ---
 @media (max-width: 47.9375rem) {
+  .workspace-hero {
+    display: grid;
+    gap: $spacing-md;
+    padding: $spacing-md;
+  }
+
+  .hero-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .metric-card {
+    min-width: 0;
+  }
+
   .calendar-container {
     overflow-y: auto;
-    padding-top: $spacing-lg;
+    padding: $spacing-sm;
   }
 
   .desktop-only-filters {
