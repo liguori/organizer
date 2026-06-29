@@ -1,7 +1,7 @@
 
 export class ThemeVariables {
     static lightTheme = {
-        appMenuLinkColor:"#00000",
+        appMenuLinkColor:"#000000",
         appTextColor: "#0f172a",
         mutedTextColor: "#64748b",
         appBgStart: "#eef2ff",
